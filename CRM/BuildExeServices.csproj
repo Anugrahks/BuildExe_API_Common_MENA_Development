@@ -8,6 +8,8 @@
     <Compile Remove="Controllers\TeamController_Old.cs" />
     <Compile Remove="Migrations\20200717122631_InitialCreate.cs" />
     <Compile Remove="Migrations\20200717122631_InitialCreate.Designer.cs" />
+    <!-- Exclude duplicate files under the CRM folder to resolve duplicate-type compile errors. -->
+    <Compile Remove="CRM\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
