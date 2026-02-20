@@ -1,0 +1,17 @@
+# build
+bin/
+obj/
+
+# visual studio
+.vs/
+*.user
+*.suo
+
+# logs
+*.log
+
+# publish
+Server-build/
+
+# zip
+*.zip

@@ -1,0 +1,35 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BuildExeMaterialServices.Models
+{
+    public class MaterialListByCategory
+    {
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string MaterialID { get; set; }
+        public string MaterialName { get; set; }
+        public decimal MaterialUnitRate { get; set; }
+        public decimal? TaxPer { get; set; }
+        public decimal? DiscountPer { get; set; }
+        public string MaterialUnit { get; set; }
+        public int? MaterialBrandId { get; set; }
+        public string? MaterialBrandName { get; set; }
+        public decimal? Stock { get; set; }
+        public decimal? DamageStock { get; set; }
+
+        public int ProjectId { get; set; }
+        public int? UnitId { get; set; }
+        public int? BlockId { get; set; }
+        public int? FloorId { get; set; }
+
+        public int? MaterialCategoryId { get; set; }
+
+        public decimal CoefficientFactor { get; set; }
+
+        public int CoefficientUnitId { get; set; }
+
+        public string CoefficientUnitName { get; set; }
+
+    }
+}
