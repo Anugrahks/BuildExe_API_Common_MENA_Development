@@ -172,7 +172,7 @@ namespace BuildExeServices.Controllers
 
         [HttpPost]
         //        public async Task<IActionResult> Post( [FromBody] PartBillMaster partBillMaster,   [FromHeader] string mdhash,   [FromHeader] int User)
-        public async Task<IActionResult> Post( [FromBody] List<PartBillMaster> partBillMasters,    [FromHeader] string mdhash,    [FromHeader] int User)
+        public async Task<IActionResult> Post([FromBody] List<PartBillMaster> partBillMasters, [FromHeader] string mdhash, [FromHeader] int User)
         {
             try
             {
@@ -184,7 +184,8 @@ namespace BuildExeServices.Controllers
                     {
                         // Call your repository for each bill
                         var val = await _partBillRepository.Insert(partBillMaster);
-                        results.Add(val);
+                        //results.Add(val);
+                        results.AddRange(val);
                     }
 
                     scope.Complete();
