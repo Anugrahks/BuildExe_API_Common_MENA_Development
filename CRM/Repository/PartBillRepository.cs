@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BuildExeServices.Repository
 {
-    public class PartBillRepository:IPartBillRepository 
+    public class PartBillRepository : IPartBillRepository
     {
         private readonly ProductContext _dbContext;
         public PartBillRepository(ProductContext dbContext)
@@ -35,55 +35,90 @@ namespace BuildExeServices.Repository
             SelectforReport = 7,
             lastBill = 8,
             Selectforview = 9,
-            gethistory = 10 
+            gethistory = 10
         }
-        //public async Task<IEnumerable<Validation>> Insert(IEnumerable<PartBillMaster > partBillMasters )
-        //{
-        //    try
-        //    {
-        //        var Id = new SqlParameter("@Id", "0");
-        //        var item = new SqlParameter("@item", JsonConvert.SerializeObject(partBillMasters));
-        //    var CompanyId = new SqlParameter("@CompanyId", "0");
-        //    var BranchId = new SqlParameter("@BranchId", "0");
-        //    var userId = new SqlParameter("@userId", "0");
-        //    var Action = new SqlParameter("@Action", Actions.Insert);
 
-        //    var updateStatus = await _dbContext.tbl_validation.FromSqlRaw("Stpro_PartBill @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
-        //    return updateStatus;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
-        //        throw;
-        //    }
-        //}
         public async Task<IEnumerable<Validation>> Insert(PartBillMaster partBillMaster)
         {
-            var Id = new SqlParameter("@Id", "0");
-            var item = new SqlParameter("@item", JsonConvert.SerializeObject(partBillMaster));
-            var CompanyId = new SqlParameter("@CompanyId", "0");
-            var BranchId = new SqlParameter("@BranchId", "0");
-            var userId = new SqlParameter("@userId", "0");
-            var Action = new SqlParameter("@Action", Actions.Insert);
+            var parameters = new[]
+            {
+        new SqlParameter("@Id", SqlDbType.Int) { Value = 0 },
 
-            return await _dbContext.tbl_validation
-                .FromSqlRaw("Stpro_PartBill @Id,@item,@CompanyId,@BranchId,@userId,@Action",
-                Id, item, CompanyId, BranchId, userId, Action)
-                .ToListAsync();
+        new SqlParameter("@json", SqlDbType.NVarChar, -1)
+        {
+            Value = JsonConvert.SerializeObject(partBillMaster)
+        },
+
+        new SqlParameter("@CompanyId", SqlDbType.Int)
+        {
+            Value = partBillMaster.CompanyId
+        },
+
+        new SqlParameter("@BranchId", SqlDbType.Int)
+        {
+            Value = partBillMaster.BranchId
+        },
+
+        new SqlParameter("@Userid", SqlDbType.Int)
+        {
+            Value = partBillMaster.UserId
+        },
+
+        new SqlParameter("@Action", SqlDbType.Int)
+        {
+            Value = 1
         }
+    };
+
+            //return await _dbContext.tbl_validation
+            //    .FromSqlRaw("EXEC Stpro_PartBill @Id,@json,@CompanyId,@BranchId,@Userid,@Action", parameters)
+            //    .ToListAsync();
+            return await _dbContext.tbl_validation
+    .FromSqlRaw(
+        "EXEC Stpro_PartBill @Id = @Id, @json = @json, @CompanyId = @CompanyId, @BranchId = @BranchId, @Userid = @Userid, @Action = @Action",
+        parameters)
+    .ToListAsync();
+        }
+        //    public async Task<IEnumerable<Validation>> Insert(PartBillMaster partBillMaster)
+        //    {
+        //        var Id = new SqlParameter("@Id", "0");
+        //        //var item = new SqlParameter("@item", JsonConvert.SerializeObject(partBillMaster));
+        //        var item = new SqlParameter("@json", SqlDbType.NVarChar, -1)
+        //        {
+        //            Value = JsonConvert.SerializeObject(partBillMaster)
+        //        };
+        //        var CompanyId = new SqlParameter("@CompanyId", "0");
+        //        var BranchId = new SqlParameter("@BranchId", "0");
+        //        var userId = new SqlParameter("@userId", "0");
+        //        var Action = new SqlParameter("@Action", Actions.Insert);
+
+        //        //return await _dbContext.tbl_validation
+        //        //    .FromSqlRaw("Stpro_PartBill @Id,@item,@CompanyId,@BranchId,@userId,@Action",
+        //        //    Id, item, CompanyId, BranchId, userId, Action)
+        //        //    .ToListAsync();
+        //        return await _dbContext.tbl_validation
+        //.FromSqlRaw("EXEC Stpro_PartBill @Id,@json,@CompanyId,@BranchId,@Userid,@Action",
+        //Id, item, CompanyId, BranchId, userId, Action)
+        //.ToListAsync();
+        //    }
         public async Task<IEnumerable<Validation>> Update(IEnumerable<PartBillMaster> partBillMasters)
         {
             try
             {
                 var Id = new SqlParameter("@Id", "0");
-            var item = new SqlParameter("@item", JsonConvert.SerializeObject(partBillMasters));
-            var CompanyId = new SqlParameter("@CompanyId", "0");
-            var BranchId = new SqlParameter("@BranchId", "0");
-            var userId = new SqlParameter("@userId", "0");
-            var Action = new SqlParameter("@Action", Actions.Update);
+                // var item = new SqlParameter("@item", JsonConvert.SerializeObject(partBillMasters));
+                var item = new SqlParameter("@json", SqlDbType.NVarChar, -1)
+                {
+                    Value = JsonConvert.SerializeObject(partBillMasters)
+                };
+                var CompanyId = new SqlParameter("@CompanyId", "0");
+                var BranchId = new SqlParameter("@BranchId", "0");
+                var userId = new SqlParameter("@userId", "0");
+                var Action = new SqlParameter("@Action", Actions.Update);
 
-            var updateStatus = await _dbContext.tbl_validation.FromSqlRaw("Stpro_PartBill @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
-            return updateStatus;
+                //var updateStatus = await _dbContext.tbl_validation.FromSqlRaw("Stpro_PartBill @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
+                var updateStatus = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_PartBill  @Id = @Id, @json = @json, @CompanyId = @CompanyId, @BranchId = @BranchId, @Userid = @Userid, @Action = @Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
+                return updateStatus;
             }
             catch (Exception ex)
             {
@@ -116,9 +151,9 @@ namespace BuildExeServices.Repository
             try
             {
 
-                var list =await _dbContext.tbl_PartBillMaster .Where(x => x.Id == Idworkorder).ToListAsync();
-            var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == Idworkorder).ToListAsync();
-            return list;
+                var list = await _dbContext.tbl_PartBillMaster.Where(x => x.Id == Idworkorder).ToListAsync();
+                var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == Idworkorder).ToListAsync();
+                return list;
             }
             catch (Exception ex)
             {
@@ -132,12 +167,12 @@ namespace BuildExeServices.Repository
         {
             try
             {
-                var list =await _dbContext.tbl_PartBillMaster.ToListAsync();
-            foreach (var detail in list)
-            {
-                var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == detail.Id).ToListAsync();
-            }
-            return list;
+                var list = await _dbContext.tbl_PartBillMaster.ToListAsync();
+                foreach (var detail in list)
+                {
+                    var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == detail.Id).ToListAsync();
+                }
+                return list;
             }
             catch (Exception ex)
             {
@@ -150,23 +185,23 @@ namespace BuildExeServices.Repository
             try
             {
                 if (branchid == 0)
-            {
-                var list = await _dbContext.tbl_PartBillMaster.Where(x => x.CompanyId == companid).ToListAsync();
-                foreach (var detail in list)
                 {
-                    var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == detail.Id).ToListAsync();
+                    var list = await _dbContext.tbl_PartBillMaster.Where(x => x.CompanyId == companid).ToListAsync();
+                    foreach (var detail in list)
+                    {
+                        var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == detail.Id).ToListAsync();
+                    }
+                    return list;
                 }
-                return list;
-            }
-            else
-            {
-                var list = await _dbContext.tbl_PartBillMaster.Where(x => x.CompanyId == companid).Where(x => x.BranchId == branchid).ToListAsync();
-                foreach (var detail in list)
+                else
                 {
-                    var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == detail.Id).ToListAsync();
+                    var list = await _dbContext.tbl_PartBillMaster.Where(x => x.CompanyId == companid).Where(x => x.BranchId == branchid).ToListAsync();
+                    foreach (var detail in list)
+                    {
+                        var detaillist = await _dbContext.tbl_PartBillDetails.Where(x => x.PartBillMasterId == detail.Id).ToListAsync();
+                    }
+                    return list;
                 }
-                return list;
-            }
             }
             catch (Exception ex)
             {
@@ -238,7 +273,7 @@ namespace BuildExeServices.Repository
             }
         }
 
-        public async Task<string> GetbyInvoicedItem(int companyId, int branchId,int projectId, int userId,int divisionId, int financialYearId,int Id)
+        public async Task<string> GetbyInvoicedItem(int companyId, int branchId, int projectId, int userId, int divisionId, int financialYearId, int Id)
         {
             try
             {
@@ -251,7 +286,7 @@ namespace BuildExeServices.Repository
                     divisionId
                 });
                 cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = Id });
-                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value= division });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = division });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
                 cmd.Parameters.Add(new SqlParameter("@ProjectId", SqlDbType.Int) { Value = projectId });
@@ -263,7 +298,7 @@ namespace BuildExeServices.Repository
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 var result = new List<Dictionary<string, object>>();
-                
+
                 if (await reader.ReadAsync())
                 {
                     return reader[0]?.ToString() ?? "{}";
@@ -340,7 +375,7 @@ namespace BuildExeServices.Repository
             }
         }
 
-        public async Task<string> GetReport(BillSearch  billSearch )
+        public async Task<string> GetReport(BillSearch billSearch)
         {
             try
             {
@@ -396,33 +431,33 @@ namespace BuildExeServices.Repository
         {
             try
             {
-                var data =await (from a in _dbContext.tbl_PartBillDetails 
-                        join b in _dbContext.tbl_SpecificationMaster  on a.SpecId  equals b.Id 
-                       
-                        select new
-                        {
-                            partBillDetailsId = a.PartBillDetailsId,
-                            partBillMasterId = a.PartBillMasterId,
-                            scheduleNo = a.ScheduleNo,
-                            specId = a.SpecId,
-                            spec_Id=b.Spec_Id,
-                            specNumber = b.SpecNumber,
-                            specName = b.SpecName,
-                            sacCode=b.SacCode,
-                            specDescription = b.SpecDescription,
-                            partRatePerUnit = a.PartRatePerUnit,
-                            scheduledQty = a.ScheduledQty,
-                            previousQty = a.PreviousQty,
-                            currentQty = a.CurrentQty,
-                            tax = a.Tax,
-                            taxAmount = a.TaxAmount,
-                            currentAmount = a.CurrentAmount,
-                            description = a.Description,
-                            scheduleUniqueId=a.ScheduleUniqueId
+                var data = await (from a in _dbContext.tbl_PartBillDetails
+                                  join b in _dbContext.tbl_SpecificationMaster on a.SpecId equals b.Id
 
-                        }).Where(x => x.partBillMasterId == Id).ToListAsync();
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
-            return jsonString;
+                                  select new
+                                  {
+                                      partBillDetailsId = a.PartBillDetailsId,
+                                      partBillMasterId = a.PartBillMasterId,
+                                      scheduleNo = a.ScheduleNo,
+                                      specId = a.SpecId,
+                                      spec_Id = b.Spec_Id,
+                                      specNumber = b.SpecNumber,
+                                      specName = b.SpecName,
+                                      sacCode = b.SacCode,
+                                      specDescription = b.SpecDescription,
+                                      partRatePerUnit = a.PartRatePerUnit,
+                                      scheduledQty = a.ScheduledQty,
+                                      previousQty = a.PreviousQty,
+                                      currentQty = a.CurrentQty,
+                                      tax = a.Tax,
+                                      taxAmount = a.TaxAmount,
+                                      currentAmount = a.CurrentAmount,
+                                      description = a.Description,
+                                      scheduleUniqueId = a.ScheduleUniqueId
+
+                                  }).Where(x => x.partBillMasterId == Id).ToListAsync();
+                string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+                return jsonString;
             }
             catch (Exception ex)
             {
@@ -545,7 +580,7 @@ namespace BuildExeServices.Repository
             try
             {
                 var Id = new SqlParameter("@ProjectId", ProjectId);
-               
+
                 var validation = await _dbContext.tbl_validation.FromSqlRaw("stPro_PartBillValidation @ProjectId", Id).ToListAsync();
                 return validation;
             }
