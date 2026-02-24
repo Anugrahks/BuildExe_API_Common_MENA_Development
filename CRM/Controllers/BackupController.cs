@@ -77,18 +77,22 @@ namespace BuildExeServices.Controllers
         if (string.IsNullOrWhiteSpace(request.DatabaseName))
             return BadRequest("Database name is required.");
 
-        request.DatabaseName = request.DatabaseName switch
-        {
-            "Floreat" => "Floret_Latest",
-            "Glory" => "Glory_Latest",
-            "C-TWO" => "CTWO",
-            "MariyaGroup" => "MariaGroup",
-            "Master" => "MasterBuilder",
-            "Diamond" => "Diamond_New",
-            _ => request.DatabaseName
-        };
+            var dbName = request.DatabaseName.ToLower();
 
-        try
+            request.DatabaseName = dbName switch
+            {
+                "floreat" => "Floret_Latest",
+                "glory" => "Glory_Latest",
+                "c-two" => "CTWO",
+                "mariyagroup" => "MariaGroup",
+                "master" => "MasterBuilder",
+                "diamond" => "Diamond_New",
+                "new" => "new",
+                "mena" => "new",
+                _ => dbName
+            };
+
+            try
         {
             string connectionString = CreateDynamicConnectionString(request.DatabaseName);
             string backupFilePath = CreateDatabaseBackup(request.DatabaseName, connectionString);
@@ -105,17 +109,18 @@ namespace BuildExeServices.Controllers
         }
     }
 
-    private string CreateDynamicConnectionString(string databaseName)
-    {
-        string baseConnectionString = _configuration.GetConnectionString("DbConnection");
-        var builder = new SqlConnectionStringBuilder(baseConnectionString)
+        private string CreateDynamicConnectionString(string databaseName)
         {
-            InitialCatalog = databaseName
-        };
-        return builder.ConnectionString;
-    }
+            string baseConnectionString = _configuration.GetConnectionString("DbConnection");
+            var builder = new SqlConnectionStringBuilder(baseConnectionString)
+            {
+                InitialCatalog = databaseName
+            };
+            return builder.ConnectionString;
+        }
 
-    private string CreateDatabaseBackup(string databaseName, string connectionString)
+
+        private string CreateDatabaseBackup(string databaseName, string connectionString)
     {
         string backupDirectory = @"C:\Backups\";
         if (!Directory.Exists(backupDirectory))
