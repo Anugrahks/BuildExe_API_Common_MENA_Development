@@ -199,6 +199,13 @@ namespace BuildExeServices.Models
 
         public string ConversionUnitName { get; set; }
 
+        public decimal CurrencyId { get; set; }
+
+        public decimal ExchangeRate { get; set; }
+
+
+
+
     }
 
     public class ProjSpecificationDimensionDetails
