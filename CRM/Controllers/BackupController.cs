@@ -111,14 +111,15 @@ namespace BuildExeServices.Controllers
 
         private string CreateDynamicConnectionString(string databaseName)
         {
-            string baseConnectionString = _configuration.GetConnectionString("DbConnection");
-            var builder = new SqlConnectionStringBuilder(baseConnectionString)
+            var baseConnection = _configuration.GetConnectionString("DbConnection");
+
+            var builder = new SqlConnectionStringBuilder(baseConnection)
             {
-                InitialCatalog = databaseName
+                InitialCatalog = databaseName   // THIS MUST BE USED
             };
+
             return builder.ConnectionString;
         }
-
 
         private string CreateDatabaseBackup(string databaseName, string connectionString)
     {
