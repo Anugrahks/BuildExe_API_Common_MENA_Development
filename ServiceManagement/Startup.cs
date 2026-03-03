@@ -39,7 +39,7 @@ namespace BuildExeServiceManagement
             services.AddCors();
             services.AddControllers();
             services.AddDataProtection();
-            services.AddDbContext<ServiceManagementContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DbConnection")));         
+            services.AddDbContext<ServiceManagementContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddTransient<IPumpModuleRepository, PumpModuleRepository>();
             services.AddScoped<IMdHashValidator, MdHashValidator>();
 
@@ -51,14 +51,13 @@ namespace BuildExeServiceManagement
             {
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidIssuer = "https://localhost",
-                    ValidAudience = "https://localhost",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("XLTRPNZ7ZsKGr5RKOLSNsJe9rgcPLLjn"))
+                    IssuerSigningKey = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes("XLTRPNZ7ZsKGr5RKOLSNsJe9rgcPLLjn"))
                 };
 
             });
