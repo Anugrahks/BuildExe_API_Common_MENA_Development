@@ -653,6 +653,27 @@ namespace BuildExeBasic.Controllers
         }
 
 
+        [HttpGet("StaticPrintableEstimation/{BranchId}/{ReportId}/{RecordId}")]
+        [Authorize]
+        public async Task<IActionResult> StaticPrintableEstimation(int BranchId, int ReportId, int RecordId)
+        {
+            try
+            {
+                var validation = await _printableReportConfigurationRepository.StaticPrintableEstimation(BranchId, ReportId, RecordId);
+
+                return new OkObjectResult(validation);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
+        }
+
+
 
     }
 }
