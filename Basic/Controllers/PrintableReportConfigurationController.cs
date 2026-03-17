@@ -653,13 +653,13 @@ namespace BuildExeBasic.Controllers
         }
 
 
-        [HttpGet("StaticPrintableEstimation/{BranchId}/{ReportId}/{RecordId}")]
+        [HttpGet("StaticPrintableEstimation/{BranchId}/{ReportId}/{RecordId}/{IsEnquiryWise}")]
         [Authorize]
-        public async Task<IActionResult> StaticPrintableEstimation(int BranchId, int ReportId, int RecordId)
+        public async Task<IActionResult> StaticPrintableEstimation(int BranchId, int ReportId, int RecordId,int IsEnquiryWise)
         {
             try
             {
-                var validation = await _printableReportConfigurationRepository.StaticPrintableEstimation(BranchId, ReportId, RecordId);
+                var validation = await _printableReportConfigurationRepository.StaticPrintableEstimation(BranchId, ReportId, RecordId, IsEnquiryWise);
 
                 return new OkObjectResult(validation);
             }
