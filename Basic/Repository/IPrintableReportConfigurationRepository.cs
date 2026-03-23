@@ -41,5 +41,11 @@ namespace BuildExeBasic.Repository
 
         Task<string> StaticPrintablePurchaseOrder(int BranchId, int ReportId, int RecordId);
 
+        Task<string> StaticPrintableProformaInvoice(int BranchId, int ReportId, int RecordId);
+
+        Task<string> StaticPrintableEstimation(int BranchId, int ReportId, int RecordId, int IsEnquiryWise);
+
+
+
     }
 }
