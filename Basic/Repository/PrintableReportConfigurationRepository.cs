@@ -587,7 +587,7 @@ namespace BuildExeBasic.Repository
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
                 cmd.Parameters.Add(new SqlParameter("@ReportId", SqlDbType.Int) { Value = ReportId });
                 cmd.Parameters.Add(new SqlParameter("@RecordId", SqlDbType.Int) { Value = RecordId });
-                cmd.Parameters.Add(new SqlParameter("@EnquiryFor", SqlDbType.Int) { Value = IsEnquiryWise });
+                cmd.Parameters.Add(new SqlParameter("@IsEnquiryWise", SqlDbType.Int) { Value = IsEnquiryWise });
                 
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
