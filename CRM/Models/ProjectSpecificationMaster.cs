@@ -70,6 +70,14 @@ namespace BuildExeServices.Models
         public decimal? NetTotalAmount { get; set; }
         public decimal OtherExpensePer { get; set; }
 
+        public decimal? ContractorProfit { get; set; }
+        public decimal? ContractorProfitAmt { get; set; }
+        public decimal? FieghtChargePer { get; set; }
+        public decimal? FieghtCharge { get; set; }
+        public decimal? UnitcostExworkFasctoryForeign { get; set; }
+        public decimal? FeightAndCustomChargeForeign { get; set; }
+        public decimal? FeightAndCustomCharge { get; set; }
+
         public List<ProjSpecification> ProjSpecification { get; set; }
 
     }
@@ -185,6 +193,9 @@ namespace BuildExeServices.Models
         public decimal? TotalProfit { get; set; }
         public decimal? UnitSellingCost { get; set; }
         public decimal? TotalSellingPrice { get; set; }
+
+        public decimal? FieghtChargePer { get; set; }
+        public decimal? FieghtCharge { get; set; }
         public List<ProjSpecificationDetails> ProjSpecificationDetails { get; set; }
 
         public List<ProjSpecificationDimensionDetails> ProjSpecificationDimensionDetails { get; set; }
@@ -326,5 +337,6 @@ namespace BuildExeServices.Models
         public decimal DeductionValueChild { get; set; }
 
         public decimal? CoefficientFactor { get; set; }
+        //new///
     }
 }
