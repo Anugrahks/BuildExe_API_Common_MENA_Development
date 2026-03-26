@@ -55,6 +55,7 @@ namespace BuildExeServiceManagement.Models
 
         public List<MechanicalChecks> MechanicalChecks { get; set; }
         public List<PumpDocumentModel> DocumentDetails { get; set; }
+        public List<PumpDetailsModuleModel> PumpDetailsModule { get; set; }
     }
 
 
@@ -123,4 +124,12 @@ namespace BuildExeServiceManagement.Models
         public string Document { get; set; }   // Base64 / URL
     }
 
+    public class PumpDetailsModuleModel
+    {
+        public int StockPointId { get; set; }
+        public int BranchId { get; set; }
+        public int FinancialYearId { get; set; }
+        public int CompanyId { get; set; }
+        public int Action { get; set; }
+    }
 }
