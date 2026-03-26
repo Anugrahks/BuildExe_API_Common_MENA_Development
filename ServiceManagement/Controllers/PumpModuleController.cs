@@ -358,5 +358,31 @@ namespace BuildExeServiceManagement.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+        [HttpGet("PumpPopupData/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{StockPointId}")]
+        [Authorize]
+        public async Task<IActionResult> getGetPumbDetails(int CompanyId, int Branchid, int UserId, int FinancialYearId, int StockPointId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var brand = await _salesOrderRepository.GetPumbDetails(CompanyId, Branchid, UserId, FinancialYearId, StockPointId);
+                    return new OkObjectResult(brand);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+
+        }
     }
 }
