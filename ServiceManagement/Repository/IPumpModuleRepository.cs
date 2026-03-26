@@ -20,7 +20,8 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> getAutoFetch(int BranchId, int TypeId);
 
-        
+        Task<string> GetPumbDetails(int CompanyId, int Branchid, int UserId, int FinancialYearId, int StockPointId);
+
 
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
