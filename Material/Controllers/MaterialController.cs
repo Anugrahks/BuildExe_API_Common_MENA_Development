@@ -244,11 +244,11 @@ namespace BuildExeMaterialServices.Controllers
 
         // POST api/<TeamController>
         [HttpPost]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<Material > material, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
-            {
+            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            //{
                 try
             {
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled ))
@@ -266,11 +266,11 @@ namespace BuildExeMaterialServices.Controllers
                         statusCode = 0
                     });
                 }
-            }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //}
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
         }
 
         [HttpPut]
@@ -349,6 +349,32 @@ namespace BuildExeMaterialServices.Controllers
                 }
                 return new NoContentResult();
             }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetMaterialFieldData")]
+        [Authorize]
+        public async Task<IActionResult> GetMaterialFieldData(int CompanyId, int Branchid, string FieldName, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var data = await _materialRepository.GetMaterialFieldData(CompanyId, Branchid, FieldName);
+                    return new OkObjectResult(data);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new

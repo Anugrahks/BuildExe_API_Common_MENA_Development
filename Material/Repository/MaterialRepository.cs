@@ -27,7 +27,8 @@ namespace BuildExeMaterialServices.Repository
             SelectAll = 5,
             SelectReport = 6,
             SelectStockReport = 7,
-            SelectByMaterialId = 8
+            SelectByMaterialId = 8,
+            GetField = 14
         }
 
         public MaterialRepository(MaterialContext dbContext)
@@ -44,8 +45,9 @@ namespace BuildExeMaterialServices.Repository
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
                 var Action = new SqlParameter("@Action", Actions.Insert);
+                var FieldName = new SqlParameter("FieldName", "0");
 
-                var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_Materialmaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
+                var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_Materialmaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action,@FieldName", materialId, item, CompanyId, BranchId, UserId, Action, FieldName).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
@@ -661,6 +663,52 @@ namespace BuildExeMaterialServices.Repository
                 Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
 
                 return orderID;
+            }
+        }
+
+        public async Task<List<string>> GetMaterialFieldData(int CompanyId, int BranchId, string FieldName)
+        {
+            try
+            {
+                var result = new List<string>();
+
+                using (var conn = _dbContext.Database.GetDbConnection())
+                {
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "dbo.Stpro_Materialmaster";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add(new SqlParameter("@materialId", SqlDbType.Int) { Value = 0 });
+                        cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = 0 });
+                        cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                        cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+
+                        cmd.Parameters.Add(new SqlParameter("@FieldName", SqlDbType.NVarChar) { Value = FieldName });
+
+
+                        cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 14 });
+
+                        if (conn.State != ConnectionState.Open)
+                            await conn.OpenAsync();
+
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                result.Add(reader["Value"].ToString());
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
             }
         }
 

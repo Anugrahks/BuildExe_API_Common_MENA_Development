@@ -263,7 +263,15 @@ namespace BuildExeMaterialServices.Repository
                                       // materialCategoryName = c.MaterialCategoryName,
                                       materialCategoryName = a.MaterialCategoryNameMaster,
                                       unitId = a.UnitId,
-
+                                      InstallationType = a.InstallationType,
+                                      Model = a.Model,
+                                      Version = a.Version,
+                                      Drive = a.Drive,
+                                      Head = a.Head,
+                                      Curve = a.Curve,
+                                      Power = a.Power,
+                                      Voltage = a.Voltage,
+                                      Frequency = a.Frequency,
                                       unitShortName =  a.UnitShortNameMaster,
 
                                       materialUnitRate = a.MaterialUnitRate,

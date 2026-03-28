@@ -31,7 +31,7 @@ namespace BuildExeMaterialServices.Repository
         Task<int> QuotationId(int BranchId, int FinancialYearId);
         Task<string> GetReport(MismatchSearch mismatchSearch);
         Task<string> getwithfinancialId(int Id, int FinancialYearId);
-
+        Task<List<string>> GetMaterialFieldData(int CompanyId, int BranchId, string FieldName);
 
     }
 }
