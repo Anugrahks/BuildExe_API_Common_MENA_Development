@@ -592,6 +592,7 @@ namespace BuildExeServiceManagement.Repository
 
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = DBNull.Value });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 1 });
 
                 if (cmd.Connection.State != ConnectionState.Open) await cmd.Connection.OpenAsync();
@@ -639,5 +640,45 @@ namespace BuildExeServiceManagement.Repository
                 throw;
             }
         }
+
+
+        public async Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat)        //Added
+        {
+            try
+            {
+                var BranchId = new SqlParameter("@BranchId", mat.BranchId);
+                var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+                var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
+                var Action = new SqlParameter("@Action", 2);
+
+                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@Json,@Action", BranchId, CompanyId, Json, Action).ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat)       //Added
+        {
+            try
+            {
+                var BranchId = new SqlParameter("@BranchId", mat.BranchId);
+                var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+                var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
+                var Action = new SqlParameter("@Action", 3);
+
+                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@Json,@Action", BranchId, CompanyId, Json, Action).ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
     }
 }
