@@ -416,7 +416,7 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("getServiceQuotation/{CompanyId}/{BranchId}")]                          //added
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetServiceQuotation(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
