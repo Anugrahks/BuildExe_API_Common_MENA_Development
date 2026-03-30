@@ -45,6 +45,23 @@ namespace BuildExeServiceManagement.Models
 
         public DateTime WarrantyDate { get; set; }
 
+
+        //Added(For Service Quotation)
+        public DateTime? QuoteDate { get; set; }
+        public string QuotNo { get; set; }
+        public int IsDeleted { get; set; }
+        public decimal NetAmount { get; set; }
+        public int? UpdatedBy { get; set; }
+        public string ServiceType { get; set; }
+        public int JobNo { get; set; }
+        public DateTime EnteredOnDate { get; set; }
+        public string RefNo { get; set; }
+        public string CustomerApprovalStatus { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public string RejectedRemarks { get; set; }
+        public int PartNo { get; set; }
+
+
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }
         public List<SparePartModel> SpareParts { get; set; }
@@ -56,6 +73,10 @@ namespace BuildExeServiceManagement.Models
         public List<MechanicalChecks> MechanicalChecks { get; set; }
         public List<PumpDocumentModel> DocumentDetails { get; set; }
         public List<PumpDetailsModuleModel> PumpDetailsModule { get; set; }
+
+        public List<BoqDetail> boqDetails { get; set; } = new();        //added
+        public List<MiscDetail> miscDetails { get; set; } = new();      //added
+        public List<TotalChargeDetail> totalChargeDetails { get; set; } = new(); //added
     }
 
 
@@ -138,5 +159,36 @@ namespace BuildExeServiceManagement.Models
         public int CustomerId { get; set; }
         public int CompanyId { get; set; }
         public int BranchId { get; set; }
+    }
+
+    public class BoqDetail      //added
+    {
+        public int serviceQuoteId { get; set; }
+        public int MaterialId { get; set; }
+        public int PartNo { get; set; }
+        public string itemName { get; set; }
+        public decimal qty { get; set; }
+        public decimal unitPrice { get; set; }
+        public decimal total { get; set; }
+    }
+
+    public class MiscDetail     //added
+    {
+        public int serviceQuoteId { get; set; }
+        public int MaterialId { get; set; }
+        public string itemName { get; set; }
+        public decimal qty { get; set; }
+        public decimal unitPrice { get; set; }
+        public decimal total { get; set; }
+    }
+
+    public class TotalChargeDetail      //added
+    {
+        public int serviceQuoteId { get; set; }
+        public int MaterialId { get; set; }
+        public string itemName { get; set; }
+        public decimal qty { get; set; }
+        public decimal unitPrice { get; set; }
+        public decimal total { get; set; }
     }
 }

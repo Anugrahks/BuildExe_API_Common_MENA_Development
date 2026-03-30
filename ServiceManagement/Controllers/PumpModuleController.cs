@@ -441,5 +441,59 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
+        [HttpPost("ServiceQuotationPost")]                                                              //added
+        [Authorize]
+        public async Task<IActionResult> PostQuotation([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.InsertQuotation(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpPut("ServiceQuotationUpdate")]     //added
+        [Authorize]
+        public async Task<IActionResult> UpdateQuotation([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.UpdateQuotation(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+
+        }
+
     }
 }
