@@ -132,4 +132,11 @@ namespace BuildExeServiceManagement.Models
         public int CompanyId { get; set; }
         public int Action { get; set; }
     }
+
+    public class ServiceLookUpModel     //added
+    {
+        public int CustomerId { get; set; }
+        public int CompanyId { get; set; }
+        public int BranchId { get; set; }
+    }
 }
