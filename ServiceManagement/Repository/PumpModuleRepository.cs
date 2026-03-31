@@ -580,7 +580,6 @@ namespace BuildExeServiceManagement.Repository
             }
         }
 
-
         public async Task<string> GetServiceQuotation(int CompanyId, int BranchId)      //added
         {
             try
@@ -592,6 +591,8 @@ namespace BuildExeServiceManagement.Repository
 
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.NVarChar) { Value = DBNull.Value });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.NVarChar) { Value = DBNull.Value });
                 cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = DBNull.Value });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 1 });
 
@@ -648,10 +649,12 @@ namespace BuildExeServiceManagement.Repository
             {
                 var BranchId = new SqlParameter("@BranchId", mat.BranchId);
                 var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+                var FinancialYearId = new SqlParameter("@FinancialYearId", mat.FinancialYearId);
+                var UserId = new SqlParameter("@UserId", mat.UserId);
                 var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
                 var Action = new SqlParameter("@Action", 2);
 
-                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@Json,@Action", BranchId, CompanyId, Json, Action).ToListAsync();
+                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@FinancialYearId,@UserId,@Json,@Action", BranchId, CompanyId, FinancialYearId, UserId, Json, Action).ToListAsync();
                 return result;
             }
             catch (Exception ex)
@@ -667,10 +670,12 @@ namespace BuildExeServiceManagement.Repository
             {
                 var BranchId = new SqlParameter("@BranchId", mat.BranchId);
                 var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+                var FinancialYearId = new SqlParameter("@FinancialYearId", mat.FinancialYearId);
+                var UserId = new SqlParameter("@UserId", mat.UserId);
                 var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
                 var Action = new SqlParameter("@Action", 3);
 
-                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@Json,@Action", BranchId, CompanyId, Json, Action).ToListAsync();
+                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@FinancialYearId,@UserId,@Json,@Action", BranchId, CompanyId, FinancialYearId, UserId, Json, Action).ToListAsync();
                 return result;
             }
             catch (Exception ex)
@@ -741,6 +746,29 @@ namespace BuildExeServiceManagement.Repository
                 throw;
             }
         }
+
+        public async Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat)
+        {
+            try
+            {
+                var BranchId = new SqlParameter("@BranchId", mat.BranchId);
+                var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+                var FinancialYearId = new SqlParameter("@FinancialYearId", mat.FinancialYearId);
+                var UserId = new SqlParameter("@UserId", mat.UserId);
+                var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
+                var Action = new SqlParameter("@Action", 5);
+
+                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @BranchId,@CompanyId,@FinancialYearId,@UserId,@Json,@Action", BranchId, CompanyId, FinancialYearId, UserId, Json, Action).ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+
 
 
     }

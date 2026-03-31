@@ -27,7 +27,7 @@ namespace BuildExeServiceManagement.Repository
         Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  //added
         Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   //added
         Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); //added
-
+        Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat);   //added
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
