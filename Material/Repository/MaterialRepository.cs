@@ -45,9 +45,8 @@ namespace BuildExeMaterialServices.Repository
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
                 var Action = new SqlParameter("@Action", Actions.Insert);
-                var FieldName = new SqlParameter("FieldName", "0");
 
-                var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_Materialmaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action,@FieldName", materialId, item, CompanyId, BranchId, UserId, Action, FieldName).ToListAsync();
+                var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_Materialmaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
@@ -684,8 +683,6 @@ namespace BuildExeMaterialServices.Repository
                         cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = 0 });
                         cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                         cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
-
-                        cmd.Parameters.Add(new SqlParameter("@FieldName", SqlDbType.NVarChar) { Value = FieldName });
 
 
                         cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 14 });
