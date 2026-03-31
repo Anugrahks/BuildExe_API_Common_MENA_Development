@@ -60,7 +60,8 @@ namespace BuildExeServiceManagement.Models
         public DateTime UpdatedOn { get; set; }
         public string RejectedRemarks { get; set; }
         public int PartNo { get; set; }
-
+        public string ClientStatus { get; set; }
+        public string ClientRemarks { get; set; }
 
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }
