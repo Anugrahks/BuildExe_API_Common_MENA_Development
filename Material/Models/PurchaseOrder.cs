@@ -65,7 +65,7 @@ namespace BuildExeMaterialServices.Models
 
         public decimal? ExchangeRate { get; set; }
 
-        public decimal LAmount { get; set; }
+        public decimal? LAmount { get; set; }
 
 
         public List<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
@@ -106,6 +106,6 @@ namespace BuildExeMaterialServices.Models
 
         public decimal? ExchangeRate { get; set; }
 
-        public decimal LAmount { get; set; }
+        public decimal? LAmount { get; set; }
     }
 }

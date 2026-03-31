@@ -297,6 +297,7 @@ namespace BuildExeMaterialServices.Repository
                                       conversionQuantity = a.ConversionQuantity,
                                       conversionUnitName = a.ConversionUnitName,
                                       totalAmount = a.TotalAmount,
+                                      lAmount = a.LAmount
 
                                   }).Where(x => x.purchaseOrderId == PurchaseOrderId).ToListAsync();
                 string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
