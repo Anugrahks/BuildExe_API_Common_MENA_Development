@@ -494,7 +494,7 @@ namespace BuildExeServiceManagement.Controllers
 
         }
 
-        [HttpGet("getServiceQuotationListings")]        //added
+        [HttpGet("getServiceQuotationListings/{CompanyId}/{BranchId}/{FinancialYearId}/{UserId}")]        //added
         [Authorize]
         public async Task<IActionResult> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId, [FromHeader] string mdhash, [FromHeader] int User)
         {
