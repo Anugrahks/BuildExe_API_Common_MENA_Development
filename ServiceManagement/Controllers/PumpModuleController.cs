@@ -495,5 +495,32 @@ namespace BuildExeServiceManagement.Controllers
 
         }
 
+        [HttpGet("getServiceQuotationListings")]        //added
+        [Authorize]
+        public async Task<IActionResult> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetServiceQuotationListings(CompanyId, BranchId, FinancialYearId, UserId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+
+        }
+
     }
 }
