@@ -549,5 +549,61 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
+        [HttpDelete("DeleteQuotation/{Id}/{UserID}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteQuotation(int Id, int UserID, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.DeleteQuotation(Id, UserID);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetByIdQuotation/{Id}")]
+        [Authorize]
+        public async Task<IActionResult> GetByIdQuotation(int Id, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetByIdQuotation(Id);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+
     }
 }
