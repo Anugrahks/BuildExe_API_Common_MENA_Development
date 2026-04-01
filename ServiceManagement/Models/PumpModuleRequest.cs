@@ -59,8 +59,9 @@ namespace BuildExeServiceManagement.Models
         public string CustomerApprovalStatus { get; set; }
         public DateTime UpdatedOn { get; set; }
         public string RejectedRemarks { get; set; }
-        public int PartNo { get; set; }
-
+        public string PartNo { get; set; }
+        public string ClientStatus { get; set; }
+        public string ClientRemarks { get; set; }
 
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }
@@ -165,7 +166,7 @@ namespace BuildExeServiceManagement.Models
     {
         public int serviceQuoteId { get; set; }
         public int MaterialId { get; set; }
-        public int PartNo { get; set; }
+        public string PartNo { get; set; }
         public string itemName { get; set; }
         public decimal qty { get; set; }
         public decimal unitPrice { get; set; }
