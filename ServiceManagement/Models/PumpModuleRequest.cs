@@ -166,7 +166,7 @@ namespace BuildExeServiceManagement.Models
     {
         public int serviceQuoteId { get; set; }
         public int MaterialId { get; set; }
-        public int PartNo { get; set; }
+        public string PartNo { get; set; }
         public string itemName { get; set; }
         public decimal qty { get; set; }
         public decimal unitPrice { get; set; }
