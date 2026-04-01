@@ -34,5 +34,10 @@ namespace BuildExeMaterialServices.Models
         public int BlockId { get; set; }
         public int FloorId { get; set; }
         public string Narration { get; set; }
+
+        public decimal LAmount { get; set; }
+
+        public decimal LDrAmount { get; set; }
+        public decimal LCrAmount { get; set; }
     }
 }
