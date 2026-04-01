@@ -59,7 +59,7 @@ namespace BuildExeServiceManagement.Models
         public string CustomerApprovalStatus { get; set; }
         public DateTime UpdatedOn { get; set; }
         public string RejectedRemarks { get; set; }
-        public int PartNo { get; set; }
+        public string PartNo { get; set; }
         public string ClientStatus { get; set; }
         public string ClientRemarks { get; set; }
 
