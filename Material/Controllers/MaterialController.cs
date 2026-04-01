@@ -33,10 +33,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.Get(CompanyId, Branchid);
-            return new OkObjectResult(material);
-            }
+                {
+                    var material = await _materialRepository.Get(CompanyId, Branchid);
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -59,10 +59,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.Get(CompanyId, Branchid, UserId);
-                return new OkObjectResult(material);
-            }
+                {
+                    var material = await _materialRepository.Get(CompanyId, Branchid, UserId);
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -85,10 +85,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.GetMaterialWithBrand(CompanyId, Branchid);
-                return new OkObjectResult(material);
-            }
+                {
+                    var material = await _materialRepository.GetMaterialWithBrand(CompanyId, Branchid);
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -138,10 +138,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.MaterialWithBrandCategory(CompanyId, Branchid, MaterialTypeId);
-                return new OkObjectResult(material);
-            }
+                {
+                    var material = await _materialRepository.MaterialWithBrandCategory(CompanyId, Branchid, MaterialTypeId);
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -165,10 +165,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.GetbyMaterialId(CompanyId, Branchid, MaterialId);
-                return new OkObjectResult(material);
-            }
+                {
+                    var material = await _materialRepository.GetbyMaterialId(CompanyId, Branchid, MaterialId);
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -193,11 +193,11 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.GetbyID(id);
+                {
+                    var material = await _materialRepository.GetbyID(id);
 
-            return new OkObjectResult(material);
-            }
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -220,11 +220,11 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var material = await _materialRepository.getwithfinancialId(id, FinancialYearId);
+                {
+                    var material = await _materialRepository.getwithfinancialId(id, FinancialYearId);
 
-                return new OkObjectResult(material);
-            }
+                    return new OkObjectResult(material);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -245,19 +245,19 @@ namespace BuildExeMaterialServices.Controllers
         // POST api/<TeamController>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] IEnumerable<Material > material, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Post([FromBody] IEnumerable<Material> material, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled ))
-            {
-                    var supplir = await _materialRepository.Insert(material);
-                scope.Complete();
-                    return new OkObjectResult(supplir);
+                {
+                    using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var supplir = await _materialRepository.Insert(material);
+                        scope.Complete();
+                        return new OkObjectResult(supplir);
+                    }
                 }
-            }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -271,6 +271,8 @@ namespace BuildExeMaterialServices.Controllers
             {
                 return Unauthorized("Invalid MdHash");
             }
+
+
         }
 
         [HttpPut]
@@ -280,18 +282,18 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                if (material != null)
-            {
-                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                        var supplir = await _materialRepository.Update(material);
-                    scope.Complete();
-                    return new OkObjectResult (supplir);
+                    if (material != null)
+                    {
+                        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        {
+                            var supplir = await _materialRepository.Update(material);
+                            scope.Complete();
+                            return new OkObjectResult(supplir);
+                        }
+                    }
+                    return new NoContentResult();
                 }
-            }
-            return new NoContentResult();
-            }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -315,10 +317,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var supplir = await _materialRepository.Delete(id, UserId);
-                return new OkObjectResult(supplir);
-            }
+                {
+                    var supplir = await _materialRepository.Delete(id, UserId);
+                    return new OkObjectResult(supplir);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -341,14 +343,40 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                if (mismatchSearch != null)
                 {
-                    var product = await _materialRepository.GetReport(mismatchSearch);
-                    return new OkObjectResult(product);
+                    if (mismatchSearch != null)
+                    {
+                        var product = await _materialRepository.GetReport(mismatchSearch);
+                        return new OkObjectResult(product);
+                    }
+                    return new NoContentResult();
                 }
-                return new NoContentResult();
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
             }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetMaterialFieldData/{CompanyId}/{Branchid}/{FieldName}")]
+        [Authorize]
+        public async Task<IActionResult> GetMaterialFieldData(int CompanyId, int Branchid, string FieldName, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var data = await _materialRepository.GetMaterialFieldData(CompanyId, Branchid, FieldName);
+                    return new OkObjectResult(data);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
