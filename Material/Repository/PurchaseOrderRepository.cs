@@ -297,6 +297,8 @@ namespace BuildExeMaterialServices.Repository
                                       conversionQuantity = a.ConversionQuantity,
                                       conversionUnitName = a.ConversionUnitName,
                                       totalAmount = a.TotalAmount,
+                                      currencyId = a.CurrencyId,
+                                      exchangeRate = a.ExchangeRate,
                                       lAmount = a.LAmount
 
                                   }).Where(x => x.purchaseOrderId == PurchaseOrderId).ToListAsync();
