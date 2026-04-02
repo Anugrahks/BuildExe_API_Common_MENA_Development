@@ -946,7 +946,7 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<string> GetName(int CompanyId, int Branchid, int Materialtypeid)
+        public async Task<string> GetName(int CompanyId, int Branchid, int Materialtypeid)//.
         {
             try
             {

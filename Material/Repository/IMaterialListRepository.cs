@@ -32,6 +32,6 @@ namespace BuildExeMaterialServices.Repository
         Task<IEnumerable<PurchaseReturnAll>> GetbasedonSale(MaterialProjectSearchList materialList, DateTime requiredDate);
         Task<string> Getstock(int CompanyId, int Branchid);
         Task<string> ForStockIndividual(int MaterialId, int ProjectId, int FinancialYearId, int CompanyId, int BranchId, int Id);
-        Task<string> GetName(int CompanyId, int Branchid, int Materialtypeid);
+        Task<string> GetName(int CompanyId, int Branchid, int Materialtypeid);//.
     }
 }

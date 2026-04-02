@@ -537,7 +537,7 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
-        [HttpGet("GetName/{CompanyId}/{Branchid}/{Materialtypeid}")]
+        [HttpGet("GetName/{CompanyId}/{Branchid}/{Materialtypeid}")]//.
         [Authorize]
         public async Task<IActionResult> GetName(int CompanyId, int Branchid, int Materialtypeid, [FromHeader] string mdhash, [FromHeader] int User)
         {
