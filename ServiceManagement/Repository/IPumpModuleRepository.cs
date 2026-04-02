@@ -28,10 +28,11 @@ namespace BuildExeServiceManagement.Repository
         Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  //added
         Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   //added
         Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); //added
-        Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat);   //added
+        //Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat);   //added
         Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID);      //added
         Task<string> GetByIdQuotation(int Id);     //added
         Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);   //added
+        Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  //added
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
