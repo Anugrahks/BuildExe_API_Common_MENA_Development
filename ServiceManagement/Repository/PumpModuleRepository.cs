@@ -752,27 +752,27 @@ namespace BuildExeServiceManagement.Repository
             }
         }
 
-        public async Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat)    //added
-        {
-            try
-            {
-                var Id = new SqlParameter("@Id", mat.Id);
-                var BranchId = new SqlParameter("@BranchId", mat.BranchId);
-                var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
-                var FinancialYearId = new SqlParameter("@FinancialYearId", mat.FinancialYearId);
-                var UserId = new SqlParameter("@UserId", mat.UserId);
-                var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
-                var Action = new SqlParameter("@Action", 5);
+        //public async Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat)    //added
+        //{
+        //    try
+        //    {
+        //        var Id = new SqlParameter("@Id", mat.Id);
+        //        var BranchId = new SqlParameter("@BranchId", mat.BranchId);
+        //        var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+        //        var FinancialYearId = new SqlParameter("@FinancialYearId", mat.FinancialYearId);
+        //        var UserId = new SqlParameter("@UserId", mat.UserId);
+        //        var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
+        //        var Action = new SqlParameter("@Action", 5);
 
-                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @Id,@BranchId,@CompanyId,@FinancialYearId,@UserId,@Json,@Action", Id, BranchId, CompanyId, FinancialYearId, UserId, Json, Action).ToListAsync();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
-                throw;
-            }
-        }
+        //        var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @Id,@BranchId,@CompanyId,@FinancialYearId,@UserId,@Json,@Action", Id, BranchId, CompanyId, FinancialYearId, UserId, Json, Action).ToListAsync();
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
 
         public async Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID)      //added
         {
@@ -925,6 +925,27 @@ namespace BuildExeServiceManagement.Repository
         }
 
 
+        public async Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat)
+        {
+            try
+            {
+                var Id = new SqlParameter("@Id", mat.Id);
+                var BranchId = new SqlParameter("@BranchId", mat.BranchId);
+                var CompanyId = new SqlParameter("@CompanyId", mat.CompanyId);
+                var FinancialYearId = new SqlParameter("@FinancialYearId", mat.FinancialYearId);
+                var UserId = new SqlParameter("@UserId", mat.UserId);
+                var Json = new SqlParameter("@Json", JsonConvert.SerializeObject(mat));
+                var Action = new SqlParameter("@Action", 9);
 
+                var result = await _dbContext.tbl_validation.FromSqlRaw("EXEC Stpro_ServiceQuotation @Id,@BranchId,@CompanyId,@FinancialYearId,@UserId,@Json,@Action", Id, BranchId, CompanyId, FinancialYearId, UserId, Json, Action).ToListAsync();
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
     }
 }
