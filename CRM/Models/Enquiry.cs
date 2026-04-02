@@ -57,6 +57,7 @@ namespace BuildExeServices.Models
         public string UnqProspectName { get; set; }
 
         public string? ReferenceNumber { get; set; }
+        public string? contactPerson { get; set; }
         public List<ToUserEnquiryDetails> ToUserEnquiryDetails { get; set; }
     }
 
