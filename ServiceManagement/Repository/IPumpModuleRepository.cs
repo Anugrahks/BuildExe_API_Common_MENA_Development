@@ -31,7 +31,7 @@ namespace BuildExeServiceManagement.Repository
         Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat);   //added
         Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID);      //added
         Task<string> GetByIdQuotation(int Id);     //added
-
+        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);   //added
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
