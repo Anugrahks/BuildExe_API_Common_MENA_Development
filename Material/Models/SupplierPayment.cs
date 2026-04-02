@@ -66,6 +66,12 @@ namespace BuildExeMaterialServices.Models
 
         public decimal RoundOff {  get; set; }
 
+        public int CurrencyId { get; set; }
+        public decimal ExchangeRate { get; set; }
+        public decimal LocalBillAmount { get; set; }
+        public decimal LocalBillAmountBalance { get; set; }
+        public decimal LocalPaymentAmount { get; set; }
+
 
     }
 

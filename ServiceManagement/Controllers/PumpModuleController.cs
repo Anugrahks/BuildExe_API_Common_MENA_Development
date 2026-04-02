@@ -384,5 +384,226 @@ namespace BuildExeServiceManagement.Controllers
             }
 
         }
+
+
+
+        [HttpGet("getServiceLookUp/{CustomerId}/{CompanyId}/{BranchId}")]      //added
+        [Authorize]
+        public async Task<IActionResult> GetServiceLookUp(int CustomerId, int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetServiceLookUp(CustomerId, CompanyId, BranchId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("getServiceQuotation/{CompanyId}/{BranchId}")]                          //added
+        [Authorize]
+        public async Task<IActionResult> GetServiceQuotation(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetServiceQuotation(CompanyId, BranchId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+        [HttpPost("ServiceQuotationPost")]                                                              //added
+        [Authorize]
+        public async Task<IActionResult> PostQuotation([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.InsertQuotation(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpPut("ServiceQuotationUpdate")]     //added
+        [Authorize]
+        public async Task<IActionResult> UpdateQuotation([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.UpdateQuotation(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+
+        }
+
+        [HttpGet("getServiceQuotationListings/{CompanyId}/{BranchId}/{FinancialYearId}/{UserId}")]        //added
+        [Authorize]
+        public async Task<IActionResult> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetServiceQuotationListings(CompanyId, BranchId, FinancialYearId, UserId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+        [HttpPost("ClientStatus")] //added
+        [Authorize]
+        public async Task<IActionResult> UpdateClientStatus([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.UpdateClientStatus(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+        [HttpDelete("DeleteQuotation/{Id}/{UserID}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteQuotation(int Id, int UserID, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.DeleteQuotation(Id, UserID);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetByIdQuotation/{Id}")]
+        [Authorize]
+        public async Task<IActionResult> GetByIdQuotation(int Id, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetByIdQuotation(Id);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+
     }
 }
