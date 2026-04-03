@@ -118,6 +118,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? FCBillAmount { get; set; }
         public decimal? FCBillAmountBalance { get; set; }
         public decimal? FCNetAmount { get; set; }
+
+        public decimal LAmount { get; set; }
     }
     public class PurchaseDetail
     {

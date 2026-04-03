@@ -49,6 +49,9 @@ namespace BuildExeMaterialServices.Models
 
         public int IsAsset { get; set; }
 
+        public int CurrencyId { get; set; }
+        public decimal ExchangeRate { get; set; }
+
 
         // Optional navigation properties if needed
         public List<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
@@ -75,6 +78,9 @@ namespace BuildExeMaterialServices.Models
         public decimal ConversionQuantity { get; set; }
 
         public string ConversionUnitName { get; set; }
+
+        public int CurrencyId { get; set; }
+        public decimal ExchangeRate { get; set; }
     }
 
     public class DeliveryOrderSubDetails
