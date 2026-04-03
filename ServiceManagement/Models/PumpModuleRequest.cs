@@ -16,7 +16,7 @@ namespace BuildExeServiceManagement.Models
 
         public int SiteServiceType { get; set; }
         public string StockPoint { get; set; }
-        public int JobNumber { get; set; }
+        public string JobNumber { get; set; }
         public string CustomerName { get; set; }
         public int CustomerId { get; set; }
         public int ClientId { get; set; }
@@ -53,7 +53,7 @@ namespace BuildExeServiceManagement.Models
         public decimal NetAmount { get; set; }
         public int? UpdatedBy { get; set; }
         public string ServiceType { get; set; }
-        public int JobNo { get; set; }
+        public string JobNo { get; set; }
         public DateTime EnteredOnDate { get; set; }
         public string RefNo { get; set; }
         public string CustomerApprovalStatus { get; set; }

@@ -40,6 +40,11 @@ namespace BuildExeMaterialServices.Models
         public int SiteLoan { get; set; }
 
         public decimal SiteLoanAmt { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal ExchangeRate { get; set; }
+        public decimal LocalBillAmount { get; set; }
+        public decimal LocalBillAmountBalance { get; set; }
+        public decimal LocalPaymentAmount { get; set; }
         public List<SupplierPaymentDetails> SupplierPaymentDetails { get; set; }
         public List<DebitNote> DebitNote { get; set; }
 
