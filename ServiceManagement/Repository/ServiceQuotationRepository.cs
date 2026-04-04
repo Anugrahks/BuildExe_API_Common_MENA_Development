@@ -161,7 +161,44 @@ namespace BuildExeServiceManagement.Repository
                 throw;
             }
         }
+        //public async Task<IEnumerable<ServiceQuotation>> GetbyID(int Idworkorder)
+        //{
+        //    try
+        //    {
 
+        //        var list = await _dbContext.tbl_ServiceInvoiceMaster.Where(x => x.InvoiceNo == Idworkorder).ToListAsync();
+        //        var detaillist = await _dbContext.tbl_ServiceInvoiceDetails.Where(x => x.InvoiceId == Idworkorder).ToListAsync();
+                
+        //        return list;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
+
+        public async Task<object> GetbyID(int Idworkorder)
+        {
+            try
+            {
+                var list = await _dbContext.tbl_ServiceInvoiceMaster.Where(x => x.InvoiceNo == Idworkorder).ToListAsync();
+                var detaillist = await _dbContext.tbl_ServiceInvoiceDetails.Where(x => x.InvoiceId == Idworkorder).ToListAsync();
+
+                var result = new
+                {
+                    Master = list,
+                    Details = detaillist
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
         private bool IsLikelyJson(string input)
         {
             input = input?.Trim();

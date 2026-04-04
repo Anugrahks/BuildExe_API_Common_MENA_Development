@@ -130,6 +130,31 @@ namespace BuildExeServiceManagement.Controllers
             }
 
         }
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Get(int id, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var product = await _serviceQuotationRepository.GetbyID(id);
+                    return new OkObjectResult(product);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
 
     }
 }
