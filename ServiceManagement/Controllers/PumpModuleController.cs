@@ -612,7 +612,7 @@ namespace BuildExeServiceManagement.Controllers
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId, FinancialYearId, UserId);
+                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId,UserId, FinancialYearId);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
