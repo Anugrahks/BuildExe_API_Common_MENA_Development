@@ -159,7 +159,7 @@ namespace BuildExeServices.Controllers
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
-                    {
+                    {//.//
                         message = $"An error occurred: {ex.Message}",
                         statusCode = 0
                     });
