@@ -12,5 +12,7 @@ namespace BuildExeServices.Repository
         Task<IEnumerable<ClientMaster>> GetClient(int Companyid, int Branchid);
         Task<IEnumerable<ClientMaster>> Get();
         Task<string> GetUniqueNames(int ProjectId, int CompanyId, int BranchId);
+
+        Task<string> GetAllProspects(int ProjectId, int CompanyId, int BranchId);
     }
 }

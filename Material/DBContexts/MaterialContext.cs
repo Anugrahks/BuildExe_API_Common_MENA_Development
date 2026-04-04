@@ -77,8 +77,9 @@ namespace BuildExeMaterialServices.DBContexts
         public DbSet<DebitNote> tbl_DebitNote { get; set; }
         public DbSet<DebitNoteList> tbl_DebitNoteList { get; set; }
         public DbSet<PurchaseReturnAll> tbl_PurchaseReturnAll { get; set; }
+        public DbSet<Models.Attribute> tbl_Attribute { get; set; }
 
     }
-    
+
 }
 

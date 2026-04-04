@@ -51,6 +51,33 @@ namespace BuildExeServices.Models
 
         public decimal DiscountAmountMaster { get; set; }
 
+
+        public decimal? WaterElectricityCharge { get; set; }
+        public decimal? OtherExpense { get; set; }
+        public decimal? CustomsDuty { get; set; }
+        public decimal? DOCharge { get; set; }
+        public decimal? HandlingCharge { get; set; }
+        public decimal? DocumentationCharge { get; set; }
+        public decimal? MOFAAttestation { get; set; }
+        public decimal? StorageCharge { get; set; }
+
+        public decimal? CustomsDutyPer { get; set; }
+        public decimal? DOChargePer { get; set; }
+        public decimal? HandlingChargePer { get; set; }
+        public decimal? DocumentationChargePer { get; set; }
+        public decimal? MOFAAttestationPer { get; set; }
+        public decimal? StorageChargePer { get; set; }
+        public decimal? NetTotalAmount { get; set; }
+        public decimal OtherExpensePer { get; set; }
+
+        public decimal? ContractorProfit { get; set; }
+        public decimal? ContractorProfitAmt { get; set; }
+        public decimal? FieghtChargePer { get; set; }
+        public decimal? FieghtCharge { get; set; }
+        public decimal? UnitcostExworkFasctoryForeign { get; set; }
+        public decimal? FeightAndCustomChargeForeign { get; set; }
+        public decimal? FeightAndCustomCharge { get; set; }
+
         public List<ProjSpecification> ProjSpecification { get; set; }
 
     }
@@ -150,6 +177,25 @@ namespace BuildExeServices.Models
         public decimal MOFAAttestation { get; set; }
         public decimal DocumentationCharge { get; set; }
         public decimal StorageCharge { get; set; }
+
+        public decimal? CustomsDutyPer { get; set; }
+        public decimal? DOChargePer { get; set; }
+        public decimal? HandlingChargePer { get; set; }
+        public decimal? DocumentationChargePer { get; set; }
+        public decimal? MOFAAttestationPer { get; set; }
+        public decimal? StorageChargePer { get; set; }
+
+
+        public decimal? UnitCostExWorkFactory { get; set; }
+        public decimal? otherExpenseCharge { get; set; }
+        public decimal? UnitCostExWorkDXB { get; set; }
+        public decimal? TotalCostDXB { get; set; }
+        public decimal? TotalProfit { get; set; }
+        public decimal? UnitSellingCost { get; set; }
+        public decimal? TotalSellingPrice { get; set; }
+
+        public decimal? FieghtChargePer { get; set; }
+        public decimal? FieghtCharge { get; set; }
         public List<ProjSpecificationDetails> ProjSpecificationDetails { get; set; }
 
         public List<ProjSpecificationDimensionDetails> ProjSpecificationDimensionDetails { get; set; }
@@ -198,6 +244,13 @@ namespace BuildExeServices.Models
         public decimal ConversionQuantity { get; set; }
 
         public string ConversionUnitName { get; set; }
+
+        public decimal CurrencyId { get; set; }
+
+        public decimal ExchangeRate { get; set; }
+
+
+
 
     }
 
@@ -284,5 +337,6 @@ namespace BuildExeServices.Models
         public decimal DeductionValueChild { get; set; }
 
         public decimal? CoefficientFactor { get; set; }
+        //new///
     }
 }

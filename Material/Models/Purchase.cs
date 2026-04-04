@@ -48,6 +48,22 @@ namespace BuildExeMaterialServices.Models
         public decimal OtherCharges { get; set; }
         public decimal OtherChargesPer { get; set; }
 
+        public decimal customDutyPer { get; set; }
+        public decimal customDuty {  get; set; }
+        public decimal doChargePer { get; set; }
+        public decimal doCharge { get; set; }
+        public decimal handlingChargePer { get; set; }
+        public decimal handlingCharge { get; set; }
+        public decimal documentationChargePer { get; set; }
+        public decimal documentationCharge { get; set; }
+        public decimal mofaChargePer { get; set; }
+        public decimal mofaCharge { get; set; }
+        public decimal storageChargePer { get; set; }
+        public decimal storageCharge { get; set; }
+        public decimal freightChargePer { get; set; }
+        public decimal freightCharge { get; set; }
+
+
         public string? ReqLoadingTax { get; set; }
         public string? ReqTransportTax { get; set; }
         public string? ReqOtherCharesTax { get; set; }
@@ -118,6 +134,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? FCBillAmount { get; set; }
         public decimal? FCBillAmountBalance { get; set; }
         public decimal? FCNetAmount { get; set; }
+
+        public decimal LAmount { get; set; }
     }
     public class PurchaseDetail
     {
@@ -156,6 +174,10 @@ namespace BuildExeMaterialServices.Models
         public string ConversionUnitName { get; set; }
 
         public decimal? FCTotal { get; set; }
+        public int? CurrencyId { get; set; }
+        public decimal? ExchangeRate { get; set; }
+        public decimal LAmount { get; set; }
+
     }
 
 

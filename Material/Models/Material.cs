@@ -38,6 +38,15 @@ namespace BuildExeMaterialServices.Models
 
         public int CoefficientUnitId { get; set; }
 
+        public string InstallationType { get; set; }
+        public string Model { get; set; }
+        public string Version { get; set; }
+        public string Drive { get; set; }
+        public string Head { get; set; }
+        public string Curve { get; set; }
+        public string Power { get; set; }
+        public string Voltage { get; set; }
+        public string Frequency { get; set; }
         public string CoefficientUnitName { get; set; }
         public List<OpeningStock> OpeningStock { get; set; }
         public List<OpeningRent> OpeningRent { get; set; }
