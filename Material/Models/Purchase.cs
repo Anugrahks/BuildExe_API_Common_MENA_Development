@@ -130,6 +130,8 @@ namespace BuildExeMaterialServices.Models
         public int FromDeliveryOrder { get; set; }
 
         public int? CurrencyId { get; set; }
+
+        public int? Currency { get; set; }
         public decimal? ExchangeRate { get; set; }
         public decimal? FCBillAmount { get; set; }
         public decimal? FCBillAmountBalance { get; set; }
