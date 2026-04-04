@@ -521,32 +521,32 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
-        [HttpPost("ClientStatus")] //added
-        [Authorize]
-        public async Task<IActionResult> UpdateClientStatus([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
-        {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
-            {
-                try
-                {
-                    var val = await _salesOrderRepository.UpdateClientStatus(mat);
-                    return new OkObjectResult(val);
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, new
-                    {
-                        message = $"An error occurred: {ex.Message}",
-                        statusCode = 0
-                    });
+        //[HttpPost("ClientStatus")] //added
+        //[Authorize]
+        //public async Task<IActionResult> UpdateClientStatus([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        //{
+        //    if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+        //    {
+        //        try
+        //        {
+        //            var val = await _salesOrderRepository.UpdateClientStatus(mat);
+        //            return new OkObjectResult(val);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return StatusCode(500, new
+        //            {
+        //                message = $"An error occurred: {ex.Message}",
+        //                statusCode = 0
+        //            });
 
-                }
-            }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
-        }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Unauthorized("Invalid MdHash");
+        //    }
+        //}
 
 
         [HttpDelete("DeleteQuotation/{Id}/{UserID}")]
@@ -595,6 +595,60 @@ namespace BuildExeServiceManagement.Controllers
                         statusCode = 0
                     });
 
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+        [HttpGet("GetClientApproval/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId, FinancialYearId, UserId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpPost("ClientApprovalInsert")]
+        [Authorize]
+        public async Task<IActionResult> ClientApprovalUpdate(PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.ClientApprovalUpdate(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
                 }
             }
             else

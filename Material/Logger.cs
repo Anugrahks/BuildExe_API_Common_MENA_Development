@@ -7,46 +7,47 @@ namespace BuildExeMaterialServices
     public static class Logger
     {
         private static string logFileName = string.Empty;
+        private static readonly object _fileLock = new object();
         public static void ErrorLog(string className = "", string methodName = "", Exception exception = null)
         {
-            if (exception != null)
+            try
             {
-                if (exception.Message != "Thread was being aborted.")
+                if (exception == null)
+                    return;
+
+                if (exception.Message == "Thread was being aborted.")
+                    return;
+
+                if (string.IsNullOrEmpty(logFileName))
                 {
-                    StreamReader sReader;
-                    StreamWriter sWriter;
-                    if (string.IsNullOrEmpty(logFileName))
-                    {
-                        logFileName = GetLogFileName();
-                    }
-                    string filePath = string.Format($"C:/ServiceLogs/" + logFileName + ".log");
-                    string readText = string.Empty;
-
-
-                    if (File.Exists(filePath))
-                    {
-                        sReader = File.OpenText(filePath);
-                        readText = sReader.ReadToEnd();
-                        sReader.Close();
-                    }
-                    else
-                    {
-                        sWriter = File.CreateText(filePath);
-                        sWriter.Close();
-                    }
-
-                    sWriter = new StreamWriter(filePath);
-                    if (!string.IsNullOrEmpty(readText))
-                    {
-                        readText = readText.Remove(readText.Length - 2);
-                        sWriter.WriteLine(readText);
-                    }
-
-                    string errMsg = exception.Message.ToString().Replace("\n", "");
-
-                    sWriter.WriteLine("[" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") + "]&&[" + className + "]&&[" + methodName + "]&&[" + errMsg + "]");
-                    sWriter.Close();
+                    logFileName = GetLogFileName();
                 }
+
+                var dirPath = Path.Combine("C:", "ServiceLogs");
+                if (!Directory.Exists(dirPath))
+                    Directory.CreateDirectory(dirPath);
+
+                var filePath = Path.Combine(dirPath, logFileName + ".log");
+
+                var errMsg = exception.Message?.ToString().Replace("\n", "") ?? string.Empty;
+
+                // Use a file lock and open the file for append with shared read/write so
+                // multiple processes can write without exclusive locking issues.
+                lock (_fileLock)
+                {
+                    using (var fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
+                    {
+                        fs.Seek(0, SeekOrigin.End);
+                        using (var sw = new StreamWriter(fs))
+                        {
+                            sw.WriteLine("[" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") + "]&&[" + className + "]&&[" + methodName + "]&&[" + errMsg + "]");
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Swallow logging exceptions to avoid affecting application flow when logging fails.
             }
         }
 

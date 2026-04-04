@@ -665,42 +665,39 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<List<string>> GetMaterialFieldData(int CompanyId, int BranchId, string FieldName)
+        public async Task<string> GetMaterialFieldData(int CompanyId, int BranchId, string FieldName)
         {
             try
             {
-                var result = new List<string>();
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
 
-                using (var conn = _dbContext.Database.GetDbConnection())
+                cmd.CommandText = "dbo.Stpro_Materialmaster";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@materialId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = FieldName });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 14 });
+                if (cmd.Connection.State != ConnectionState.Open)
                 {
-                    using (var cmd = conn.CreateCommand())
-                    {
-                        cmd.CommandText = "dbo.Stpro_Materialmaster";
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add(new SqlParameter("@materialId", SqlDbType.Int) { Value = 0 });
-                        cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
-                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = 0 });
-                        cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
-                        cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
-
-
-                        cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 14 });
-
-                        if (conn.State != ConnectionState.Open)
-                            await conn.OpenAsync();
-
-                        using (var reader = await cmd.ExecuteReaderAsync())
-                        {
-                            while (await reader.ReadAsync())
-                            {
-                                result.Add(reader["Value"].ToString());
-                            }
-                        }
-                    }
+                    cmd.Connection.Open();
                 }
 
-                return result;
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string itemdetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    itemdetails = itemdetails + dataTable.Rows[i][0].ToString();
+                }
+
+                return itemdetails;
             }
             catch (Exception ex)
             {
