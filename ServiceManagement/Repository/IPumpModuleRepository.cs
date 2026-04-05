@@ -33,7 +33,7 @@ namespace BuildExeServiceManagement.Repository
         Task<string> GetByIdQuotation(int Id);     //added
         Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);   //added
         Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  //added
-
+        Task<string> GetPumpAutoFetch(int CompanyId, int BranchId); //added
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
 }
