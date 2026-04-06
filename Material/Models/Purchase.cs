@@ -97,6 +97,7 @@ namespace BuildExeMaterialServices.Models
 
         
         public List<PurchaseReturnBill> PurchaseReturnBill { get; set; }
+        public List<MaterialWarrantyDetails> MaterialWarrantyDetails { get; set; }
 
         public int? BankId { get; set; }
         public string? PaymentNo { get; set; }
@@ -195,5 +196,20 @@ namespace BuildExeMaterialServices.Models
         public int IsOpening { get; set; }
     }
 
+    public class MaterialWarrantyDetails
+    {
+        [Key]
+        public int Id { get; set; }
+        public int VoucherNumber { get; set; }
+        public int VoucherTypeId { get; set; }
+        public int ProjectId { get; set; }
+        public int MaterialId { get; set; }
+        public string SerialNo { get; set; }
+        public DateTime WarrantyDate { get; set; }
+        public int UserId { get; set; }
+        public int BranchId { get; set; }
+        public int CompanyId { get; set; }
+        public DateTime EnteredOn { get; set; }
+    }
 
 }
