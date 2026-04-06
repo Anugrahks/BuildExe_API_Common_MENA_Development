@@ -244,7 +244,10 @@ namespace BuildExeMaterialServices.Repository
                                       materialCategoryId = a.MaterialCategoryId,
                                       coefficientFactorValue = a.CoefficientFactorValue,
                                       conversionQuantity = a.ConversionQuantity,
-                                      conversionUnitName=a.ConversionUnitName
+                                      conversionUnitName=a.ConversionUnitName,
+                                      currencyId=a.CurrencyId,
+                                      exchangeRate=a.ExchangeRate,
+                                      lAmount=a.LAmount
                                   }).ToListAsync();
 
                 string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
