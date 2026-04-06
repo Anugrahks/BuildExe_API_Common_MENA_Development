@@ -144,5 +144,31 @@ namespace BuildExeServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpGet("GetAllProspects/{ProjectId}/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllProspects(int ProjectId, int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var products = await _clientRepository.GetAllProspects(ProjectId, CompanyId, BranchId);
+                    return new OkObjectResult(products);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {//.//
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
 }
