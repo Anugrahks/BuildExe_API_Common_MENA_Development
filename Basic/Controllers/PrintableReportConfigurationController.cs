@@ -693,6 +693,26 @@ namespace BuildExeBasic.Controllers
             }
         }
 
+        [HttpGet("StaticPrintableDeliveryOrder/{BranchId}/{ReportId}/{RecordId}")]
+        [Authorize]
+        public async Task<IActionResult> StaticPrintableDeliveryOrder(int BranchId, int ReportId, int RecordId)
+        {
+            try
+            {
+                var validation = await _printableReportConfigurationRepository.StaticPrintableDeliveryOrder(BranchId, ReportId, RecordId);
+
+                return new OkObjectResult(validation);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
+        }
+
 
 
     }

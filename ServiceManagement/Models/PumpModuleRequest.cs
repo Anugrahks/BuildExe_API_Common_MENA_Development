@@ -63,6 +63,7 @@ namespace BuildExeServiceManagement.Models
         public string ClientStatus { get; set; }
         public string ClientRemarks { get; set; }
         public DateTime RemarkDate { get; set; }
+        public int CurrentStage { get; set; }
 
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }

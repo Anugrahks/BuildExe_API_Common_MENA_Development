@@ -612,7 +612,7 @@ namespace BuildExeServiceManagement.Controllers
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId, FinancialYearId, UserId);
+                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId,UserId, FinancialYearId);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
@@ -640,6 +640,32 @@ namespace BuildExeServiceManagement.Controllers
                 try
                 {
                     var val = await _salesOrderRepository.ClientApprovalUpdate(mat);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetPumpAutoFetch/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetPumpAutoFetch(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetPumpAutoFetch(CompanyId, BranchId);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
