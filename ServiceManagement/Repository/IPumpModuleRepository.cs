@@ -22,18 +22,18 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> GetPumbDetails(int CompanyId, int Branchid, int UserId, int FinancialYearId, int StockPointId);
 
-        Task<string> GetServiceLookUp(int CustomerId, int CompanyId, int BranchId);       //added
+        Task<string> GetServiceLookUp(int CustomerId, int CompanyId, int BranchId);       
 
-        Task<string> GetServiceQuotation(int CompanyId, int BranchId);       //added
-        Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  //added
-        Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   //added
-        Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); //added
-        //Task<IEnumerable<Validation>> UpdateClientStatus(PumpModuleRequest mat);   //added
-        Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID);      //added
-        Task<string> GetByIdQuotation(int Id);     //added
-        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);   //added
-        Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  //added
-
+        Task<string> GetServiceQuotation(int CompanyId, int BranchId);       
+        Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  
+        Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   
+        Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); 
+        Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID);      
+        Task<string> GetByIdQuotation(int Id);    
+        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);  
+        Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  
+        Task<string> GetPumpAutoFetch(int CompanyId, int BranchId); 
+        Task<string> GetJobAutoFetch(int CompanyId, int BranchId); 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
 }
