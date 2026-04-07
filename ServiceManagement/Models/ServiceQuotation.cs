@@ -12,7 +12,7 @@ namespace BuildExeServiceManagement.Models
         // ---------- MASTER ----------
         public int Id { get; set; }                 // For update
         public int InvoiceNo { get; set; }
-        public DateTime INvoiceDate { get; set; }
+        public DateTime InvoiceDate { get; set; }
         public string RefNo { get; set; }
         public string ServiceType { get; set; }
         public int VoucherTypeId { get; set; }
@@ -37,6 +37,8 @@ namespace BuildExeServiceManagement.Models
         public int IsDeleted { get; set; }
         public DateTime ApprovedDate { get; set; }
         public int JobNo { get; set; }
+        public List<ServiceQuotationDetails> ServiceInvoiceDetails { get; set; }
+
     }
     public class ServiceQuotationDetails
     {
