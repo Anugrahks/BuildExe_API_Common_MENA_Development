@@ -78,11 +78,11 @@ namespace BuildExeMaterialServices.Controllers
         }
 
         [HttpGet("GetUser/{CompanyId}/{Branchid}/{UserId}/{Menuid}/{FinancialYearId}/{IsAsset}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Get(int CompanyId, int Branchid, int UserId, int Menuid, int FinancialYearId,int IsAsset, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
-            {
+            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            //{
                 try
                 {
                     var purchase = await _purchaseRepository.GetforEdit(CompanyId, Branchid, UserId, Menuid, FinancialYearId, IsAsset);
@@ -96,11 +96,11 @@ namespace BuildExeMaterialServices.Controllers
                         statusCode = 0
                     });
                 }
-            }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //}
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
         }
 
         [HttpGet("{CompanyId}/{Branchid}/{UserID}/{Menuid}/{FinancialYearId}")]
@@ -158,11 +158,11 @@ namespace BuildExeMaterialServices.Controllers
 
         // GET api/<TeamController>/5
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Get(int id, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
-            {
+            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            //{
                 try
             {
                 var purchase =await _purchaseRepository.GetDetailsbyid(id);
@@ -177,11 +177,11 @@ namespace BuildExeMaterialServices.Controllers
                         statusCode = 0
                     });
                 }
-            }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //}
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
         }
 
         [HttpPost]

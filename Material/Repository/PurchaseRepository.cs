@@ -228,8 +228,8 @@ namespace BuildExeMaterialServices.Repository
                                       purchaseId = a.PurchaseId,
                                       materialId = a.MaterialId,
                                       materialName = b == null ? String.Empty : b.MaterialName,
-                                      unitId = b.UnitId,
-                                      materialTypeId = b.MaterialTypeId,
+                                      unitId = b != null ? (int?)b.UnitId : null,
+                                      materialTypeId = b != null ? (int?)b.MaterialTypeId : null,
                                       unitLongName = c == null ? String.Empty : c.UnitLongName,
                                       unitShortName = c == null ? String.Empty : c.UnitShortName,
                                       quantity = a.Quantity,
@@ -244,7 +244,10 @@ namespace BuildExeMaterialServices.Repository
                                       materialCategoryId = a.MaterialCategoryId,
                                       coefficientFactorValue = a.CoefficientFactorValue,
                                       conversionQuantity = a.ConversionQuantity,
-                                      conversionUnitName=a.ConversionUnitName
+                                      conversionUnitName=a.ConversionUnitName,
+                                      currencyId=a.CurrencyId,
+                                      exchangeRate=a.ExchangeRate,
+                                      lAmount=a.LAmount
                                   }).ToListAsync();
 
                 string jsonString = System.Text.Json.JsonSerializer.Serialize(data);

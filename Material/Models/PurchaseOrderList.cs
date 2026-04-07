@@ -63,6 +63,8 @@ namespace BuildExeMaterialServices.Models
 
         public string? DiscountType { get; set; }
 
-
+        public int? CurrencyId {  get; set; }
+        public decimal? ExchangeRate { get; set; }
+        public decimal? LAmount { get; set; }
     }
 }

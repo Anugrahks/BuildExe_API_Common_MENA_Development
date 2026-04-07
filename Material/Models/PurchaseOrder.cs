@@ -61,7 +61,11 @@ namespace BuildExeMaterialServices.Models
         public decimal ExtraDiscountPer { get; set; }
 
 
+        public int? CurrencyId { get; set; }
 
+        public decimal? ExchangeRate { get; set; }
+
+        public decimal? LAmount { get; set; }
 
 
         public List<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
@@ -98,5 +102,10 @@ namespace BuildExeMaterialServices.Models
         public string ConversionUnitName { get; set; }
 
         public decimal TotalAmount { get; set; }
+        public int? CurrencyId { get; set; }
+
+        public decimal? ExchangeRate { get; set; }
+
+        public decimal? LAmount { get; set; }
     }
 }

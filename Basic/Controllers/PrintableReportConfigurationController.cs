@@ -673,6 +673,46 @@ namespace BuildExeBasic.Controllers
             }
         }
 
+        [HttpGet("StaticPrintableInvoiceGeneration/{BranchId}/{ReportId}/{RecordId}")]
+        [Authorize]
+        public async Task<IActionResult> StaticPrintableInvoiceGeneration(int BranchId, int ReportId, int RecordId)
+        {
+            try
+            {
+                var validation = await _printableReportConfigurationRepository.StaticPrintableInvoiceGeneration(BranchId, ReportId, RecordId);
+
+                return new OkObjectResult(validation);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
+        }
+
+        [HttpGet("StaticPrintableDeliveryOrder/{BranchId}/{ReportId}/{RecordId}")]
+        [Authorize]
+        public async Task<IActionResult> StaticPrintableDeliveryOrder(int BranchId, int ReportId, int RecordId)
+        {
+            try
+            {
+                var validation = await _printableReportConfigurationRepository.StaticPrintableDeliveryOrder(BranchId, ReportId, RecordId);
+
+                return new OkObjectResult(validation);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
+        }
+
 
 
     }

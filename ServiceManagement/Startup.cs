@@ -41,6 +41,7 @@ namespace BuildExeServiceManagement
             services.AddDataProtection();
             services.AddDbContext<ServiceManagementContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddTransient<IPumpModuleRepository, PumpModuleRepository>();
+            services.AddTransient<IServiceQuotationRepository, ServiceQuotationRepository>();
             services.AddScoped<IMdHashValidator, MdHashValidator>();
 
             services.AddAuthentication(opt =>

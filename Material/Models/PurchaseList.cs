@@ -106,8 +106,9 @@ namespace BuildExeMaterialServices.Models
 
         public decimal DiscountWithoutTax { get; set; }
 
-        //public int? CurrencyId { get; set; }
-        //public decimal? ExchangeRate { get; set; }
+        public int? Currency { get; set; }
+        public decimal? ExchangeRate { get; set; }
+        public decimal? LAmount { get; set; }
         //public decimal? FCBillAmount { get; set; }
         //public decimal? FCBillAmountBalance { get; set; }
         //public decimal? FCNetAmount { get; set; }
