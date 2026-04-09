@@ -16,7 +16,7 @@ namespace BuildExeServiceManagement.Models
 
         public int SiteServiceType { get; set; }
         public string StockPoint { get; set; }
-        public string JobNumber { get; set; }
+        public int JobNumber { get; set; }
         public string CustomerName { get; set; }
         public int CustomerId { get; set; }
         public int ClientId { get; set; }
