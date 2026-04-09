@@ -706,54 +706,54 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<string> PostGetName(MaterialSearch materialSearches)
-        {
-            try
-            {
-                //    var materialId = new SqlParameter("@materialId", "0");
-                //var item = new SqlParameter("@item", JsonConvert.SerializeObject(materialSearches));
-                //var CompanyId = new SqlParameter("@CompanyId", materialSearches.CompanyId );
-                //var BranchId = new SqlParameter("@BranchId", materialSearches.BranchId );
-                //var UserId = new SqlParameter("@UserId", "0");
-                //var Action = new SqlParameter("@Action", Actions.SelectReport );
-                //var _product = await _dbContext.tbl_MaterialMasterReport .FromSqlRaw("Stpro_Materialmaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
-                //return _product;
-                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+        //public async Task<string> PostGetName(MaterialSearch materialSearches)
+        //{
+        //    try
+        //    {
+        //        //    var materialId = new SqlParameter("@materialId", "0");
+        //        //var item = new SqlParameter("@item", JsonConvert.SerializeObject(materialSearches));
+        //        //var CompanyId = new SqlParameter("@CompanyId", materialSearches.CompanyId );
+        //        //var BranchId = new SqlParameter("@BranchId", materialSearches.BranchId );
+        //        //var UserId = new SqlParameter("@UserId", "0");
+        //        //var Action = new SqlParameter("@Action", Actions.SelectReport );
+        //        //var _product = await _dbContext.tbl_MaterialMasterReport .FromSqlRaw("Stpro_Materialmaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
+        //        //return _product;
+        //        DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
 
-                cmd.CommandText = "dbo.";
-                cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.CommandText = "dbo.";
+        //        cmd.CommandType = CommandType.StoredProcedure;
 
 
-                cmd.Parameters.Add(new SqlParameter("@materialId", SqlDbType.NVarChar) { Value = 0 });
-                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(materialSearches) });
-                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = materialSearches.CompanyId });
-                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = materialSearches.BranchId });
-                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
-                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectReport });
-                if (cmd.Connection.State != ConnectionState.Open)
-                {
-                    cmd.Connection.Open();
-                }
+        //        cmd.Parameters.Add(new SqlParameter("@materialId", SqlDbType.NVarChar) { Value = 0 });
+        //        cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(materialSearches) });
+        //        cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = materialSearches.CompanyId });
+        //        cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = materialSearches.BranchId });
+        //        cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+        //        cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectReport });
+        //        if (cmd.Connection.State != ConnectionState.Open)
+        //        {
+        //            cmd.Connection.Open();
+        //        }
 
-                DbDataReader reader = await cmd.ExecuteReaderAsync();
+        //        DbDataReader reader = await cmd.ExecuteReaderAsync();
 
-                var dataTable = new DataTable();
-                dataTable.Load(reader);
-                string purcasedetails = "";
-                for (int i = 0; i < dataTable.Rows.Count; i++)
-                {
-                    purcasedetails = purcasedetails + dataTable.Rows[i][0].ToString();
-                }
-                if (purcasedetails == "")
-                    purcasedetails = "[]";
-                return purcasedetails;
-            }
-            catch (Exception ex)
-            {
-                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
-                throw;
-            }
-        }
+        //        var dataTable = new DataTable();
+        //        dataTable.Load(reader);
+        //        string purcasedetails = "";
+        //        for (int i = 0; i < dataTable.Rows.Count; i++)
+        //        {
+        //            purcasedetails = purcasedetails + dataTable.Rows[i][0].ToString();
+        //        }
+        //        if (purcasedetails == "")
+        //            purcasedetails = "[]";
+        //        return purcasedetails;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
 
 
     }
