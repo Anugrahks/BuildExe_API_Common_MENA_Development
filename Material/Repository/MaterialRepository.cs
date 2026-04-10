@@ -706,5 +706,9 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
+        Task<string> IMaterialRepository.PostGetName(MaterialSearch MaterialSearch)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

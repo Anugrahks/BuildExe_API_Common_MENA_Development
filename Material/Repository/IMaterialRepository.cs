@@ -33,5 +33,8 @@ namespace BuildExeMaterialServices.Repository
         Task<string> getwithfinancialId(int Id, int FinancialYearId);
         Task<string> GetMaterialFieldData(int CompanyId, int BranchId, string FieldName);
 
+        Task<string> PostGetName(MaterialSearch MaterialSearch);
+
+
     }
 }

@@ -12,6 +12,8 @@ namespace BuildExeServiceManagement.Repository
         Task<IEnumerable<Validation>> Delete(int Id, int UserID);
         Task<string> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId);
 
+        Task<string> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId, int CustomerId, int JobId, int Id);
+
 
     }
 }
