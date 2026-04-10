@@ -537,11 +537,44 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
- main
+
+        //[HttpPost("GetName")]
+
+
+        //[HttpGet("GetName/{CompanyId}/{Branchid}/{Materialtypeid}")]//. dev_lakshmi
+        //[Authorize]
+        //public async Task<IActionResult> PostGetName([FromBody] MaterialSearch materialSearch, [FromHeader] string mdhash, [FromHeader] int User)
+        //{
+        //    if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+        //    {
+        //        try
+        //        {
+        //            if (materialSearch != null)
+        //            {
+        //                var product = await _materialRepository.PostGetName(materialSearch);
+        //                return new OkObjectResult(product);
+        //            }
+        //            return new NoContentResult();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return StatusCode(500, new
+        //            {
+        //                message = $"An error occurred: {ex.Message}",
+        //                statusCode = 0
+        //            });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Unauthorized("Invalid MdHash");
+        //    }
+        //}
+
+
+
+
         [HttpPost("GetName")]
-
-
-        [HttpGet("GetName/{CompanyId}/{Branchid}/{Materialtypeid}")]//. dev_lakshmi
         [Authorize]
         public async Task<IActionResult> PostGetName([FromBody] MaterialSearch materialSearch, [FromHeader] string mdhash, [FromHeader] int User)
         {
@@ -571,38 +604,5 @@ namespace BuildExeMaterialServices.Controllers
             }
         }
 
-
-
-
-        //[HttpPost("GetName")]
-        //[Authorize]
-        //public async Task<IActionResult> PostGetName([FromBody] MaterialSearch materialSearch, [FromHeader] string mdhash, [FromHeader] int User)
-        //{
-        //    if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
-        //    {
-        //        try
-        //        {
-        //            if (materialSearch != null)
-        //            {
-        //                var product = await _materialRepository.PostGetName(materialSearch);
-        //                return new OkObjectResult(product);
-        //            }
-        //            return new NoContentResult();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return StatusCode(500, new
-        //            {
-        //                message = $"An error occurred: {ex.Message}",
-        //                statusCode = 0
-        //            });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Unauthorized("Invalid MdHash");
-        //    }
-        //}
-// dev_lakshmi
     }
 }
