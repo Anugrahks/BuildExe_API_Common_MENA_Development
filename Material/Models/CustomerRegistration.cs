@@ -26,5 +26,6 @@ namespace BuildExeMaterialServices.Models
         public int BranchId { get; set; }
         public int FinancialYearId { get; set; }
         public int UserId { get; set; }
+        public int isService {get; set;}
     }
 }
