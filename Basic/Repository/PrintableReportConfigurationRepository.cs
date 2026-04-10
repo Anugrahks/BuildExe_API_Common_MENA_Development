@@ -682,5 +682,40 @@ namespace BuildExeBasic.Repository
         }
 
 
+        public async Task<string> StaticPrintableSiteService(int BranchId, int ReportId, int RecordId, int IsWorkshop)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_StaticPrintableReportsInSiteService";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@ReportId", SqlDbType.Int) { Value = ReportId });
+                cmd.Parameters.Add(new SqlParameter("@RecordId", SqlDbType.Int) { Value = RecordId });
+                cmd.Parameters.Add(new SqlParameter("@IsWorkshop", SqlDbType.Int) { Value = IsWorkshop });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                string ReportData = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    ReportData = ReportData + dataTable.Rows[i][0].ToString();
+                }
+                if (ReportData == "")
+                    ReportData = "[]";
+                return ReportData;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
     }
 }
