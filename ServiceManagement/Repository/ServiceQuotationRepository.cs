@@ -169,5 +169,73 @@ namespace BuildExeServiceManagement.Repository
                    ((input.StartsWith("{") && input.EndsWith("}")) ||
                     (input.StartsWith("[") && input.EndsWith("]")));
         }
+
+        public async Task<string> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId, int CustomerId, int JobId, int Id)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_ServiceInvoice";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = FinancialYearId });
+                cmd.Parameters.Add(new SqlParameter("@CustomerId", SqlDbType.Int) { Value = CustomerId });
+                cmd.Parameters.Add(new SqlParameter("@JobId", SqlDbType.Int) { Value = JobId });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = Id });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectforData });
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var result = new List<Dictionary<string, object>>();
+
+                while (await reader.ReadAsync())
+                {
+                    var row = new Dictionary<string, object>();
+
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        var columnName = reader.GetName(i);
+                        var value = await reader.IsDBNullAsync(i) ? null : reader.GetValue(i);
+
+                        // Try to parse JSON columns (i.e. FOR JSON PATH subqueries)
+                        if (value is string stringValue && IsLikelyJson(stringValue))
+                        {
+                            try
+                            {
+                                row[columnName] = JsonConvert.DeserializeObject(stringValue);
+                            }
+                            catch
+                            {
+                                row[columnName] = stringValue; // fallback if invalid JSON
+                            }
+                        }
+                        else
+                        {
+                            row[columnName] = value;
+                        }
+                    }
+
+                    result.Add(row);
+                }
+
+                return JsonConvert.SerializeObject(result, new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver()
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
     }
 }
