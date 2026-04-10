@@ -537,17 +537,24 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+ main
+        [HttpPost("GetName")]
 
-        [HttpGet("GetName/{CompanyId}/{Branchid}/{Materialtypeid}")]//.
+
+        [HttpGet("GetName/{CompanyId}/{Branchid}/{Materialtypeid}")]//. dev_lakshmi
         [Authorize]
-        public async Task<IActionResult> GetName(int CompanyId, int Branchid, int Materialtypeid, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> PostGetName([FromBody] MaterialSearch materialSearch, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var material = await _materialListRepository.GetName(CompanyId, Branchid, Materialtypeid);
-                    return new OkObjectResult(material);
+                    if (materialSearch != null)
+                    {
+                        var product = await _materialRepository.PostGetName(materialSearch);
+                        return new OkObjectResult(product);
+                    }
+                    return new NoContentResult();
                 }
                 catch (Exception ex)
                 {
@@ -563,6 +570,8 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+
 
 
         //[HttpPost("GetName")]
@@ -594,5 +603,6 @@ namespace BuildExeMaterialServices.Controllers
         //        return Unauthorized("Invalid MdHash");
         //    }
         //}
+// dev_lakshmi
     }
 }

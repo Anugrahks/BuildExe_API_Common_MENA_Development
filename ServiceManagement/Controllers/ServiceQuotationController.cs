@@ -131,5 +131,33 @@ namespace BuildExeServiceManagement.Controllers
 
         }
 
+        [HttpGet("GetData/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{CustomerId}/{JobNo}/{Id}")]
+        [Authorize]
+        public async Task<IActionResult> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId, int CustomerId, int JobId, int Id, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var brand = await _serviceQuotationRepository.GetData(CompanyId, Branchid, UserId, FinancialYearId, CustomerId, JobId, Id);
+                    return new OkObjectResult(brand);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+
+        }
+
+
     }
 }

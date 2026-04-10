@@ -706,6 +706,12 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
+ main
+        Task<string> IMaterialRepository.PostGetName(MaterialSearch MaterialSearch)
+        {
+            throw new NotImplementedException();
+        }
+
         //public async Task<string> PostGetName(MaterialSearch materialSearches)
         //{
         //    try
@@ -756,5 +762,6 @@ namespace BuildExeMaterialServices.Repository
         //}
 
 
+// dev_lakshmi
     }
 }
