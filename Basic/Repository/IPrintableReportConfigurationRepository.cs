@@ -48,5 +48,8 @@ namespace BuildExeBasic.Repository
 
         Task<string> StaticPrintableDeliveryOrder(int BranchId, int ReportId, int RecordId);
 
+        Task<string> StaticPrintableSiteService(int BranchId, int ReportId, int RecordId, int IsWorkshop);
+
+
     }
 }
