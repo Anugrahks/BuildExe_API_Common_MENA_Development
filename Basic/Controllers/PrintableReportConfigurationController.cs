@@ -714,6 +714,25 @@ namespace BuildExeBasic.Controllers
         }
 
 
+        [HttpGet("StaticPrintableSiteService/{BranchId}/{ReportId}/{RecordId}/{IsWorkshop}")]
+        [Authorize]
+        public async Task<IActionResult> StaticPrintableSiteService(int BranchId, int ReportId, int RecordId, int IsWorkshop)
+        {
+            try
+            {
+                var validation = await _printableReportConfigurationRepository.StaticPrintableSiteService(BranchId, ReportId, RecordId, IsWorkshop);
+
+                return new OkObjectResult(validation);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
+        }
 
     }
 }

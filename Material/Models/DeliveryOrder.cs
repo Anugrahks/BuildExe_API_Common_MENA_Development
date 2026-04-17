@@ -78,9 +78,6 @@ namespace BuildExeMaterialServices.Models
         public decimal ConversionQuantity { get; set; }
 
         public string ConversionUnitName { get; set; }
-
-        public int CurrencyId { get; set; }
-        public decimal ExchangeRate { get; set; }
     }
 
     public class DeliveryOrderSubDetails
