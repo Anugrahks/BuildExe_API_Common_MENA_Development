@@ -14,7 +14,9 @@ namespace BuildExeServiceManagement.DBContexts
      
         public DbSet<Validation> tbl_validations { get; set; }
         public DbSet<Validation> tbl_validation { get; set; }
-       
+        public DbSet<ServiceQuotation> tbl_ServiceInvoiceMaster { get; set; }
+        public DbSet<ServiceQuotationDetails> tbl_ServiceInvoiceDetails { get; set; }
+
 
     }
     
