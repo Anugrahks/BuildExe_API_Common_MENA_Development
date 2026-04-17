@@ -11,15 +11,13 @@ namespace BuildExeServiceManagement.Models
     {
         // ---------- MASTER ----------
         public int Id { get; set; }                 // For update
-        public int EntryType { get; set; }
-        public int? StockPointId { get; set; }
-        public int SiteServiceType { get; set; }
-        public string StockPoint { get; set; }
-        public string CustomerName { get; set; }
+        public int InvoiceNo { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public string RefNo { get; set; }
+        public string ServiceType { get; set; }
+        public int VoucherTypeId { get; set; }
+        public int VoucherNumber { get; set; }
         public int CustomerId { get; set; }
-        public int ClientId { get; set; }
-        public DateTime? EntryDate { get; set; }
-        public string StationLocation { get; set; }
         public int CompanyId { get; set; }
         public int BranchId { get; set; }
         public int FinancialYearId { get; set; }
@@ -28,9 +26,32 @@ namespace BuildExeServiceManagement.Models
         public int? ApprovedBy { get; set; }
         public string ApprovalRemarks { get; set; }
         public int IsReject { get; set; }
-        public string RejectRemarks { get; set; }
         public int ApprovalStatus { get; set; }
-        public string SummaryAndRecommendation { get; set; }
+        public string RejectedRemarks { get; set; }
+        public string CustomerApprovalStatus { get; set; }
+        public decimal RoundOff { get; set; }
+        public decimal NetAmount { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public int UpdatedBy { get; set; }
+        public DateTime EnteredOnDate { get; set; }
+        public int IsDeleted { get; set; }
+        public DateTime ApprovedDate { get; set; }
+        public int JobNo { get; set; }
+        public List<ServiceQuotationDetails> ServiceInvoiceDetails { get; set; }
+
+    }
+    public class ServiceQuotationDetails
+    {
+        // ---------- Details ----------     // 
+        [Key]  
+        public int ServiceInvDetailId { get; set; } 
+        public int InvoiceId { get; set; }
+        public int MaterialId { get; set; }
+        public string PartNo { get; set; }
+        public string Description { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
     }
 
 }
