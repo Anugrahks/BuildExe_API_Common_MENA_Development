@@ -51,5 +51,8 @@ namespace BuildExeBasic.Repository
         Task<string> StaticPrintableSiteService(int BranchId, int ReportId, int RecordId, int IsWorkshop);
 
 
+        Task<string> StaticPrintableServiceQuatation(int BranchId, int ReportId, int RecordId);
+
+
     }
 }
