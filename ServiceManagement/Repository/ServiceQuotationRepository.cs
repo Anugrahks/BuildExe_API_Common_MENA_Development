@@ -216,7 +216,7 @@ namespace BuildExeServiceManagement.Repository
                 cmd.CommandText = "dbo.Stpro_ServiceInvoice";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                //cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
@@ -274,5 +274,9 @@ namespace BuildExeServiceManagement.Repository
             }
         }
 
+        public Task<string> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
