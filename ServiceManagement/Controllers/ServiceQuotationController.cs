@@ -156,7 +156,7 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
-        [HttpGet("GetData/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{CustomerId}/{JobNo}/{Id}")]
+        [HttpGet("GetData/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{CustomerId}/{JobId}/{Id}")]
         [Authorize]
         public async Task<IActionResult> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId, int CustomerId, int JobId, int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
