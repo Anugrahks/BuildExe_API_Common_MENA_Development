@@ -67,6 +67,10 @@ namespace BuildExeMaterialServices.Models
 
         public decimal? LAmount { get; set; }
 
+        public string? clientUniqueName { get; set; }
+
+        public int? customerId { get; set; }
+
 
         public List<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         
