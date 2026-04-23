@@ -27,5 +27,11 @@ namespace BuildExeMaterialServices.Models
         public int FinancialYearId { get; set; }
         public int UserId { get; set; }
         public int isService {get; set;}
+
+        public string? ContactPerson { get; set; }
+        public string? PaymentTerms { get; set; }
+        public int? CreditLimit { get; set; }
+        public string? State { get; set; }
+        public string? Country { get; set; }
     }
 }
