@@ -66,5 +66,9 @@ namespace BuildExeMaterialServices.Models
         public int? CurrencyId {  get; set; }
         public decimal? ExchangeRate { get; set; }
         public decimal? LAmount { get; set; }
+
+        public string? clientUniqueName { get; set; }
+
+        public int? customerId { get; set; }
     }
 }

@@ -163,7 +163,7 @@ namespace BuildExeBasic.Controllers
 
         public async Task<IActionResult> Post([FromBody] Sitemanager  sitemanager, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try { 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -183,10 +183,10 @@ namespace BuildExeBasic.Controllers
                     });
                 }
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
 
@@ -195,7 +195,7 @@ namespace BuildExeBasic.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] Sitemanager sitemanager, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           // if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try { 
             if (sitemanager != null)
@@ -218,10 +218,10 @@ namespace BuildExeBasic.Controllers
                     });
                 }
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
 
@@ -255,7 +255,7 @@ namespace BuildExeBasic.Controllers
         [HttpPost("Ledger")]
         public async Task<IActionResult> LedgerPost([FromBody] BasicSearch basicSearch, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
             {
@@ -275,10 +275,10 @@ namespace BuildExeBasic.Controllers
                     });
                 }
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
         [HttpPost("Report")]
         public async Task<IActionResult> ReportPost([FromBody] BasicSearch basicSearch, [FromHeader] string mdhash, [FromHeader] int User)
