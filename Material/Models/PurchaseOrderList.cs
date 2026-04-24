@@ -70,5 +70,7 @@ namespace BuildExeMaterialServices.Models
         public string? clientUniqueName { get; set; }
 
         public int? customerId { get; set; }
+
+        public bool? IsWareHouse { get; set; }
     }
 }
