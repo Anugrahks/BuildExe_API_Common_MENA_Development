@@ -78,6 +78,13 @@ namespace BuildExeServices.Models
         public decimal? FeightAndCustomChargeForeign { get; set; }
         public decimal? FeightAndCustomCharge { get; set; }
 
+        public decimal? DiscountPricePer { get; set; }
+        public decimal? DiscountPrice { get; set; }
+
+        public decimal? ExWorksTotalUSD { get; set; }
+        public decimal? ExWorksTotalAED { get; set; }
+        public decimal? DiscountedPriceAED { get; set; }
+        public decimal? DiscountedPriceUSD { get; set; }
         public List<ProjSpecification> ProjSpecification { get; set; }
 
     }
@@ -196,6 +203,14 @@ namespace BuildExeServices.Models
 
         public decimal? FieghtChargePer { get; set; }
         public decimal? FieghtCharge { get; set; }
+
+        public decimal? DiscountPricePer { get; set; }
+        public decimal? DiscountPrice { get; set; }
+
+        public decimal? ExWorksTotalUSD { get; set; }
+        public decimal? ExWorksTotalAED { get; set; }
+        public decimal? DiscountedPriceAED { get; set; }
+        public decimal? DiscountedPriceUSD { get; set; }
         public List<ProjSpecificationDetails> ProjSpecificationDetails { get; set; }
 
         public List<ProjSpecificationDimensionDetails> ProjSpecificationDimensionDetails { get; set; }
