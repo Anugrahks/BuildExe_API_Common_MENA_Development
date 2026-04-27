@@ -1,8 +1,10 @@
-﻿using Microsoft.VisualBasic;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace BuildExeMaterialServices.Models
@@ -78,6 +80,27 @@ namespace BuildExeMaterialServices.Models
         public decimal ConversionQuantity { get; set; }
 
         public string ConversionUnitName { get; set; }
+        [JsonProperty("warrantyDetails")]  
+        public List<WarrantyDetails> WarrantyDetails { get; set; }
+    }
+    public class WarrantyDetails
+    {
+        [Key]
+        public int Id { get; set; }
+        [JsonProperty("slNo")]
+        public int SlNo { get; set; }
+        public int VoucherNumber { get; set; }
+        public int VoucherTypeId { get; set; }
+        public int ProjectId { get; set; }
+        public int MaterialId { get; set; }
+        [JsonProperty("serialNumber")]
+        public string SerialNumber { get; set; } 
+        [JsonProperty("warrantyDate")]
+        public DateTime WarrantyDate { get; set; }
+        public int UserId { get; set; }
+        public int BranchId { get; set; }
+        public int CompanyId { get; set; }
+        public DateTime EnteredOn { get; set; }
     }
 
     public class DeliveryOrderSubDetails
