@@ -74,6 +74,9 @@ namespace BuildExeMaterialServices.Models
         public decimal? Rate { get; set; }
 
         public int ScheduleUniqueId { get; set; }
+
+        public string HSNCode { get; set; }
+        public string Country { get; set; }
     }
 
 }
