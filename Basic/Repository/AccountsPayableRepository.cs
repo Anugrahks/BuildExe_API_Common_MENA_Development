@@ -53,7 +53,7 @@ namespace BuildExeBasic.Repository
                 }
                 else
                 {
-                    var _product = await _dbContext.tbl_AccountsPayable.FromSqlRaw("stpro_AccountsPayable @fromdate, @todate, @CompanyId, @BranchId,@FinancialYearId, @ProjectId, @CategoryId, @CategoryIds, @json", fromdate, todate, CompanyId, BranchId, FinancialYearId, ProjectId, Categoryid, Categoryids, item).ToListAsync();
+                    var _product = await _dbContext.tbl_AccountsPayable.FromSqlRaw("stpro_AccountsPayable @Fromdate, @Todate, @CompanyId, @BranchId,@FinancialYearId, @ProjectId, @CategoryId, @CategoryIds, @json", fromdate, todate, CompanyId, BranchId, FinancialYearId, ProjectId, Categoryid, Categoryids, item).ToListAsync();
                     return _product;
                 }
                 
