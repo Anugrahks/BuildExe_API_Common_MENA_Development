@@ -48,6 +48,9 @@ namespace BuildExeMaterialServices.Models
         public string RejectRemarks { get; set; }
         public int ApprovalStatus { get; set; } = 0;
 
+        public string HSNCode { get; set; }
+        public string Country { get; set; }
+
         // Child Collections (details)
         public List<MaterialDeliveryOrderDetails> MaterialDeliveryOrderDetails { get; set; }
     }
