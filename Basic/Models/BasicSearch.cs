@@ -16,6 +16,7 @@ namespace BuildExeBasic.Models
         public Int16 BranchId { get; set; }
         public int? FinancialYearId { get; set; }
         public int? ProjectId { get; set; }
+        public int? Attendance { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
 

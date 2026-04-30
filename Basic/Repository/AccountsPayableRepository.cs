@@ -34,8 +34,10 @@ namespace BuildExeBasic.Repository
                     basicSearch.CategoryIds = "";
                 }
 
-                var fromdate = new SqlParameter("@fromdate", basicSearch.FromDate);
-                var todate = new SqlParameter("@todate", basicSearch.ToDate);
+                string dateOnly = basicSearch.FromDate.Value.ToString("yyyy-MM-dd");
+                string TodateOnly = basicSearch.ToDate.Value.ToString("yyyy-MM-dd");
+                var fromdate = new SqlParameter("@Fromdate", dateOnly);
+                var todate = new SqlParameter("@Todate", TodateOnly);
                 var CompanyId = new SqlParameter("@CompanyId", basicSearch.CompanyId);
                 var BranchId = new SqlParameter("@BranchId", basicSearch.BranchId);
                 var FinancialYearId = new SqlParameter("@FinancialYearId", basicSearch.FinancialYearId);
@@ -46,7 +48,7 @@ namespace BuildExeBasic.Repository
 
                 if (basicSearch.ProjectWise == 2)
                 {
-                    var _product = await _dbContext.tbl_AccountsPayable.FromSqlRaw("stpro_AccountsPayableDefault @fromdate, @todate, @CompanyId, @BranchId,@FinancialYearId, @ProjectId, @CategoryId, @CategoryIds, @json", fromdate, todate, CompanyId, BranchId, FinancialYearId, ProjectId, Categoryid, Categoryids, item).ToListAsync();
+                    var _product = await _dbContext.tbl_AccountsPayable.FromSqlRaw("stpro_AccountsPayableDefault @Fromdate, @Todate, @CompanyId, @BranchId,@FinancialYearId, @ProjectId, @CategoryId, @CategoryIds, @json", fromdate, todate, CompanyId, BranchId, FinancialYearId, ProjectId, Categoryid, Categoryids, item).ToListAsync();
                     return _product;
                 }
                 else
