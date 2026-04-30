@@ -51,6 +51,8 @@ namespace BuildExeMaterialServices.Models
         public string HSNCode { get; set; }
         public string Country { get; set; }
 
+        public string clientUniqueName { get; set; }
+
         // Child Collections (details)
         public List<MaterialDeliveryOrderDetails> MaterialDeliveryOrderDetails { get; set; }
     }
