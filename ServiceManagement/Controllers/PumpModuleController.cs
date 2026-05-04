@@ -35,7 +35,7 @@ namespace BuildExeServiceManagement.Controllers
             {
                 try
                 {
-                    var brand = await _salesOrderRepository.Getedit(CompanyId, Branchid, UserId, FinancialYearId,0);
+                    var brand = await _salesOrderRepository.Getedit(CompanyId, Branchid, UserId, FinancialYearId, 0);
                     return new OkObjectResult(brand);
                 }
                 catch (Exception ex)
@@ -174,7 +174,7 @@ namespace BuildExeServiceManagement.Controllers
             {
                 try
                 {
-                    var brand = await _salesOrderRepository.GetApproval(CompanyId, Branchid, UserId, FinancialYearId,0);
+                    var brand = await _salesOrderRepository.GetApproval(CompanyId, Branchid, UserId, FinancialYearId, 0);
                     return new OkObjectResult(brand);
                 }
                 catch (Exception ex)
@@ -612,7 +612,7 @@ namespace BuildExeServiceManagement.Controllers
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId,UserId, FinancialYearId);
+                    var val = await _salesOrderRepository.GetClientApproval(CompanyId, BranchId, UserId, FinancialYearId);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
@@ -709,5 +709,56 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
+        [HttpGet("PIDApproved/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> GetforApproveduser(int companyid, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetforApproveduser(companyid, BranchId, UserId, FinancialYearId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("workshopApproved/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> workshopApproved(int companyid, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.workshopApproved(companyid, BranchId, UserId, FinancialYearId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
-}
+    }
