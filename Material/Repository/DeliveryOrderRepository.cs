@@ -41,10 +41,16 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
+
+                var camelCaseSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
                 var materialId = new SqlParameter("@Id", "0");
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
-                var item = new SqlParameter("@json", JsonConvert.SerializeObject(mat));
+                var item = new SqlParameter("@json", JsonConvert.SerializeObject(mat, camelCaseSettings));
                 var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
                 var Action = new SqlParameter("@Action", Actions.Insert);
