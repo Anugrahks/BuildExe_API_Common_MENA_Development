@@ -58,8 +58,10 @@ namespace BuildExeMaterialServices.Models
 
 
         // Optional navigation properties if needed
+        [JsonProperty("deliveryOrderDetails")]
         public List<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
         public List<DeliveryOrderSubDetails> DeliveryOrderSubDetails { get; set; }
+
 
     }
 
@@ -82,6 +84,10 @@ namespace BuildExeMaterialServices.Models
         public decimal ConversionQuantity { get; set; }
 
         public string ConversionUnitName { get; set; }
+ 
+        [JsonProperty("warrantyDetails")]
+        public List<WarrantyDetails> WarrantyDetails { get; set; } = new();
+
         [JsonProperty("warrantyDetails")]  
         public List<WarrantyDetails> WarrantyDetails { get; set; }
 
@@ -92,21 +98,25 @@ namespace BuildExeMaterialServices.Models
         public int IsNewone { get; set; }
 
 
+ dev_Sreenath
     }
     public class WarrantyDetails
     {
-        [Key]
+        [JsonProperty("id")]
         public int Id { get; set; }
+
         [JsonProperty("slNo")]
         public int SlNo { get; set; }
+
+        [JsonProperty("serialNumber")]
+        public string SerialNumber { get; set; }
+
+        [JsonProperty("warrantyDate")]
+        public string WarrantyDate { get; set; }
         public int VoucherNumber { get; set; }
         public int VoucherTypeId { get; set; }
         public int ProjectId { get; set; }
         public int MaterialId { get; set; }
-        [JsonProperty("serialNumber")]
-        public string SerialNumber { get; set; } 
-        [JsonProperty("warrantyDate")]
-        public DateTime WarrantyDate { get; set; }
         public int UserId { get; set; }
         public int BranchId { get; set; }
         public int CompanyId { get; set; }

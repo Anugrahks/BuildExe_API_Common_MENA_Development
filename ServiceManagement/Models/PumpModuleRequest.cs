@@ -146,6 +146,9 @@ namespace BuildExeServiceManagement.Models
         public int SlNo { get; set; }
         public string DocumentName { get; set; }
         public string Document { get; set; }   // Base64 / URL
+
+
+        public string Observation { get; set; }
     }
 
     public class PumpDetailsModuleModel

@@ -33,6 +33,8 @@ namespace BuildExeServices.Models
         public string? UserName { get; set; }
         public string? Password { get; set; }
 
+        public string? ContactPerson { get; set; }
+
         //public string? OpeningType { get; set; }
         //public decimal? OpeningBalance { get; set; }
     }
