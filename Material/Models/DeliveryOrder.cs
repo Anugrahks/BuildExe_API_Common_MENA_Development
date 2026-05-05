@@ -55,6 +55,8 @@ namespace BuildExeMaterialServices.Models
         public decimal ExchangeRate { get; set; }
 
 
+        public List<int> selectedPurchaseOrders { get; set; }
+
         // Optional navigation properties if needed
         [JsonProperty("deliveryOrderDetails")]
         public List<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
@@ -76,6 +78,7 @@ namespace BuildExeMaterialServices.Models
         public decimal? Discount { get; set; }
         public decimal? Tax { get; set; }
         public string Remarks { get; set; }
+        [JsonProperty("materialBrandId")]
         public int MaterialBrandId { get; set; }
         public decimal CoefficientFactorValue { get; set; }
 
@@ -84,6 +87,13 @@ namespace BuildExeMaterialServices.Models
         public string ConversionUnitName { get; set; }
         [JsonProperty("warrantyDetails")]
         public List<WarrantyDetails> WarrantyDetails { get; set; } = new();
+
+        [JsonProperty("iscombined")]
+        public int IsCombined { get; set; }
+
+
+        [JsonProperty("isnewone")]
+        public int IsNewone { get; set; }
     }
     public class WarrantyDetails
     {
@@ -124,6 +134,10 @@ namespace BuildExeMaterialServices.Models
         public string Remarks { get; set; }
         public string PartNumber { get; set; }
         public DateTime WarrantyDate { get; set; }
+        public int? IsCombined { get; set; }
+
+
+        public int? IsNewone { get; set; }
 
     }
 
