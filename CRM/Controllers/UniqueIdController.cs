@@ -28,10 +28,10 @@ namespace BuildExeServices.Controllers
             _mdHashValidator = mdHashValidator;
         }
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetId([FromBody] GetUniqueId getUniqueId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           // if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
             {
@@ -47,10 +47,10 @@ namespace BuildExeServices.Controllers
                     });
                 }
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
         [HttpPost("id")]
