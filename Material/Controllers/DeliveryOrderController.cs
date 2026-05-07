@@ -94,7 +94,7 @@ namespace BuildExeMaterialServices.Controllers
         [Authorize]
         public async Task<IActionResult> getbyId(int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -202,10 +202,10 @@ namespace BuildExeMaterialServices.Controllers
 
 
         [HttpPost]
-        [Authorize]
+       [Authorize]
        public async Task<IActionResult> Post([FromBody] IEnumerable<DeliveryOrderMaster> mat, [FromHeader] string mdhash, [FromHeader] int User)
        {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -231,7 +231,7 @@ namespace BuildExeMaterialServices.Controllers
         [Authorize]
         public async Task<IActionResult> Put([FromBody] IEnumerable<DeliveryOrderMaster> mat, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
