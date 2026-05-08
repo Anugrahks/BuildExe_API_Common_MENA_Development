@@ -77,7 +77,10 @@ namespace BuildExeMaterialServices.Models
         public decimal? UnitRate { get; set; }
         public decimal? Discount { get; set; }
         public decimal? Tax { get; set; }
+
+        [JsonProperty("remarks")]
         public string Remarks { get; set; }
+        [JsonProperty("materialBrandId")]
         public int MaterialBrandId { get; set; }
         public decimal CoefficientFactorValue { get; set; }
 
