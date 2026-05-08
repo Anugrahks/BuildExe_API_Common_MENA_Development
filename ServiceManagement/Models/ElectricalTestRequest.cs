@@ -77,34 +77,10 @@ namespace BuildExeServiceManagement.Models
         public decimal? ShaftRunOutC { get; set; }
         public decimal? ShaftRunOutD { get; set; }
         public decimal? ShaftRunOutE { get; set; }
+        public string ShaftRunOutRemarks { get; set; }
 
-        // ---------- BEARING 1 ----------
-        public decimal? BearingLocationID1AA { get; set; }
-        public decimal? BearingLocationID1BB { get; set; }
-        public decimal? BearingOD1AA { get; set; }
-        public decimal? BearingOD1BB { get; set; }
-        public decimal? Cleaance1AA { get; set; }
-        public decimal? Cleaance1BB { get; set; }
-        public decimal? BearingID1AA { get; set; }
-        public decimal? BearingID1BB { get; set; }
-        public decimal? ShaftOD1AA { get; set; }
-        public decimal? ShaftOD1BB { get; set; }
-        public decimal? Interference1AA { get; set; }
-        public decimal? Interference1BB { get; set; }
 
-        // ---------- BEARING 2 ----------
-        public decimal? BearingLocationID2AA { get; set; }
-        public decimal? BearingLocationID2BB { get; set; }
-        public decimal? BearingOD2AA { get; set; }
-        public decimal? BearingOD2BB { get; set; }
-        public decimal? Cleaance2AA { get; set; }
-        public decimal? Cleaance2BB { get; set; }
-        public decimal? BearingID2AA { get; set; }
-        public decimal? BearingID2BB { get; set; }
-        public decimal? ShaftOD2AA { get; set; }
-        public decimal? ShaftOD2BB { get; set; }
-        public decimal? Interference2AA { get; set; }
-        public decimal? Interference2BB { get; set; }
+
 
         // ---------- PROPELLER ----------
         public decimal? BellMouthLinerIDAA { get; set; }
@@ -121,10 +97,30 @@ namespace BuildExeServiceManagement.Models
         public decimal? RunningClearance2BB { get; set; }
 
         // ---------- CHILD ----------
+
+        public List<BearingSet> BearingSets { get; set; }
         public List<MonitoringEquipmentModel> MonitoringEquipment { get; set; }
     }
 
 
+    public class BearingSet
+    {
+        public string Name { get; set; }
+        public decimal BearingLocationIDAA { get; set; }
+        public decimal BearingLocationIDBB { get; set; }
+        public decimal BearingODAA { get; set; }
+        public decimal BearingODBB { get; set; }
+        public decimal CleaanceAA { get; set; }
+        public decimal CleaanceBB { get; set; }
+        public decimal BearingIDAA { get; set; }
+        public decimal BearingIDBB { get; set; }
+        public decimal ShaftODAA { get; set; }
+        public decimal ShaftODBB { get; set; }
+        public decimal InterferenceAA { get; set; }
+        public decimal InterferenceBB { get; set; }
+        public string Tolerance1 { get; set; }
+        public string Tolerance2 { get; set; }
+    }
 
     public class MonitoringEquipmentModel
     {
