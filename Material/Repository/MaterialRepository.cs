@@ -28,7 +28,9 @@ namespace BuildExeMaterialServices.Repository
             SelectReport = 6,
             SelectStockReport = 7,
             SelectByMaterialId = 8,
-            GetField = 14
+            GetField = 14,
+            SelectSpareparts = 15
+
         }
 
         public MaterialRepository(MaterialContext dbContext)
@@ -759,6 +761,31 @@ namespace BuildExeMaterialServices.Repository
                 if (purcasedetails == "")
                     purcasedetails = "[]";
                 return purcasedetails;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<SparepartsMaterialDto>> GetSpareparts(int companyId, int branchId)
+        {
+            try
+            {
+                var materialId = new SqlParameter("@materialId", "0");
+                var item = new SqlParameter("@item", "0");
+                var CompanyId = new SqlParameter("@CompanyId", companyId);
+                var BranchId = new SqlParameter("@BranchId", branchId);
+                var UserId = new SqlParameter("@UserId", "0");
+                var Action = new SqlParameter("@Action", Actions.SelectSpareparts);
+
+                var result = await _dbContext.SparepartsMaterials
+                    .FromSqlRaw("Stpro_Materialmaster @materialId, @item, @CompanyId, @BranchId, @UserId, @Action",
+                        materialId, item, CompanyId, BranchId, UserId, Action)
+                    .ToListAsync();
+
+                return result;
             }
             catch (Exception ex)
             {

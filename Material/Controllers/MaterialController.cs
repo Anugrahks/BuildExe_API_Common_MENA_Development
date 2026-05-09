@@ -8,6 +8,7 @@ using BuildExeMaterialServices.Models;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using BuildExeMaterialServices.Library;
+using System.Transactions;
 
 namespace BuildExeMaterialServices.Controllers
 {
@@ -247,7 +248,7 @@ namespace BuildExeMaterialServices.Controllers
         [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<Material> material, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -375,6 +376,32 @@ namespace BuildExeMaterialServices.Controllers
                 try
                 {
                     var data = await _materialRepository.GetMaterialFieldData(CompanyId, Branchid, FieldName);
+                    return new OkObjectResult(data);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetSpareparts/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetSpareparts(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var data = await _materialRepository.GetSpareparts(CompanyId, BranchId);
                     return new OkObjectResult(data);
                 }
                 catch (Exception ex)
