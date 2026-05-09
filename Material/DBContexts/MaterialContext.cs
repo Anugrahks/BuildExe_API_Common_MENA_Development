@@ -79,6 +79,8 @@ namespace BuildExeMaterialServices.DBContexts
         public DbSet<PurchaseReturnAll> tbl_PurchaseReturnAll { get; set; }
         public DbSet<Models.Attribute> tbl_Attribute { get; set; }
 
+        public DbSet<SparepartsMaterialDto> SparepartsMaterials { get; set; }
+
     }
 
 }
