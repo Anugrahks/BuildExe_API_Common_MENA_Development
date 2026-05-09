@@ -188,6 +188,8 @@ namespace BuildExeServiceManagement.Repository
             }
         }
 
+      
+
         public async Task<string> GetApproval(int CompanyId, int Branchid, int UserId, int FinancialYearId, int Type)
         {
             try
@@ -1055,5 +1057,195 @@ namespace BuildExeServiceManagement.Repository
                 throw;
             }
         }
+        public async Task<List<Dictionary<string, object>>> GetforApproveduser( int companyid, int branchId, int userId, int financialYearId)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_PumpModule";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyid });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = financialYearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+
+                // ✅ NEW ACTION FOR APPROVED
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 10 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var result = new List<Dictionary<string, object>>();
+
+                while (await reader.ReadAsync())
+                {
+                    var row = new Dictionary<string, object>();
+
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        var columnName = reader.GetName(i);
+                        var value = await reader.IsDBNullAsync(i) ? null : reader.GetValue(i);
+
+                        if (value is string str && IsLikelyJson(str))
+                        {
+                            try
+                            {
+                                row[columnName] = JsonConvert.DeserializeObject(str);
+                            }
+                            catch
+                            {
+                                row[columnName] = str;
+                            }
+                        }
+                        else
+                        {
+                            row[columnName] = value;
+                        }
+                    }
+
+                    result.Add(row);
+                }
+
+                return result; // ✅ RETURN OBJECT, NOT STRING
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        public async Task<List<Dictionary<string, object>>> workshopApproved(int companyid, int branchId, int userId, int financialYearId)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_PumpModule";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyid });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = financialYearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+
+                // ✅ NEW ACTION FOR APPROVED
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 11 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var result = new List<Dictionary<string, object>>();
+
+                while (await reader.ReadAsync())
+                {
+                    var row = new Dictionary<string, object>();
+
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        var columnName = reader.GetName(i);
+                        var value = await reader.IsDBNullAsync(i) ? null : reader.GetValue(i);
+
+                        if (value is string str && IsLikelyJson(str))
+                        {
+                            try
+                            {
+                                row[columnName] = JsonConvert.DeserializeObject(str);
+                            }
+                            catch
+                            {
+                                row[columnName] = str;
+                            }
+                        }
+                        else
+                        {
+                            row[columnName] = value;
+                        }
+                    }
+
+                    result.Add(row);
+                }
+
+                return result; // ✅ RETURN OBJECT, NOT STRING
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+
+
+        public async Task<List<Dictionary<string, object>>> siteServiceApproved(int companyid, int branchId, int userId, int financialYearId)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_PumpModule";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyid });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = financialYearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 12 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var result = new List<Dictionary<string, object>>();
+
+                while (await reader.ReadAsync())
+                {
+                    var row = new Dictionary<string, object>();
+
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        var columnName = reader.GetName(i);
+                        var value = await reader.IsDBNullAsync(i) ? null : reader.GetValue(i);
+
+                        if (value is string str && IsLikelyJson(str))
+                        {
+                            try
+                            {
+                                row[columnName] = JsonConvert.DeserializeObject(str);
+                            }
+                            catch
+                            {
+                                row[columnName] = str;
+                            }
+                        }
+                        else
+                        {
+                            row[columnName] = value;
+                        }
+                    }
+
+                    result.Add(row);
+                }
+
+                return result; 
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        
     }
 }
