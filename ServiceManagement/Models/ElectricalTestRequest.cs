@@ -72,8 +72,7 @@ namespace BuildExeServiceManagement.Models
         public string WindingResistanceNotes { get; set; }
         public string MonitoringEquipmentNotes { get; set; }
 
-        [JsonProperty("ShaftRunoutValues")]   // matches payload casing exactly
-        public ShaftRunoutValues ShaftRunoutValues { get; set; }
+       
         public string ShaftRunOutRemarks { get; set; }
 
 
@@ -95,18 +94,13 @@ namespace BuildExeServiceManagement.Models
 
         // ---------- CHILD ----------
 
+        public Dictionary<string, decimal?> ShaftRunOutValues { get; set; }
+
         public List<BearingSet> BearingSets { get; set; }
         public List<MonitoringEquipmentModel> MonitoringEquipment { get; set; }
     }
 
-    public class ShaftRunoutValues
-    {
-        public decimal? A { get; set; }
-        public decimal? B { get; set; }
-        public decimal? C { get; set; }
-        public decimal? D { get; set; }
-        public decimal? E { get; set; }
-    }
+   
     public class BearingSet
     {
         [JsonProperty("name")]
