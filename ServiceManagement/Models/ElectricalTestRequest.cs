@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -71,12 +72,8 @@ namespace BuildExeServiceManagement.Models
         public string WindingResistanceNotes { get; set; }
         public string MonitoringEquipmentNotes { get; set; }
 
-        // ---------- SHAFT RUN OUT ----------
-        public decimal? ShaftRunOutA { get; set; }
-        public decimal? ShaftRunOutB { get; set; }
-        public decimal? ShaftRunOutC { get; set; }
-        public decimal? ShaftRunOutD { get; set; }
-        public decimal? ShaftRunOutE { get; set; }
+        [JsonProperty("ShaftRunoutValues")]   // matches payload casing exactly
+        public ShaftRunoutValues ShaftRunoutValues { get; set; }
         public string ShaftRunOutRemarks { get; set; }
 
 
@@ -102,9 +99,17 @@ namespace BuildExeServiceManagement.Models
         public List<MonitoringEquipmentModel> MonitoringEquipment { get; set; }
     }
 
-
+    public class ShaftRunoutValues
+    {
+        public decimal? A { get; set; }
+        public decimal? B { get; set; }
+        public decimal? C { get; set; }
+        public decimal? D { get; set; }
+        public decimal? E { get; set; }
+    }
     public class BearingSet
     {
+        [JsonProperty("name")]
         public string Name { get; set; }
         public decimal BearingLocationIDAA { get; set; }
         public decimal BearingLocationIDBB { get; set; }
@@ -118,12 +123,16 @@ namespace BuildExeServiceManagement.Models
         public decimal ShaftODBB { get; set; }
         public decimal InterferenceAA { get; set; }
         public decimal InterferenceBB { get; set; }
+        [JsonProperty("tolerance1")]
         public string Tolerance1 { get; set; }
+
+        [JsonProperty("tolerance2")]
         public string Tolerance2 { get; set; }
     }
 
     public class MonitoringEquipmentModel
     {
+        [JsonProperty("Sensor")]
         public string Sensors { get; set; }
         public string Terminal { get; set; }
         public decimal Values { get; set; }
