@@ -49,7 +49,7 @@ namespace BuildExeMaterialServices.Models
         public decimal OtherChargesPer { get; set; }
 
         public decimal customDutyPer { get; set; }
-        public decimal customDuty {  get; set; }
+        public decimal customDuty { get; set; }
         public decimal doChargePer { get; set; }
         public decimal doCharge { get; set; }
         public decimal handlingChargePer { get; set; }
@@ -72,7 +72,7 @@ namespace BuildExeMaterialServices.Models
         public decimal GSTPer { get; set; }
         public decimal GSTAmount { get; set; }
         public decimal KFCAmount { get; set; }
-        public Int16   MaterialTypeId { get; set; }
+        public Int16 MaterialTypeId { get; set; }
 
 
         public Int16 PaymentModeId { get; set; }
@@ -111,9 +111,9 @@ namespace BuildExeMaterialServices.Models
 
         public List<PurchaseDeliveryDetail> PurchaseDeliveryDetail { get; set; }
 
-        
+
         public List<PurchaseReturnBill> PurchaseReturnBill { get; set; }
-        public List<MaterialWarrantyDetails> MaterialWarrantyDetails { get; set; }
+        //public List<MaterialWarrantyDetails> MaterialWarrantyDetails { get; set; }
 
         public int? BankId { get; set; }
         public string? PaymentNo { get; set; }
@@ -180,6 +180,8 @@ namespace BuildExeMaterialServices.Models
         public int? CurrencyId { get; set; }
         public decimal? ExchangeRate { get; set; }
         public decimal LAmount { get; set; }
+        public List<WarrantyDetails> WarrantyDetails { get; set; }
+
 
     }
 
@@ -201,7 +203,7 @@ namespace BuildExeMaterialServices.Models
 
         public int DeliveryOrderId { get; set; }
         public decimal KFC_Per { get; set; }
-   
+
         public decimal? Total { get; set; }
 
     }

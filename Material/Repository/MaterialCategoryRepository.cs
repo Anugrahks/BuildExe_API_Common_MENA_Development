@@ -54,11 +54,15 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<IEnumerable<MaterialCategory>> Get(int CompanyId,int Branchid)
+        public async Task<IEnumerable<MaterialCategory>> Get(int CompanyId, int Branchid)
         {
             try
             {
-                return await _dbContext.tbl_MaterialCategory.Where(p => p.CompanyId == CompanyId).Where(p => p.BranchId == Branchid).OrderByDescending(x => x.Id).ToListAsync();
+                return await _dbContext.tbl_MaterialCategory
+                    .Where(p => (p.CompanyId == CompanyId && p.BranchId == Branchid)
+                             || (p.CompanyId == 0 && p.BranchId == 0))  
+                    .OrderByDescending(x => x.Id)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

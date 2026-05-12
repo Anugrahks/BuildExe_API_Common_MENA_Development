@@ -54,6 +54,9 @@ namespace BuildExeMaterialServices.Models
         public int CurrencyId { get; set; }
         public decimal ExchangeRate { get; set; }
 
+        public string? CustomerId { get; set; }
+        public string? ClientUniqueName { get; set; }
+
 
         public List<int> selectedPurchaseOrders { get; set; }
 
@@ -105,8 +108,7 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("slNo")]
         public int SlNo { get; set; }
 
-        [JsonProperty("serialNumber")]
-        public string SerialNumber { get; set; }
+        public string SerialNo { get; set; }
 
         [JsonProperty("warrantyDate")]
         public string WarrantyDate { get; set; }

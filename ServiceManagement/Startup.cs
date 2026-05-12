@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using BuildExeServiceManagement.DBContexts;
 using Microsoft.EntityFrameworkCore;
 using BuildExeServiceManagement.Repository;
@@ -37,7 +38,7 @@ namespace BuildExeServiceManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddDataProtection();
             services.AddDbContext<ServiceManagementContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddTransient<IPumpModuleRepository, PumpModuleRepository>();
@@ -65,20 +66,45 @@ namespace BuildExeServiceManagement
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        //{
+        //    app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+        //    if (env.IsDevelopment())
+        //    {
+        //        app.UseDeveloperExceptionPage();
+        //    }
+
+        //    app.UseHttpsRedirection();
+
+        //    app.UseRouting();
+        //    app.UseAuthentication();
+
+        //    app.UseAuthorization();
+
+        //    app.UseEndpoints(endpoints =>
+        //    {
+        //        endpoints.MapControllers();
+        //    });
+        //}
+
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();             
 
-            app.UseRouting();
-            app.UseAuthentication();
+            app.UseCors(options => options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());       
 
+            app.UseAuthentication();       
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

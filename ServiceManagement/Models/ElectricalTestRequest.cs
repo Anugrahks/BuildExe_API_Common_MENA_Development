@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -71,12 +72,7 @@ namespace BuildExeServiceManagement.Models
         public string WindingResistanceNotes { get; set; }
         public string MonitoringEquipmentNotes { get; set; }
 
-        // ---------- SHAFT RUN OUT ----------
-        public decimal? ShaftRunOutA { get; set; }
-        public decimal? ShaftRunOutB { get; set; }
-        public decimal? ShaftRunOutC { get; set; }
-        public decimal? ShaftRunOutD { get; set; }
-        public decimal? ShaftRunOutE { get; set; }
+       
         public string ShaftRunOutRemarks { get; set; }
 
 
@@ -98,13 +94,20 @@ namespace BuildExeServiceManagement.Models
 
         // ---------- CHILD ----------
 
+        public List<ShaftRunOutEntry> ShaftRunOutValues { get; set; }
         public List<BearingSet> BearingSets { get; set; }
         public List<MonitoringEquipmentModel> MonitoringEquipment { get; set; }
     }
 
+    public class ShaftRunOutEntry
+    {
+        public string FieldKey { get; set; }
+        public decimal? FieldValue { get; set; }
+    }
 
     public class BearingSet
     {
+       
         public string Name { get; set; }
         public decimal BearingLocationIDAA { get; set; }
         public decimal BearingLocationIDBB { get; set; }
@@ -118,12 +121,16 @@ namespace BuildExeServiceManagement.Models
         public decimal ShaftODBB { get; set; }
         public decimal InterferenceAA { get; set; }
         public decimal InterferenceBB { get; set; }
+       
         public string Tolerance1 { get; set; }
+
+       
         public string Tolerance2 { get; set; }
     }
 
     public class MonitoringEquipmentModel
     {
+        [JsonProperty("Sensor")]
         public string Sensors { get; set; }
         public string Terminal { get; set; }
         public decimal Values { get; set; }
