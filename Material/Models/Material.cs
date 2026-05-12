@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 namespace BuildExeMaterialServices.Models
 {
     public class Material
@@ -92,4 +93,10 @@ namespace BuildExeMaterialServices.Models
         public int? DivisionId { get; set; }
     }
 
+    [Keyless]
+    public class SparepartsMaterialDto
+    {
+        public int Id { get; set; }
+        public string MaterialDisplay { get; set; }
+    }
 }

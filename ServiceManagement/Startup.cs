@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using BuildExeServiceManagement.DBContexts;
 using Microsoft.EntityFrameworkCore;
 using BuildExeServiceManagement.Repository;
@@ -37,7 +38,7 @@ namespace BuildExeServiceManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddDataProtection();
             services.AddDbContext<ServiceManagementContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddTransient<IPumpModuleRepository, PumpModuleRepository>();
