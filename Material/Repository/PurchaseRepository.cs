@@ -26,7 +26,7 @@ namespace BuildExeMaterialServices.Repository
             SelectforEdit = 4,
             Selectforapproval = 5,
             SelectReport = 6,
-            SelectReportJson =7,
+            SelectReportJson = 7,
             Selectforview = 8
         }
 
@@ -99,25 +99,25 @@ namespace BuildExeMaterialServices.Repository
             try
             {
                 if (Branchid == 0)
-            {
-                var purchaselist =await _dbContext.tbl_PurchaseMaster.Where(x => x.IsDeleted == 0).Where(x => x.CompanyId == CompanyId).ToListAsync ();
-                foreach (var purdetail in purchaselist)
                 {
-                    var purchasedetaillist =await _dbContext.tbl_PurchaseDetails.Where(x => x.PurchaseId == purdetail.Id).ToListAsync();
-                }
+                    var purchaselist = await _dbContext.tbl_PurchaseMaster.Where(x => x.IsDeleted == 0).Where(x => x.CompanyId == CompanyId).ToListAsync();
+                    foreach (var purdetail in purchaselist)
+                    {
+                        var purchasedetaillist = await _dbContext.tbl_PurchaseDetails.Where(x => x.PurchaseId == purdetail.Id).ToListAsync();
+                    }
 
-                return purchaselist;
-            }
-            else
-            {
-                var purchaselist =await _dbContext.tbl_PurchaseMaster.Where(x => x.IsDeleted == 0).Where(x => x.CompanyId == CompanyId).Where(x => x.BranchId == Branchid).ToListAsync();
-                foreach (var purdetail in purchaselist)
+                    return purchaselist;
+                }
+                else
                 {
-                    var purchasedetaillist = await _dbContext.tbl_PurchaseDetails.Where(x => x.PurchaseId == purdetail.Id).ToListAsync();
-                }
+                    var purchaselist = await _dbContext.tbl_PurchaseMaster.Where(x => x.IsDeleted == 0).Where(x => x.CompanyId == CompanyId).Where(x => x.BranchId == Branchid).ToListAsync();
+                    foreach (var purdetail in purchaselist)
+                    {
+                        var purchasedetaillist = await _dbContext.tbl_PurchaseDetails.Where(x => x.PurchaseId == purdetail.Id).ToListAsync();
+                    }
 
-                return purchaselist;
-            }
+                    return purchaselist;
+                }
 
             }
             catch (Exception ex)
@@ -133,8 +133,8 @@ namespace BuildExeMaterialServices.Repository
             try
             {
                 var purchaselist = await _dbContext.tbl_PurchaseMaster.Where(x => x.Id == Id).Where(x => x.IsDeleted == 0).ToListAsync();
-            var purchasedetaillist =await _dbContext.tbl_PurchaseDetails.Where(x => x.PurchaseId == Id).ToListAsync();
-            return purchaselist;
+                var purchasedetaillist = await _dbContext.tbl_PurchaseDetails.Where(x => x.PurchaseId == Id).ToListAsync();
+                return purchaselist;
             }
             catch (Exception ex)
             {
@@ -207,51 +207,185 @@ namespace BuildExeMaterialServices.Repository
         //}
 
 
+        //public async Task<string> GetDetailsbyid(int PurchaseId)
+        //{
+        //    try
+        //    {
+        //        var data = await (from a in _dbContext.tbl_PurchaseDetails
+        //                          join b in _dbContext.tbl_MaterialMaster on a.MaterialId equals b.Id into bs
+        //                          from b in bs.DefaultIfEmpty()
+        //                          join c in _dbContext.tbl_Units on b.UnitId equals c.UnitId into cs
+        //                          from c in cs.DefaultIfEmpty()
+        //                          join d in _dbContext.tbl_PurchaseOrderDetails on a.PurchaseOrderDetailsId equals d.PurchaseOrderDetailId into ps
+        //                          from d in ps.DefaultIfEmpty()
+        //                          join e in _dbContext.tbl_PurchaseOrderMaster on d.PurchaseOrderId equals e.Id into pss
+        //                          from e in pss.DefaultIfEmpty()
+        //                          where a.PurchaseId == PurchaseId
+        //                          orderby a.PurchaseDetailId // or any other column that defines the order
+        //                          select new
+        //                          {
+        //                              purchaseDetailId = a.PurchaseDetailId,
+        //                              purchaseId = a.PurchaseId,
+        //                              materialId = a.MaterialId,
+        //                              materialName = b == null ? String.Empty : b.MaterialName,
+        //                              unitId = b != null ? (int?)b.UnitId : null,
+        //                              materialTypeId = b != null ? (int?)b.MaterialTypeId : null,
+        //                              unitLongName = c == null ? String.Empty : c.UnitLongName,
+        //                              unitShortName = c == null ? String.Empty : c.UnitShortName,
+        //                              quantity = a.Quantity,
+        //                              rate = a.Rate,
+        //                              discount = a.Discount,
+        //                              tax = a.Tax,
+        //                              purchaseOrderDetailsId = a.PurchaseOrderDetailsId,
+        //                              orderDate = e == null ? String.Empty : Convert.ToString(e.DateOrdered),
+        //                              kFC_Per = a.KFC_Per,
+        //                              childDescription=a.ChildDescription,
+        //                              materialBrandId = a.MaterialBrandId,
+        //                              materialCategoryId = a.MaterialCategoryId,
+        //                              coefficientFactorValue = a.CoefficientFactorValue,
+        //                              conversionQuantity = a.ConversionQuantity,
+        //                              conversionUnitName=a.ConversionUnitName,
+        //                              currencyId=a.CurrencyId,
+        //                              exchangeRate=a.ExchangeRate,
+        //                              lAmount=a.LAmount
+        //                          }).ToListAsync();
+
+        //        string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+        //        return jsonString;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
         public async Task<string> GetDetailsbyid(int PurchaseId)
         {
             try
             {
-                var data = await (from a in _dbContext.tbl_PurchaseDetails
-                                  join b in _dbContext.tbl_MaterialMaster on a.MaterialId equals b.Id into bs
-                                  from b in bs.DefaultIfEmpty()
-                                  join c in _dbContext.tbl_Units on b.UnitId equals c.UnitId into cs
-                                  from c in cs.DefaultIfEmpty()
-                                  join d in _dbContext.tbl_PurchaseOrderDetails on a.PurchaseOrderDetailsId equals d.PurchaseOrderDetailId into ps
-                                  from d in ps.DefaultIfEmpty()
-                                  join e in _dbContext.tbl_PurchaseOrderMaster on d.PurchaseOrderId equals e.Id into pss
-                                  from e in pss.DefaultIfEmpty()
-                                  where a.PurchaseId == PurchaseId
-                                  orderby a.PurchaseDetailId // or any other column that defines the order
-                                  select new
-                                  {
-                                      purchaseDetailId = a.PurchaseDetailId,
-                                      purchaseId = a.PurchaseId,
-                                      materialId = a.MaterialId,
-                                      materialName = b == null ? String.Empty : b.MaterialName,
-                                      unitId = b != null ? (int?)b.UnitId : null,
-                                      materialTypeId = b != null ? (int?)b.MaterialTypeId : null,
-                                      unitLongName = c == null ? String.Empty : c.UnitLongName,
-                                      unitShortName = c == null ? String.Empty : c.UnitShortName,
-                                      quantity = a.Quantity,
-                                      rate = a.Rate,
-                                      discount = a.Discount,
-                                      tax = a.Tax,
-                                      purchaseOrderDetailsId = a.PurchaseOrderDetailsId,
-                                      orderDate = e == null ? String.Empty : Convert.ToString(e.DateOrdered),
-                                      kFC_Per = a.KFC_Per,
-                                      childDescription=a.ChildDescription,
-                                      materialBrandId = a.MaterialBrandId,
-                                      materialCategoryId = a.MaterialCategoryId,
-                                      coefficientFactorValue = a.CoefficientFactorValue,
-                                      conversionQuantity = a.ConversionQuantity,
-                                      conversionUnitName=a.ConversionUnitName,
-                                      currencyId=a.CurrencyId,
-                                      exchangeRate=a.ExchangeRate,
-                                      lAmount=a.LAmount
-                                  }).ToListAsync();
 
-                string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_GetPurchaseDetails";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@PurchaseId", SqlDbType.Int) { Value = PurchaseId });
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                var result = dataTable.AsEnumerable()
+                                        .GroupBy(x => x.Field<int>("Id"))
+                                        .Select(p =>
+                                        {
+                                            var header = p.First();
+
+                                            return new
+                                            {
+
+                                                Id = p.Key,
+                                                loadingUnloadingChargeGst = header.Field<decimal?>("loadingUnloadingChargeGst"),
+                                                // projectId = header.Field<int?>("projectId"),
+                                                purchaseDate = header.Field<DateTime?>("PurchaseDate"),
+                                                //paymentModeId = header.Field<int?>("paymentModeId"),
+                                                paymentNo = header.Field<string>("paymentNo"),
+                                                transportationCharge = header.Field<decimal?>("transportationcharge"),
+                                                transportationChargeGST = header.Field<decimal?>("transportationchargeGST"),
+                                                transportationPer = header.Field<decimal?>("transportationPer"),
+                                                customDuty = header.Field<decimal?>("customDuty"),
+                                                customDutyPer = header.Field<decimal?>("customDutyPer"),
+                                                doCharge = header.Field<decimal?>("doCharge"),
+                                                doChargePer = header.Field<decimal?>("doChargePer"),
+                                                documentationCharge = header.Field<decimal?>("documentationCharge"),
+                                                documentationChargePer = header.Field<decimal?>("documentationChargePer"),
+                                                freightCharge = header.Field<decimal?>("freightCharge"),
+                                                freightChargePer = header.Field<decimal?>("freightChargePer"),
+                                                loadingUnloadingCharge = header.Field<decimal?>("loadingUnloadingCharge"),
+                                                mofaCharge = header.Field<decimal?>("mofaCharge"),
+                                                mofaChargePer = header.Field<decimal?>("mofaChargePer"),
+                                                taxarea = header.Field<string?>("Taxarea"),
+                                                amountPaidAdvance = header.Field<decimal?>("AmountPaidAdvance"),
+                                                roundoff = header.Field<decimal?>("Roundoff"),
+                                                netAmount = header.Field<decimal?>("NetAmount"),
+                                                vehicleNo = header.Field<string>("VehicleNo"),
+                                                siteLoanAmt = header.Field<decimal?>("SiteLoanAmt"),
+                                                discountWithoutTax = header.Field<decimal?>("DiscountWithoutTax"),
+                                                otherChargesGst = header.Field<decimal?>("OtherChargesGst"),
+                                                //isGst= header.Field<int?>("IsGst"),
+                                                kFCAmount = header.Field<decimal?>("KFCAmount"),
+                                                gSTAmount = header.Field<decimal?>("GSTAmount"),
+                                                gSTPer = header.Field<decimal?>("GSTPer"),
+                                                kFCPer = header.Field<decimal?>("KFCPer"),
+                                                remark = header.Field<string>("Remark"),
+                                                otherCharges = header.Field<decimal?>("OtherCharges"),
+                                                otherChargesPer = header.Field<decimal?>("OtherChargesPer"),
+                                                reqLoadingTax = header.Field<string>("ReqLoadingTax"),
+                                                reqTransportTax = header.Field<string>("ReqTransportTax"),
+                                                PurchaseDeliveryDetail = p.Where(x => x.Field<int>("Id") == p.Key)
+                                                .GroupBy(q => q.Field<int>("Id"))
+                                                 .Select(pdd => new
+                                                 {
+                                                     //PurchaseDeliveryDetailId = pdd.Key,
+                                                     purchaseId = pdd.Key,
+                                                     quantity = pdd.First().Field<decimal?>("pdsQuantity"),
+                                                     convertionQuantity = pdd.First().Field<decimal?>("conversionQuantity"),
+                                                     conversionUnitName = pdd.First().Field<string>("conversionUnitName"),
+                                                     discount = pdd.First().Field<decimal?>("pdsdiscount"),
+                                                     tax = pdd.First().Field<decimal?>("pdstax"),
+                                                     KFC_Per = pdd.First().Field<decimal?>("KFC_Per"),
+                                                     total = pdd.First().Field<decimal?>("pdstotal"),
+                                                     MaterialRemarks = pdd.First().Field<string>("MaterialRemarks"),
+                                                     coefficientFactorValue = pdd.First().Field<decimal?>("CoefficientFactorValue"),
+
+                                                 }).ToList(),
+                                                PurchaseReturnBill = p.Where(x => x.Field<int>("Id") == p.Key)
+                                                .GroupBy(r => r.Field<int>("Id"))
+                                                 .Select(prbl => new
+                                                 {
+
+                                                     adjustedAmount = prbl.First().Field<decimal?>("AdjustedAmount"),
+                                                     isOpening = prbl.First().Field<int?>("IsOpening"),
+
+                                                 }).ToList(),
+                                                PurchaseDetails = p
+                                                .Where(x => x.Field<int>("Id") == p.Key)
+                                                .GroupBy(d => d.Field<int>("purchaseDetailId"))
+                                                .Select(dg => new
+                                                {
+                                                    PurchaseDetailId = dg.Key,
+                                                    //materialId = dg.First().materialId,
+                                                    materialName = dg.First().Field<string>("materialName"),
+                                                    quantity = dg.First().Field<decimal?>("quantity"),
+                                                    total = dg.First().Field<decimal?>("Total"),
+                                                    coefficientFactorValue = dg.First().Field<decimal?>("CoefficientFactorValue"),
+                                                    conversionQuantity = dg.First().Field<decimal?>("ConversionQuantity"),
+                                                    rate = dg.First().Field<decimal?>("rate"),
+                                                    discount = dg.First().Field<decimal?>("discount"),
+                                                    WarrantyDetails = dg
+                                                        .Where(w => w.Field<int>("voucherNumber") != null)
+                                                        .Select(w => new
+                                                        {
+                                                            serialNumber = w.Field<string>("SerialNo"),
+                                                            warrantyDate = w.Field<DateTime?>("WarrantyDate"),
+                                                            // EnteredOn = w.enteredOn
+                                                        })
+                                                        .ToList()
+                                                })
+                                                .ToList()
+                                            };
+
+                                        })
+                                        .ToList();
+
+                string jsonString = System.Text.Json.JsonSerializer.Serialize(result);
                 return jsonString;
+
             }
             catch (Exception ex)
             {
@@ -259,8 +393,7 @@ namespace BuildExeMaterialServices.Repository
                 throw;
             }
         }
-
-        public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid,int UserID,int menuid, int FinancialYearId, int IsAsset)
+        public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID, int menuid, int FinancialYearId, int IsAsset)
         {
             try
             {
@@ -268,13 +401,13 @@ namespace BuildExeMaterialServices.Repository
                 var Id = new SqlParameter("@Id", FinancialYearId);
                 var item = new SqlParameter("@item", json);
                 var CompanyId = new SqlParameter("@CompanyId", companyId);
-            var BranchId = new SqlParameter("@BranchId", branchid);
-            var UserId = new SqlParameter("@UserId", UserID);
-            var MenuId = new SqlParameter("@MenuId", menuid);
-            var Action = new SqlParameter("@Action", Actions.Selectforapproval);
+                var BranchId = new SqlParameter("@BranchId", branchid);
+                var UserId = new SqlParameter("@UserId", UserID);
+                var MenuId = new SqlParameter("@MenuId", menuid);
+                var Action = new SqlParameter("@Action", Actions.Selectforapproval);
 
-            var _product =await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId,@MenuId ,@Action", Id, item,  CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
-            return _product;
+                var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId,@MenuId ,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
+                return _product;
             }
             catch (Exception ex)
             {
@@ -290,13 +423,13 @@ namespace BuildExeMaterialServices.Repository
                 var Id = new SqlParameter("@Id", "0");
                 var item = new SqlParameter("@item", "");
                 var CompanyId = new SqlParameter("@CompanyId", companyId);
-            var BranchId = new SqlParameter("@BranchId", branchid);
-            var UserId = new SqlParameter("@UserId", "0");
-            var MenuId = new SqlParameter("@MenuId", menuid);
-            var Action = new SqlParameter("@Action", Actions.SelectforEdit);
+                var BranchId = new SqlParameter("@BranchId", branchid);
+                var UserId = new SqlParameter("@UserId", "0");
+                var MenuId = new SqlParameter("@MenuId", menuid);
+                var Action = new SqlParameter("@Action", Actions.SelectforEdit);
 
-            var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId ,@MenuId,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
-            return _product;
+                var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId ,@MenuId,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
+                return _product;
             }
             catch (Exception ex)
             {
@@ -305,7 +438,7 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<IEnumerable<PurchaseList>> GetforEdit(int companyId, int branchid,int userId, int menuid, int FinancialYearId, int IsAsset)
+        public async Task<IEnumerable<PurchaseList>> GetforEdit(int companyId, int branchid, int userId, int menuid, int FinancialYearId, int IsAsset)
         {
             try
             {
@@ -353,68 +486,68 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
-                var data = await(from a in _dbContext.tbl_PurchaseMaster
-                        join b in _dbContext.tbl_Suppliers on a.SupplierId equals b.Id
-                        join c in _dbContext.tbl_ProjectMaster on a.ProjectId equals c.id
-                        join d in _dbContext.tbl_Block on a.BlockId equals d.BlockId into ds
-                        from d in ds.DefaultIfEmpty()
-                        join e in _dbContext.tbl_Floors on a.FloorId equals e.FloorId into es
-                        from e in es.DefaultIfEmpty()
-                        join f in _dbContext.tbl_OwnProjectDetails on a.UnitId equals f.Id into fs
-                        from f in fs.DefaultIfEmpty()
+                var data = await (from a in _dbContext.tbl_PurchaseMaster
+                                  join b in _dbContext.tbl_Suppliers on a.SupplierId equals b.Id
+                                  join c in _dbContext.tbl_ProjectMaster on a.ProjectId equals c.id
+                                  join d in _dbContext.tbl_Block on a.BlockId equals d.BlockId into ds
+                                  from d in ds.DefaultIfEmpty()
+                                  join e in _dbContext.tbl_Floors on a.FloorId equals e.FloorId into es
+                                  from e in es.DefaultIfEmpty()
+                                  join f in _dbContext.tbl_OwnProjectDetails on a.UnitId equals f.Id into fs
+                                  from f in fs.DefaultIfEmpty()
 
-                        select new
-                        {
-                            Id = a.Id,
-                            PurchaseDate = a.PurchaseDate,
-                            PurchaseInvoiceNo = a.PurchaseInvoiceNo,
-                            PurchaseOrderNo = a.PurchaseOrderNo,
-                            SupplierId = a.SupplierId,
-                            SupplierName = b.SupplierName,
-                            ProjectName = c.ProjectName,
-                            ProjectId = a.ProjectId,
+                                  select new
+                                  {
+                                      Id = a.Id,
+                                      PurchaseDate = a.PurchaseDate,
+                                      PurchaseInvoiceNo = a.PurchaseInvoiceNo,
+                                      PurchaseOrderNo = a.PurchaseOrderNo,
+                                      SupplierId = a.SupplierId,
+                                      SupplierName = b.SupplierName,
+                                      ProjectName = c.ProjectName,
+                                      ProjectId = a.ProjectId,
 
-                            BlockId = a.BlockId,
-                            BlockName = d == null ? " " : d.BlockName,
-                            FloorId = a.FloorId,
-                            FloorName = e == null ? " " : e.FloorName,
-                            UnitId = a.UnitId,
-                            UnitName = f == null ? " " : f.UnitId,
+                                      BlockId = a.BlockId,
+                                      BlockName = d == null ? " " : d.BlockName,
+                                      FloorId = a.FloorId,
+                                      FloorName = e == null ? " " : e.FloorName,
+                                      UnitId = a.UnitId,
+                                      UnitName = f == null ? " " : f.UnitId,
 
-                            Remark = a.Remark,
-                            Taxarea = a.Taxarea,
-                            Category = a.Category,
-                            CompanyId = a.CompanyId,
-                            BranchId = a.BranchId,
-                            ApprovalLevel = a.ApprovalLevel,
-                            IsDeleted = a.IsDeleted,
-                            ApprovalStatus = a.ApprovalStatus,
-                            BillAmount = a.BillAmount,
-                            BillAmountBalance = a.BillAmountBalance,
-                            AmountPaidAdvance = a.AmountPaidAdvance,
-                            billdiscount = a.billdiscount,
-                            Roundoff = a.Roundoff,
-                            TransportationCharge = a.TransportationCharge,
-                            TransportationPer = a.TransportationPer,
-                            LoadingUnloadingCharge = a.LoadingUnloadingCharge,
-                            LoadingUnloadingPer = a.LoadingUnloadingPer,
-                            OtherCharges = a.OtherCharges,
-                            OtherChargesPer = a.OtherChargesPer,
-                            ReqLoadingTax = a.ReqLoadingTax,
-                            ReqTransportTax = a.ReqTransportTax,
-                            ReqOtherCharesTax = a.ReqOtherCharesTax,
-                            KFCPer = a.KFCPer,
-                            GSTPer = a.GSTPer,
-                            GSTAmount = a.GSTAmount,
-                            KFCAmount = a.KFCAmount,
-                            MaterialTypeId = a.MaterialTypeId,
-                            PaymentModeId = a.PaymentModeId,
-                            SiteManagerId = a.SiteManagerId
+                                      Remark = a.Remark,
+                                      Taxarea = a.Taxarea,
+                                      Category = a.Category,
+                                      CompanyId = a.CompanyId,
+                                      BranchId = a.BranchId,
+                                      ApprovalLevel = a.ApprovalLevel,
+                                      IsDeleted = a.IsDeleted,
+                                      ApprovalStatus = a.ApprovalStatus,
+                                      BillAmount = a.BillAmount,
+                                      BillAmountBalance = a.BillAmountBalance,
+                                      AmountPaidAdvance = a.AmountPaidAdvance,
+                                      billdiscount = a.billdiscount,
+                                      Roundoff = a.Roundoff,
+                                      TransportationCharge = a.TransportationCharge,
+                                      TransportationPer = a.TransportationPer,
+                                      LoadingUnloadingCharge = a.LoadingUnloadingCharge,
+                                      LoadingUnloadingPer = a.LoadingUnloadingPer,
+                                      OtherCharges = a.OtherCharges,
+                                      OtherChargesPer = a.OtherChargesPer,
+                                      ReqLoadingTax = a.ReqLoadingTax,
+                                      ReqTransportTax = a.ReqTransportTax,
+                                      ReqOtherCharesTax = a.ReqOtherCharesTax,
+                                      KFCPer = a.KFCPer,
+                                      GSTPer = a.GSTPer,
+                                      GSTAmount = a.GSTAmount,
+                                      KFCAmount = a.KFCAmount,
+                                      MaterialTypeId = a.MaterialTypeId,
+                                      PaymentModeId = a.PaymentModeId,
+                                      SiteManagerId = a.SiteManagerId
 
-                        }).Where(x => x.CompanyId == companyId).Where(x => x.BranchId == branchid).Where(x => x.IsDeleted == 0).Where(x => x.ApprovalStatus == 0).Where(x => x.ApprovalLevel == 0).ToListAsync();
+                                  }).Where(x => x.CompanyId == companyId).Where(x => x.BranchId == branchid).Where(x => x.IsDeleted == 0).Where(x => x.ApprovalStatus == 0).Where(x => x.ApprovalLevel == 0).ToListAsync();
 
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
-            return jsonString;
+                string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+                return jsonString;
             }
             catch (Exception ex)
             {
@@ -526,30 +659,30 @@ namespace BuildExeMaterialServices.Repository
 
                 DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
 
-            cmd.CommandText = "dbo.Stpro_PurchaseMaster";
-            cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.Stpro_PurchaseMaster";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
-            cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(materialSearch) });
-            cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = materialSearch.CompanyId });
-            cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = materialSearch.BranchId });
-            cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
-            cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectReportJson });
-            if (cmd.Connection.State != ConnectionState.Open)
-            {
-                cmd.Connection.Open();
-            }
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(materialSearch) });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = materialSearch.CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = materialSearch.BranchId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectReportJson });
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
 
-            DbDataReader reader = await cmd.ExecuteReaderAsync();
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
 
-            var dataTable = new DataTable();
-            dataTable.Load(reader);
-            string purcasedetails = "";
-            for (int i = 0; i < dataTable.Rows.Count; i++)
-            {
-                purcasedetails = purcasedetails + dataTable.Rows[i][0].ToString();
-            }
-            return purcasedetails;
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                string purcasedetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    purcasedetails = purcasedetails + dataTable.Rows[i][0].ToString();
+                }
+                return purcasedetails;
             }
             catch (Exception ex)
             {
@@ -560,7 +693,7 @@ namespace BuildExeMaterialServices.Repository
             //return jsonString;
         }
 
-        public async Task<IEnumerable<MaterialSchedule>> MaterialSchedule (MaterialSearch materialSearch)
+        public async Task<IEnumerable<MaterialSchedule>> MaterialSchedule(MaterialSearch materialSearch)
         {
             try
             {
@@ -574,7 +707,7 @@ namespace BuildExeMaterialServices.Repository
                 var Category = new SqlParameter("@Category", "0");
                 var CompanyId = new SqlParameter("@CompanyId", materialSearch.CompanyId);
                 var BranchId = new SqlParameter("@BranchId", materialSearch.BranchId);
-                var fianncialyearid = new SqlParameter("@fianncialyearid","0");
+                var fianncialyearid = new SqlParameter("@fianncialyearid", "0");
                 var Action = new SqlParameter("@Action", Actions.Insert);
                 var _product = await _dbContext.tbl_materialSchedule.FromSqlRaw("stpro_ScheduleQty @Id,@Type,@json,@ProjectId,@UnitId,@BlockId,@FloorId,@Category, @CompanyId, @BranchId,@fianncialyearid, @Action", Id, Type, json, ProjectId, UnitId, BlockId, FloorId, Category, CompanyId, BranchId, fianncialyearid, Action).ToListAsync();
                 return _product;

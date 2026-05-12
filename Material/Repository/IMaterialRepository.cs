@@ -34,7 +34,9 @@ namespace BuildExeMaterialServices.Repository
         Task<string> GetMaterialFieldData(int CompanyId, int BranchId, string FieldName);
         Task<string> PostGetName(MaterialSearch MaterialSearch);
 
-        
+        Task<IEnumerable<SparepartsMaterialDto>> GetSpareparts(int CompanyId, int BranchId);
+
+
 
 
     }

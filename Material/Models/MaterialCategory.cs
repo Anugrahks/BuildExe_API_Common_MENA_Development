@@ -15,5 +15,7 @@ namespace BuildExeMaterialServices.Models
         public Int16 CompanyId { get; set; }
         public Int16 BranchId { get; set; }
         public Int16 UserId { get; set; }
+
+        public bool IsDefault { get; set; }
     }
 }
