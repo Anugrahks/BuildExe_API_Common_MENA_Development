@@ -84,7 +84,7 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("remarks")]
         public string Remarks { get; set; }
         [JsonProperty("materialBrandId")]
-        public int MaterialBrandId { get; set; }
+        public int MaterialBrandId { get; set; } = 0;
         public decimal CoefficientFactorValue { get; set; }
 
         public decimal ConversionQuantity { get; set; }
