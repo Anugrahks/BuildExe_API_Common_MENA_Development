@@ -97,6 +97,7 @@ namespace BuildExeMaterialServices.Models
     public class SparepartsMaterialDto
     {
         public int Id { get; set; }
-        public string MaterialDisplay { get; set; }
+        public string MaterialID { get; set; }
+        public string MaterialName { get; set; }
     }
 }

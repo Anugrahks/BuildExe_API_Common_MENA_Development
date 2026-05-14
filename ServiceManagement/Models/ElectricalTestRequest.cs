@@ -94,17 +94,12 @@ namespace BuildExeServiceManagement.Models
 
         // ---------- CHILD ----------
 
-        public List<ShaftRunOutEntry> ShaftRunOutValues { get; set; }
+        public Dictionary<string, decimal?> ShaftRunOutValues { get; set; }
         public List<BearingSet> BearingSets { get; set; }
         public List<MonitoringEquipmentModel> MonitoringEquipment { get; set; }
     }
 
-    public class ShaftRunOutEntry
-    {
-        public string FieldKey { get; set; }
-        public decimal? FieldValue { get; set; }
-    }
-
+   
     public class BearingSet
     {
        
