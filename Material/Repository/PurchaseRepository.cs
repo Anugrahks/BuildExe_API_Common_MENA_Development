@@ -350,7 +350,7 @@ namespace BuildExeMaterialServices.Repository
                                                  {
 
                                                      adjustedAmount = prbl.First().Field<decimal?>("AdjustedAmount"),
-                                                     isOpening = prbl.First().Field<int?>("IsOpening"),
+                                                     //isOpening = prbl.First().Field<int?>("IsOpening"),
 
                                                  }).ToList(),
                                                 PurchaseDetails = p
