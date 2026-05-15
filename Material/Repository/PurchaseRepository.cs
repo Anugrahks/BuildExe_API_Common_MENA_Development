@@ -259,11 +259,12 @@ namespace BuildExeMaterialServices.Repository
         //        throw;
         //    }
         //}
+
+        
         public async Task<string> GetDetailsbyid(int PurchaseId)
         {
             try
             {
-
                 DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
 
                 cmd.CommandText = "dbo.Stpro_GetPurchaseDetails";
@@ -281,19 +282,16 @@ namespace BuildExeMaterialServices.Repository
                 dataTable.Load(reader);
 
                 var result = dataTable.AsEnumerable()
-                                        .GroupBy(x => x.Field<int>("Id"))
+                                        .GroupBy(x => x.Field<int?>("Id"))
                                         .Select(p =>
                                         {
                                             var header = p.First();
 
                                             return new
                                             {
-
                                                 Id = p.Key,
                                                 loadingUnloadingChargeGst = header.Field<decimal?>("loadingUnloadingChargeGst"),
-                                                // projectId = header.Field<int?>("projectId"),
                                                 purchaseDate = header.Field<DateTime?>("PurchaseDate"),
-                                                //paymentModeId = header.Field<int?>("paymentModeId"),
                                                 paymentNo = header.Field<string>("paymentNo"),
                                                 transportationCharge = header.Field<decimal?>("transportationcharge"),
                                                 transportationChargeGST = header.Field<decimal?>("transportationchargeGST"),
@@ -317,7 +315,6 @@ namespace BuildExeMaterialServices.Repository
                                                 siteLoanAmt = header.Field<decimal?>("SiteLoanAmt"),
                                                 discountWithoutTax = header.Field<decimal?>("DiscountWithoutTax"),
                                                 otherChargesGst = header.Field<decimal?>("OtherChargesGst"),
-                                                //isGst= header.Field<int?>("IsGst"),
                                                 kFCAmount = header.Field<decimal?>("KFCAmount"),
                                                 gSTAmount = header.Field<decimal?>("GSTAmount"),
                                                 gSTPer = header.Field<decimal?>("GSTPer"),
@@ -327,11 +324,12 @@ namespace BuildExeMaterialServices.Repository
                                                 otherChargesPer = header.Field<decimal?>("OtherChargesPer"),
                                                 reqLoadingTax = header.Field<string>("ReqLoadingTax"),
                                                 reqTransportTax = header.Field<string>("ReqTransportTax"),
-                                                PurchaseDeliveryDetail = p.Where(x => x.Field<int>("Id") == p.Key)
-                                                .GroupBy(q => q.Field<int>("Id"))
+
+                                               
+                                                PurchaseDeliveryDetail = p.Where(x => x.Field<int?>("Id") == p.Key)
+                                                .GroupBy(q => q.Field<int?>("Id"))
                                                  .Select(pdd => new
                                                  {
-                                                     //PurchaseDeliveryDetailId = pdd.Key,
                                                      purchaseId = pdd.Key,
                                                      quantity = pdd.First().Field<decimal?>("pdsQuantity"),
                                                      convertionQuantity = pdd.First().Field<decimal?>("conversionQuantity"),
@@ -342,24 +340,22 @@ namespace BuildExeMaterialServices.Repository
                                                      total = pdd.First().Field<decimal?>("pdstotal"),
                                                      MaterialRemarks = pdd.First().Field<string>("MaterialRemarks"),
                                                      coefficientFactorValue = pdd.First().Field<decimal?>("CoefficientFactorValue"),
-
                                                  }).ToList(),
-                                                PurchaseReturnBill = p.Where(x => x.Field<int>("Id") == p.Key)
-                                                .GroupBy(r => r.Field<int>("Id"))
+
+                                                
+                                                PurchaseReturnBill = p.Where(x => x.Field<int?>("Id") == p.Key)
+                                                .GroupBy(r => r.Field<int?>("Id"))
                                                  .Select(prbl => new
                                                  {
-
                                                      adjustedAmount = prbl.First().Field<decimal?>("AdjustedAmount"),
-                                                     //isOpening = prbl.First().Field<int?>("IsOpening"),
-
                                                  }).ToList(),
+
                                                 PurchaseDetails = p
-                                                .Where(x => x.Field<int>("Id") == p.Key)
-                                                .GroupBy(d => d.Field<int>("purchaseDetailId"))
+                                                .Where(x => x.Field<int?>("Id") == p.Key)
+                                                .GroupBy(d => d.Field<int?>("purchaseDetailId"))
                                                 .Select(dg => new
                                                 {
                                                     PurchaseDetailId = dg.Key,
-                                                    //materialId = dg.First().materialId,
                                                     materialName = dg.First().Field<string>("materialName"),
                                                     quantity = dg.First().Field<decimal?>("quantity"),
                                                     total = dg.First().Field<decimal?>("Total"),
@@ -367,25 +363,24 @@ namespace BuildExeMaterialServices.Repository
                                                     conversionQuantity = dg.First().Field<decimal?>("ConversionQuantity"),
                                                     rate = dg.First().Field<decimal?>("rate"),
                                                     discount = dg.First().Field<decimal?>("discount"),
+
+                                                   
                                                     WarrantyDetails = dg
-                                                        .Where(w => w.Field<int>("voucherNumber") != null)
+                                                        .Where(w => w.Field<int?>("voucherNumber") != null)
                                                         .Select(w => new
                                                         {
                                                             serialNumber = w.Field<string>("SerialNo"),
                                                             warrantyDate = w.Field<DateTime?>("WarrantyDate"),
-                                                            // EnteredOn = w.enteredOn
                                                         })
                                                         .ToList()
                                                 })
                                                 .ToList()
                                             };
-
                                         })
                                         .ToList();
 
                 string jsonString = System.Text.Json.JsonSerializer.Serialize(result);
                 return jsonString;
-
             }
             catch (Exception ex)
             {
@@ -393,6 +388,7 @@ namespace BuildExeMaterialServices.Repository
                 throw;
             }
         }
+
         public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID, int menuid, int FinancialYearId, int IsAsset)
         {
             try
