@@ -202,23 +202,19 @@ namespace BuildExeMaterialServices.Controllers
 
 
         [HttpPost]
-       [Authorize]
-       public async Task<IActionResult> Post([FromBody] IEnumerable<DeliveryOrderMaster> mat, [FromHeader] string mdhash, [FromHeader] int User)
-       {
-           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+        [Authorize]
+        public async Task<IActionResult> Post([FromBody] IEnumerable<DeliveryOrderMaster> mat, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.Insert(mat);
+                    var val = await _salesOrderRepository.Insert(mat.First());  // unwrap here
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, new
-                    {
-                        message = $"An error occurred: {ex.Message}",
-                        statusCode = 0
-                    });
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
                 }
             }
             else
@@ -231,20 +227,16 @@ namespace BuildExeMaterialServices.Controllers
         [Authorize]
         public async Task<IActionResult> Put([FromBody] IEnumerable<DeliveryOrderMaster> mat, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.Update(mat);
+                    var val = await _salesOrderRepository.Update(mat.First());  // unwrap here
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, new
-                    {
-                        message = $"An error occurred: {ex.Message}",
-                        statusCode = 0
-                    });
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
                 }
             }
             else

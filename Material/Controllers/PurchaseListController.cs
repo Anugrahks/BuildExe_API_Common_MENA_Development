@@ -158,11 +158,11 @@ namespace BuildExeMaterialServices.Controllers
 
         // GET api/<TeamController>/5
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Get(int id, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
-            //{
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
                 try
             {
                 var purchase =await _purchaseRepository.GetDetailsbyid(id);
@@ -177,11 +177,11 @@ namespace BuildExeMaterialServices.Controllers
                         statusCode = 0
                     });
                 }
-            //}
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
         [HttpPost]

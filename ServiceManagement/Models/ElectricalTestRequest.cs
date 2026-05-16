@@ -72,8 +72,10 @@ namespace BuildExeServiceManagement.Models
         public string WindingResistanceNotes { get; set; }
         public string MonitoringEquipmentNotes { get; set; }
 
-       
+        public string BearingRemarks { get; set; }
+
         public string ShaftRunOutRemarks { get; set; }
+
 
 
 

@@ -37,24 +37,29 @@ namespace BuildExeMaterialServices.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task<IEnumerable<Validation>> Insert(IEnumerable<DeliveryOrderMaster> mat)
+
+        public async Task<IEnumerable<Validation>> Insert(DeliveryOrderMaster mat)
         {
             try
             {
-
                 var camelCaseSettings = new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                var materialId = new SqlParameter("@Id", "0");
-                var CompanyId = new SqlParameter("@CompanyId", "0");
-                var BranchId = new SqlParameter("@BranchId", "0");
-                var item = new SqlParameter("@json", JsonConvert.SerializeObject(mat, camelCaseSettings));
-                var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
-                var UserId = new SqlParameter("@UserId", "0");
-                var Action = new SqlParameter("@Action", Actions.Insert);
-                var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_DeliveryOrder @Id, @CompanyId, @BranchId,@json,@FinancialYearId,@UserId, @Action", materialId, CompanyId, BranchId, item, FinancialYearId, UserId, Action).ToListAsync();
+                var materialId = new SqlParameter("@Id", SqlDbType.Int) { Value = 0 };
+                var CompanyId = new SqlParameter("@CompanyId", SqlDbType.Int) { Value = mat.CompanyId ?? 0 };
+                var BranchId = new SqlParameter("@BranchId", SqlDbType.Int) { Value = mat.BranchId ?? 0 };
+                var item = new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(mat, camelCaseSettings) };
+                var FinancialYearId = new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = mat.FinancialYearId ?? 0 };
+                var UserId = new SqlParameter("@UserId", SqlDbType.Int) { Value = mat.UserId };
+                var Action = new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.Insert };
+
+                var purchaseList = await _dbContext.tbl_validations
+                    .FromSqlRaw("Stpro_DeliveryOrder @Id, @CompanyId, @BranchId, @json, @FinancialYearId, @UserId, @Action",
+                        materialId, CompanyId, BranchId, item, FinancialYearId, UserId, Action)
+                    .ToListAsync();
+
                 return purchaseList;
             }
             catch (Exception ex)
@@ -85,23 +90,22 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-     
-        public async Task<IEnumerable<Validation>> Update(IEnumerable<DeliveryOrderMaster> mat)
+        public async Task<IEnumerable<Validation>> Update(DeliveryOrderMaster mat)
         {
             try
             {
-                var camelCaseSettings = new JsonSerializerSettings  
+                var camelCaseSettings = new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                var materialId = new SqlParameter("@Id", "0");
-                var CompanyId = new SqlParameter("@CompanyId", "0");
-                var BranchId = new SqlParameter("@BranchId", "0");
-                var item = new SqlParameter("@json", JsonConvert.SerializeObject(mat, camelCaseSettings));  
-                var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
-                var UserId = new SqlParameter("@UserId", "0");
-                var Action = new SqlParameter("@Action", Actions.Update);
+                var materialId = new SqlParameter("@Id", SqlDbType.Int) { Value = mat.Id };
+                var CompanyId = new SqlParameter("@CompanyId", SqlDbType.Int) { Value = mat.CompanyId ?? 0 };
+                var BranchId = new SqlParameter("@BranchId", SqlDbType.Int) { Value = mat.BranchId ?? 0 };
+                var item = new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(mat, camelCaseSettings) };
+                var FinancialYearId = new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = mat.FinancialYearId ?? 0 };
+                var UserId = new SqlParameter("@UserId", SqlDbType.Int) { Value = mat.UserId };
+                var Action = new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.Update };
 
                 var purchaseList = await _dbContext.tbl_validations
                     .FromSqlRaw("Stpro_DeliveryOrder @Id, @CompanyId, @BranchId, @json, @FinancialYearId, @UserId, @Action",
@@ -181,8 +185,6 @@ namespace BuildExeMaterialServices.Repository
                 throw;
             }
         }
-
-
 
         //public async Task<string> Getedit(int CompanyId, int Branchid, int UserId, int FinancialYearId, int IsAsset) 
         //{
