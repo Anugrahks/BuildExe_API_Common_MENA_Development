@@ -11,7 +11,7 @@ namespace BuildExeMaterialServices.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public DateTime? EntryDate { get; set; }
+        public DateTime? EntryDate { get; set; }///ddd///
         public DateTime? ApprovedDate { get; set; }
         public int? ApprovalStatus { get; set; }
         public int? ApprovalLevel { get; set; }
