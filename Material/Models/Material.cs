@@ -49,6 +49,8 @@ namespace BuildExeMaterialServices.Models
         public string Voltage { get; set; }
         public string Frequency { get; set; }
         public string CoefficientUnitName { get; set; }
+
+        public bool SetItem { get; set; }
         public List<OpeningStock> OpeningStock { get; set; }
         public List<OpeningRent> OpeningRent { get; set; }
 
