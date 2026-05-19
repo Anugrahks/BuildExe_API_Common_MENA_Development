@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildExeMaterialServices.Models
 {
@@ -12,7 +13,7 @@ namespace BuildExeMaterialServices.Models
         public int Id { get; set; }
         public string PurchaseInvoiceNo { get; set; }
         public int PurchaseOrderNo { get; set; }
-        public DateTime PurchaseDate { get; set; }
+        public DateTime ? PurchaseDate { get; set; }
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
        
@@ -109,6 +110,18 @@ namespace BuildExeMaterialServices.Models
         public int? Currency { get; set; }
         public decimal? ExchangeRate { get; set; }
         public decimal? LAmount { get; set; }
+
+        [JsonProperty("purchaseDetail")]
+        public List<PurchaseDetail> PurchaseDetail { get; set; } = new List<PurchaseDetail>();
+
+        [JsonProperty("otherCharge")]
+        public List<PurchaseOtherCharge> OtherCharge { get; set; } = new List<PurchaseOtherCharge>();
+
+        [JsonProperty("service")]
+        public List<int> Service { get; set; } = new List<int>();
+
+        [JsonProperty("purchaseReturnBill")]
+        public List<PurchaseReturnBill> PurchaseReturnBill { get; set; } = new List<PurchaseReturnBill>();
         //public decimal? FCBillAmount { get; set; }
         //public decimal? FCBillAmountBalance { get; set; }
         //public decimal? FCNetAmount { get; set; }
