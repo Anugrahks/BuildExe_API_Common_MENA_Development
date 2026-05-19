@@ -50,6 +50,7 @@ namespace BuildExeMaterialServices.Models
         public string Frequency { get; set; }
         public string CoefficientUnitName { get; set; }
 
+        [NotMapped]
         public bool SetItem { get; set; }
         public List<OpeningStock> OpeningStock { get; set; }
         public List<OpeningRent> OpeningRent { get; set; }
