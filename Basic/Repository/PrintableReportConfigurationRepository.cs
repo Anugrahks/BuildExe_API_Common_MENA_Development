@@ -717,7 +717,7 @@ namespace BuildExeBasic.Repository
         }
 
 
-        public async Task<string> StaticPrisntableWorkshop(int BranchId, int ReportId, int RecordId)
+        public async Task<string> StaticPrintableWorkshop(int BranchId, int ReportId, int RecordId)
         {
             try
             {
