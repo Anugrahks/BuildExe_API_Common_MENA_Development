@@ -58,6 +58,9 @@ namespace BuildExeServices.Models
 
         public string? ReferenceNumber { get; set; }
         public string? contactPerson { get; set; }
+
+        public string? Mode { get; set; }       
+        public decimal? Amount { get; set; }     
         public List<ToUserEnquiryDetails> ToUserEnquiryDetails { get; set; }
     }
 

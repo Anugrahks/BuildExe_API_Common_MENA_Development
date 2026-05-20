@@ -27,5 +27,7 @@ namespace BuildExeServices.Models
 
         public string EnquiryFor { get; set; }
 
+        public List<string> SerialNumbers { get; set; } = new List<string>();
+
     }
 }
