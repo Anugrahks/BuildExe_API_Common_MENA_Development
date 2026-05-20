@@ -80,6 +80,7 @@ namespace BuildExeMaterialServices.DBContexts
         public DbSet<Models.Attribute> tbl_Attribute { get; set; }
 
         public DbSet<SparepartsMaterialDto> SparepartsMaterials { get; set; }
+        public DbSet<MaterialStockDetailDto> MaterialStockDetails { get; set; }
 
     }
 
