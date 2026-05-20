@@ -12,5 +12,8 @@ namespace BuildExeServices.Repository
 
         Task<string> Get(GetUniqueId getUniqueId);
 
+        Task<string> GetSNo(GetUniqueId getUniqueId);
+
+
     }
 }
