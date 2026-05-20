@@ -538,7 +538,7 @@ namespace BuildExeMaterialServices.Repository
                                 {
                                     PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("PurchaseDetailId")),
                                     PurchaseId = purchaseId,
-                                    MaterialId = reader["MaterialId"] == DBNull.Value ? string.Empty : reader["MaterialId"].ToString(),
+                                    MaterialId = reader["MaterialId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaterialId"]),
                                     MaterialName = reader["MaterialName"]?.ToString() ?? "",
                                     Quantity = reader["Quantity"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Quantity")),
                                     Rate = reader["Rate"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Rate")),
@@ -571,7 +571,7 @@ namespace BuildExeMaterialServices.Repository
                                         
                                         PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("Id")),
                                         PurchaseId = purchaseId,                      
-                                        MaterialId = string.Empty,
+                                        MaterialId =  0,
                                         MaterialName = reader["ChargeName"]?.ToString() ?? "Service Charge",
                                         Quantity = 1, 
                                         Rate = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
