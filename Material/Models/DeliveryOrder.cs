@@ -103,14 +103,19 @@ namespace BuildExeMaterialServices.Models
     public class WarrantyDetails
     {
         [JsonProperty("id")]
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
         public int Id { get; set; }
 
         [JsonProperty("slNo")]
+        [System.Text.Json.Serialization.JsonPropertyName("slNo")]
         public int SlNo { get; set; }
 
+        [JsonProperty("serialNumber")]
+        [System.Text.Json.Serialization.JsonPropertyName("serialNumber")]  
         public string SerialNo { get; set; }
 
         [JsonProperty("warrantyDate")]
+        [System.Text.Json.Serialization.JsonPropertyName("warrantyDate")]  
         public string WarrantyDate { get; set; }
         public int VoucherNumber { get; set; }
         public int VoucherTypeId { get; set; }

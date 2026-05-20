@@ -81,7 +81,7 @@ namespace BuildExeMaterialServices.Models
         public Int16 IsDeleted { get; set; }
 
         [JsonProperty("billAmount")]
-        public decimal BillAmount { get; set; }
+        public decimal? BillAmount { get; set; }
 
         [JsonProperty("billAmountBalance")]
         public decimal BillAmountBalance { get; set; }
@@ -361,7 +361,7 @@ namespace BuildExeMaterialServices.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PurchaseDetailId { get; set; }
         public int PurchaseId { get; set; }
-        public string MaterialId { get; set; }
+        public int MaterialId { get; set; }
 
         public int MaterialBrandId { get; set; }
         public decimal Quantity { get; set; }
