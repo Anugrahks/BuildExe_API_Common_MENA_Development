@@ -722,7 +722,7 @@ namespace BuildExeBasic.Repository
             try
             {
                 DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
-                cmd.CommandText = "dbo.Stpro_StaticPrintableReportsInSiteService";
+                cmd.CommandText = "dbo.Stpro_StaticPrintableReportsInWorkshop";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
                 cmd.Parameters.Add(new SqlParameter("@ReportId", SqlDbType.Int) { Value = ReportId });
