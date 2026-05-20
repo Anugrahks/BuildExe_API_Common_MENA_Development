@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -82,6 +83,18 @@ namespace BuildExeMaterialServices.Models
 
         public string HSNCode { get; set; }
         public string Country { get; set; }
+    }
+
+    [Keyless]
+    public class MaterialStockDetailDto
+    {
+        public string MaterialId { get; set; }
+        public string MaterialName { get; set; }
+        public decimal StockedQty { get; set; }
+        public string SerialNo { get; set; }
+        public decimal LandingCost { get; set; }
+        public DateTime? WarrantyDate { get; set; }
+        public string Pdi { get; set; }
     }
 
 }

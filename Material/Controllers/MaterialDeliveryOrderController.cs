@@ -305,5 +305,31 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpGet("GetMaterialStockDetails/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetMaterialStockDetails(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var data = await _salesOrderRepository.GetMaterialStockDetails(CompanyId, BranchId);
+                    return new OkObjectResult(data);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
 }
