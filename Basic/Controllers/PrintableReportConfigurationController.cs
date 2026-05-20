@@ -714,13 +714,13 @@ namespace BuildExeBasic.Controllers
         }
 
 
-        [HttpGet("StaticPrintableSiteService/{BranchId}/{ReportId}/{RecordId}/{IsWorkshop}")]
+        [HttpGet("StaticPrintableSiteService/{BranchId}/{ReportId}/{RecordId}")]
         [Authorize]
-        public async Task<IActionResult> StaticPrintableSiteService(int BranchId, int ReportId, int RecordId, int IsWorkshop)
+        public async Task<IActionResult> StaticPrintableSiteService(int BranchId, int ReportId, int RecordId)
         {
             try
             {
-                var validation = await _printableReportConfigurationRepository.StaticPrintableSiteService(BranchId, ReportId, RecordId, IsWorkshop);
+                var validation = await _printableReportConfigurationRepository.StaticPrintableSiteService(BranchId, ReportId, RecordId);
 
                 return new OkObjectResult(validation);
             }
@@ -733,6 +733,30 @@ namespace BuildExeBasic.Controllers
                 });
             }
         }
+
+
+        [HttpGet("StaticPrintableWorkshop/{BranchId}/{ReportId}/{RecordId}")]
+        [Authorize]
+        public async Task<IActionResult> StaticPrintableWorkshop(int BranchId, int ReportId, int RecordId)
+        {
+            try
+            {
+                var validation = await _printableReportConfigurationRepository.StaticPrintableWorkshop(BranchId, ReportId, RecordId);
+
+                return new OkObjectResult(validation);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
+        }
+
+
+
 
         [HttpGet("StaticPrintableServiceQuatation/{BranchId}/{ReportId}/{RecordId}")]
         [Authorize]
