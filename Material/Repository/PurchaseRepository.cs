@@ -418,21 +418,144 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
+        //public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID, int menuid, int FinancialYearId, int IsAsset)
+        //{
+        //    try
+        //    {
+        //        var json = JsonConvert.SerializeObject(new { IsAsset });
+        //        var Id = new SqlParameter("@Id", FinancialYearId);
+        //        var item = new SqlParameter("@item", json);
+        //        var CompanyId = new SqlParameter("@CompanyId", companyId);
+        //        var BranchId = new SqlParameter("@BranchId", branchid);
+        //        var UserId = new SqlParameter("@UserId", UserID);
+        //        var MenuId = new SqlParameter("@MenuId", menuid);
+        //        var Action = new SqlParameter("@Action", Actions.Selectforapproval);
+
+        //        var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId,@MenuId ,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
+        //        return _product;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
+
         public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID, int menuid, int FinancialYearId, int IsAsset)
         {
             try
             {
-                var json = JsonConvert.SerializeObject(new { IsAsset });
-                var Id = new SqlParameter("@Id", FinancialYearId);
-                var item = new SqlParameter("@item", json);
-                var CompanyId = new SqlParameter("@CompanyId", companyId);
-                var BranchId = new SqlParameter("@BranchId", branchid);
-                var UserId = new SqlParameter("@UserId", UserID);
-                var MenuId = new SqlParameter("@MenuId", menuid);
-                var Action = new SqlParameter("@Action", Actions.Selectforapproval);
+                var purchaseList = new List<PurchaseList>();
 
-                var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId,@MenuId ,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
-                return _product;
+                using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand("Stpro_PurchaseMasterForApproval", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                       
+                        command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(new { IsAsset }));
+                        command.Parameters.AddWithValue("@Id", FinancialYearId);
+                        command.Parameters.AddWithValue("@CompanyId", companyId);
+                        command.Parameters.AddWithValue("@BranchId", branchid);
+                        command.Parameters.AddWithValue("@UserId", UserID);
+                        command.Parameters.AddWithValue("@MenuId", menuid);
+                        command.Parameters.AddWithValue("@Action", 5); 
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            
+                            while (await reader.ReadAsync())
+                            {
+                                var purchase = new PurchaseList
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    NetAmount = reader["NetAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("NetAmount")),
+                                    PurchaseDate = reader["PurchaseDate"] == DBNull.Value ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("PurchaseDate")),
+                                    SupplierName = reader["SupplierName"]?.ToString() ?? "",
+                                    ProjectName = reader["ProjectName"]?.ToString() ?? "",
+                                    PurchaseDetail = new List<PurchaseDetail>(),
+                                    OtherCharge = new List<PurchaseOtherCharge>(),
+                                    Service = new List<int>()
+                                };
+                                purchaseList.Add(purchase);
+                            }
+
+                           
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                var purchaseId = reader.GetInt32(reader.GetOrdinal("PurchaseId"));
+                                var parent = purchaseList.FirstOrDefault(p => p.Id == purchaseId);
+                                if (parent == null) continue;
+
+                                parent.PurchaseDetail.Add(new PurchaseDetail
+                                {
+                                    PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("PurchaseDetailId")),
+                                    PurchaseId = purchaseId,
+                                    MaterialId = reader["MaterialId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaterialId"]),
+                                    MaterialName = reader["MaterialName"]?.ToString() ?? "",
+                                    Quantity = reader["Quantity"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Quantity")),
+                                    Rate = reader["Rate"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Rate")),
+                                    Total = reader["Total"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Total")),
+                                    IsServiceCharge = reader["isServiceCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["isServiceCharge"])
+                                });
+                            }
+
+                            
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                var purchaseId = reader.GetInt32(reader.GetOrdinal("PurchaseId"));
+                                var parent = purchaseList.FirstOrDefault(p => p.Id == purchaseId);
+                                if (parent == null) continue;
+
+                                int isServiceCharge = reader["IsServiceCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsServiceCharge"]);
+
+                                if (isServiceCharge == 1)
+                                {
+                                    
+                                    parent.PurchaseDetail.Add(new PurchaseDetail
+                                    {
+                                        PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("Id")),
+                                        PurchaseId = purchaseId,
+                                        MaterialName = reader["ChargeName"]?.ToString() ?? "Service Charge",
+                                        Quantity = 1,
+                                        Rate = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        Total = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        IsServiceCharge = 1
+                                    });
+                                }
+                                else
+                                {
+                                    parent.OtherCharge.Add(new PurchaseOtherCharge
+                                    {
+                                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                        PurchaseId = purchaseId,
+                                        ChargeName = reader["ChargeName"]?.ToString() ?? "",
+                                        ChargeAmount = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount"))
+                                    });
+                                }
+                            }
+
+                            
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                var purchaseId = reader.GetInt32(reader.GetOrdinal("PurchaseId"));
+                                var parent = purchaseList.FirstOrDefault(p => p.Id == purchaseId);
+                                if (parent == null) continue;
+
+                                if (reader["ServiceId"] != DBNull.Value)
+                                {
+                                    parent.Service.Add(reader.GetInt32(reader.GetOrdinal("ServiceId")));
+                                }
+                            }
+                        }
+                    }
+                }
+                return purchaseList;
             }
             catch (Exception ex)
             {
