@@ -217,6 +217,7 @@ namespace BuildExeServiceManagement.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = Id });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
@@ -224,8 +225,7 @@ namespace BuildExeServiceManagement.Repository
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = FinancialYearId });
                 cmd.Parameters.Add(new SqlParameter("@CustomerId", SqlDbType.Int) { Value = CustomerId });
                 cmd.Parameters.Add(new SqlParameter("@JobId", SqlDbType.Int) { Value = JobId });
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = Id });
-                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectforData });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 8 });
                 if (cmd.Connection.State != ConnectionState.Open)
                     await cmd.Connection.OpenAsync();
 
