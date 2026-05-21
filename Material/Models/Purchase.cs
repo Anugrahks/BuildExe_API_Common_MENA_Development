@@ -359,16 +359,16 @@ namespace BuildExeMaterialServices.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PurchaseDetailId { get; set; }
+        public int? PurchaseDetailId { get; set; }
 
         [JsonProperty("purchaseId")]
-        public int PurchaseId { get; set; }
+        public int? PurchaseId { get; set; }
 
         [JsonProperty("materialId")]
-        public int MaterialId { get; set; }
+        public int? MaterialId { get; set; }
 
         [JsonProperty("materialBrandId")]
-        public int MaterialBrandId { get; set; }
+        public int? MaterialBrandId { get; set; }
 
         [JsonProperty("quantity")]
         public decimal Quantity { get; set; }
@@ -383,7 +383,7 @@ namespace BuildExeMaterialServices.Models
         public decimal Tax { get; set; }
 
         [JsonProperty("purchaseOrderDetailsId")]
-        public int PurchaseOrderDetailsId { get; set; }
+        public int? PurchaseOrderDetailsId { get; set; }
 
         [JsonProperty("KFC_Per")]
         public decimal KFC_Per { get; set; }
@@ -440,7 +440,7 @@ namespace BuildExeMaterialServices.Models
         public decimal? Amount { get; set; }
 
         [JsonProperty("isServiceCharge")]
-        public int IsServiceCharge { get; set; }
+        public int? IsServiceCharge { get; set; }
 
         [JsonProperty("LandingCost")]
         public decimal? LandingCost { get; set; }
