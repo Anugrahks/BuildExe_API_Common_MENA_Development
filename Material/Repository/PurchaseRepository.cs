@@ -299,10 +299,10 @@ namespace BuildExeMaterialServices.Repository
                                 fCBillAmount = dg.First().Field<decimal?>("FCBillAmount"),
                                 isServiceCharge = 0,
                                 warrantyDetails = dg
-                                    .Where(w => w.Field<int>("VoucherNumber") != null) 
+                                    .Where(w => w.Field<int?>("VoucherNumber") != null) 
                                     .Select(w => new
                                     {
-                                        serialNumber = w.Field<string>("SerialNo"),
+                                        serialNo = w.Field<string>("SerialNo"),
                                         warrantyDate = w.Field<DateTime?>("WarrantyDate"),
                                     }).ToList()
                             }).ToList();
