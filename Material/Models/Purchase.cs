@@ -534,7 +534,7 @@ namespace BuildExeMaterialServices.Models
     {
         public int? purchaseDetailId { get; set; }
         public int? purchaseId { get; set; }
-        public string materialId { get; set; }
+        public int? materialId { get; set; }  
         public string materialName { get; set; }
         public decimal? quantity { get; set; }
         public decimal? rate { get; set; }
