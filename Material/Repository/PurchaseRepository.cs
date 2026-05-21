@@ -242,7 +242,7 @@ namespace BuildExeMaterialServices.Repository
                 var globalOtherChargesTable = ds.Tables[2];
                 var serviceIdsTable = ds.Tables.Count > 3 ? ds.Tables[3] : new DataTable();
 
-                // ✅ FIXED: Handled the boolean bit parsing to prevent type casting crash
+                
                 var globalOtherCharges = globalOtherChargesTable.AsEnumerable()
                     .Select(oc => new
                     {
@@ -255,7 +255,7 @@ namespace BuildExeMaterialServices.Repository
                     }).ToList();
 
                 var serviceIdsList = serviceIdsTable.AsEnumerable()
-                    .Select(row => row.Field<int>("ServiceId")) // Maps directly to SELECT ps.ServiceId
+                    .Select(row => row.Field<int>("ServiceId")) 
                     .ToList();
 
                 var result = dataTable.AsEnumerable()
@@ -264,7 +264,7 @@ namespace BuildExeMaterialServices.Repository
                     {
                         var header = p.First();
 
-                        // Real purchase detail rows (isServiceCharge = 0)
+                        
                         var realPurchaseDetails = p
                             .Where(x => x.Field<int?>("Id") == p.Key)
                             .GroupBy(d => d.Field<int?>("purchaseDetailId"))
@@ -299,7 +299,7 @@ namespace BuildExeMaterialServices.Repository
                                 fCBillAmount = dg.First().Field<decimal?>("FCBillAmount"),
                                 isServiceCharge = 0,
                                 warrantyDetails = dg
-                                    .Where(w => w.Field<string>("VoucherNumber") != null) // Fixed column casing target
+                                    .Where(w => w.Field<int>("VoucherNumber") != null) 
                                     .Select(w => new
                                     {
                                         serialNumber = w.Field<string>("SerialNo"),
