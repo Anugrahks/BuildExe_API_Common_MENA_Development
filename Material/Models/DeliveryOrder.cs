@@ -111,8 +111,8 @@ namespace BuildExeMaterialServices.Models
         public int SlNo { get; set; }
 
         [JsonProperty("serialNumber")]
-        [System.Text.Json.Serialization.JsonPropertyName("serialNumber")]  
-        public string SerialNo { get; set; }
+        public string SerialNumber { get; set; }
+
 
         [JsonProperty("warrantyDate")]
         [System.Text.Json.Serialization.JsonPropertyName("warrantyDate")]  
