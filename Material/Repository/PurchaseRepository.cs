@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BuildExeMaterialServices.DBContexts;
 using BuildExeMaterialServices.Models;
-using BuildExeMaterialServices.DBContexts;
-using Microsoft.EntityFrameworkCore;
 using BuildExeMaterialServices.Repository;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Data.Common;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BuildExeMaterialServices.Repository
 {
@@ -40,6 +41,14 @@ namespace BuildExeMaterialServices.Repository
         
             try
             {
+                var camelCaseSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
+                var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
+                Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
+
                 var materialId = new SqlParameter("@materialId", "0");
                 var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase));
                 var CompanyId = new SqlParameter("@CompanyId", "0");

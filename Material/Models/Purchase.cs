@@ -360,57 +360,99 @@ namespace BuildExeMaterialServices.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PurchaseDetailId { get; set; }
+
+        [JsonProperty("purchaseId")]
         public int PurchaseId { get; set; }
+
+        [JsonProperty("materialId")]
         public int MaterialId { get; set; }
 
+        [JsonProperty("materialBrandId")]
         public int MaterialBrandId { get; set; }
+
+        [JsonProperty("quantity")]
         public decimal Quantity { get; set; }
+
+        [JsonProperty("rate")]
         public decimal Rate { get; set; }
+
+        [JsonProperty("discount")]
         public decimal Discount { get; set; }
+
+        [JsonProperty("tax")]
         public decimal Tax { get; set; }
+
+        [JsonProperty("purchaseOrderDetailsId")]
         public int PurchaseOrderDetailsId { get; set; }
+
+        [JsonProperty("KFC_Per")]
         public decimal KFC_Per { get; set; }
+
+        [JsonProperty("sgst")]
         public decimal? Sgst { get; set; }
+
+        [JsonProperty("cgst")]
         public decimal? Cgst { get; set; }
 
+        [JsonProperty("igst")]
         public decimal? Igst { get; set; }
+
+        [JsonProperty("purchaseAmount")]
         public decimal? PurchaseAmount { get; set; }
 
+        [JsonProperty("total")]
         public decimal? Total { get; set; }
 
-
+        [JsonProperty("ChildDescription")]
         public string ChildDescription { get; set; }
 
+        [JsonProperty("materialRemarks")]
         public string MaterialRemarks { get; set; }
 
+        [JsonProperty("materialCategoryId")]
         public int? MaterialCategoryId { get; set; }
 
+        [JsonProperty("coefficientFactorValue")]
         public decimal CoefficientFactorValue { get; set; }
 
+        [JsonProperty("conversionQuantity")]
         public decimal ConversionQuantity { get; set; }
 
+        [JsonProperty("conversionUnitName")]
         public string ConversionUnitName { get; set; }
 
+        [JsonProperty("FCTotal")]
         public decimal? FCTotal { get; set; }
+
+        [JsonProperty("CurrencyId")]
         public int? CurrencyId { get; set; }
+
+        [JsonProperty("ExchangeRate")]
         public decimal? ExchangeRate { get; set; }
+
+        [JsonProperty("lamount")]
         public decimal LAmount { get; set; }
 
+        [JsonProperty("materialName")]
         public string MaterialName { get; set; }
 
+        [JsonProperty("amount")]
         public decimal? Amount { get; set; }
 
         [JsonProperty("isServiceCharge")]
         public int IsServiceCharge { get; set; }
 
+        [JsonProperty("LandingCost")]
         public decimal? LandingCost { get; set; }
 
+        [JsonProperty("FCBillAmount")]
         public decimal? FCBillAmount { get; set; }
 
+        [JsonProperty("FCNetAmount")]
         public decimal? FCNetAmount { get; set; }
-        public List<WarrantyDetails> WarrantyDetails { get; set; }
 
-
+        [JsonProperty("WarrantyDetails")]
+        public List<MaterialWarrantyDetails> WarrantyDetails { get; set; }
     }
 
 
@@ -453,16 +495,37 @@ namespace BuildExeMaterialServices.Models
     public class MaterialWarrantyDetails
     {
         [Key]
+        [JsonProperty("Id")]
         public int Id { get; set; }
+
+        [JsonProperty("VoucherNumber")]
         public int VoucherNumber { get; set; }
+
+        [JsonProperty("VoucherTypeId")]
         public int VoucherTypeId { get; set; }
+
+        [JsonProperty("ProjectId")]
         public int ProjectId { get; set; }
+
+        [JsonProperty("MaterialId")]
         public int MaterialId { get; set; }
+
+        [JsonProperty("serialNo")]       
         public string SerialNo { get; set; }
+
+        [JsonProperty("warrantyDate")]   
         public DateTime WarrantyDate { get; set; }
+
+        [JsonProperty("UserId")]
         public int UserId { get; set; }
+
+        [JsonProperty("BranchId")]
         public int BranchId { get; set; }
+
+        [JsonProperty("CompanyId")]
         public int CompanyId { get; set; }
+
+        [JsonProperty("EnteredOn")]
         public DateTime EnteredOn { get; set; }
     }
 
