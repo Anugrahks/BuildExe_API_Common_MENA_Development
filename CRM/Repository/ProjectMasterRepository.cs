@@ -1522,6 +1522,8 @@ namespace BuildExeServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = DateTime.Now });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@promiseDate", SqlDbType.Date) { Value = DateTime.Now });
+
 
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
