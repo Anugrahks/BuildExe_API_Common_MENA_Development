@@ -21,6 +21,8 @@ namespace BuildExeMaterialServices.Models
         public string ProjectName { get; set; }
         public int UnitId { get; set; }
         public string? UnitName { get; set; }
+
+        public int UserId { get; set; }
         public int BlockId { get; set; }
         public string? BlockName { get; set; }
         public int FloorId { get; set; }
@@ -32,17 +34,17 @@ namespace BuildExeMaterialServices.Models
         public string Remark { get; set; }
         public string Taxarea { get; set; }
         public int Category { get; set; }
-        public Int16 ApprovalStatus { get; set; }
-        public Int16 ApprovalLevel { get; set; }
+        public int ApprovalStatus { get; set; }
+        public int ApprovalLevel { get; set; }
         public int Maxlevel{ get; set; }
         public DateTime ApprovedDate { get; set; }
-        public Int16 ApprovedBy { get; set; }
-        public Int16 CompanyId { get; set; }
-        public Int16 BranchId { get; set; }
-        public Int16 FinancialYearId { get; set; }
+        public int ApprovedBy { get; set; }
+        public int CompanyId { get; set; }
+        public int BranchId { get; set; }
+        public int FinancialYearId { get; set; }
         public int VoucherTypeId { get; set; }
         public int VoucherNumber { get; set; }
-        public Int16 IsDeleted { get; set; }
+        public int IsDeleted { get; set; }
 
         public decimal BillAmount { get; set; }
         public decimal BillAmountBalance { get; set; }
@@ -65,8 +67,8 @@ namespace BuildExeMaterialServices.Models
         public decimal GSTPer { get; set; }
         public decimal GSTAmount { get; set; }
         public decimal KFCAmount { get; set; }
-        public Int16 MaterialTypeId { get; set; }
-        public Int16 PaymentModeId { get; set; }
+        public int MaterialTypeId { get; set; }
+        public int PaymentModeId { get; set; }
         public int SiteManagerId { get; set; }
 
         public string? ApprovalRemarks { get; set; }
