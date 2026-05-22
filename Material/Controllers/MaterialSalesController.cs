@@ -173,7 +173,7 @@ namespace BuildExeMaterialServices.Controllers
             {
                 try
             {
-                var brand = await _materialSalesRepository.GetForWareHouse( BranchId);
+                var brand = await _materialSalesRepository.GetForWareHouse(BranchId);
                 return new OkObjectResult(brand);
             }
                 catch (Exception ex)
@@ -191,6 +191,34 @@ namespace BuildExeMaterialServices.Controllers
             }
 
         }
+
+        // new api fro stock point and pdi warehouse stock >0
+        [HttpGet("getForPDIWareHouse/{BranchId}")]
+         [Authorize]
+        public async Task<IActionResult> GetForPDIWareHouse(int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+         if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var brand = await _materialSalesRepository.GetForPDIWareHouse(BranchId);
+                    return new OkObjectResult(brand);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
 
 
         [HttpGet("getApproval/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
