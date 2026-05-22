@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BuildExeMaterialServices.DBContexts;
 using BuildExeMaterialServices.Models;
-using BuildExeMaterialServices.DBContexts;
-using Microsoft.EntityFrameworkCore;
 using BuildExeMaterialServices.Repository;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Data.Common;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BuildExeMaterialServices.Repository
 {
@@ -40,6 +41,14 @@ namespace BuildExeMaterialServices.Repository
         
             try
             {
+                var camelCaseSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
+                var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
+                Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
+
                 var materialId = new SqlParameter("@materialId", "0");
                 var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase));
                 var CompanyId = new SqlParameter("@CompanyId", "0");
@@ -233,7 +242,8 @@ namespace BuildExeMaterialServices.Repository
                 var globalOtherChargesTable = ds.Tables[2];
                 var serviceIdsTable = ds.Tables.Count > 3 ? ds.Tables[3] : new DataTable();
 
-                // ✅ FIXED: Handled the boolean bit parsing to prevent type casting crash
+
+
                 var globalOtherCharges = globalOtherChargesTable.AsEnumerable()
                     .Select(oc => new
                     {
@@ -246,7 +256,7 @@ namespace BuildExeMaterialServices.Repository
                     }).ToList();
 
                 var serviceIdsList = serviceIdsTable.AsEnumerable()
-                    .Select(row => row.Field<int>("ServiceId")) // Maps directly to SELECT ps.ServiceId
+                    .Select(row => row.Field<int>("ServiceId")) 
                     .ToList();
 
                 var result = dataTable.AsEnumerable()
@@ -255,7 +265,7 @@ namespace BuildExeMaterialServices.Repository
                     {
                         var header = p.First();
 
-                        // Real purchase detail rows (isServiceCharge = 0)
+                        
                         var realPurchaseDetails = p
                             .Where(x => x.Field<int?>("Id") == p.Key)
                             .GroupBy(d => d.Field<int?>("purchaseDetailId"))
@@ -263,8 +273,8 @@ namespace BuildExeMaterialServices.Repository
                             {
                                 purchaseDetailId = dg.Key,
                                 purchaseId = p.Key,
-                                materialId = dg.First().Field<string>("materialId"),
-                                materialName = dg.First().Field<string>("materialName"),
+                                materialId = int.TryParse(dg.First().Field<string>("materialId"), out int mid) ? mid : 0,
+                                materialName = dg.First().Field<string?>("materialName")??"",
                                 quantity = dg.First().Field<decimal?>("Quantity"),
                                 rate = dg.First().Field<decimal?>("Rate"),
                                 total = dg.First().Field<decimal?>("Total"),
@@ -273,10 +283,10 @@ namespace BuildExeMaterialServices.Repository
                                 kFC_Per = dg.First().Field<decimal?>("KFC_Per"),
                                 coefficientFactorValue = dg.First().Field<decimal?>("CoefficientFactorValue"),
                                 conversionQuantity = dg.First().Field<decimal?>("ConversionQuantity"),
-                                conversionUnitName = dg.First().Field<string>("ConversionUnitName"),
-                                materialRemarks = dg.First().Field<string>("MaterialRemarks"),
+                                conversionUnitName = dg.First().Field<string?>("ConversionUnitName")??"",
+                                materialRemarks = dg.First().Field<string?>("MaterialRemarks")??"",
                                 materialCategoryId = dg.First().Field<int?>("MaterialCategoryId"),
-                                childDescription = dg.First().Field<string>("ChildDescription"),
+                                childDescription = dg.First().Field<string?>("ChildDescription")??"",
                                 fCNetAmount = dg.First().Field<decimal?>("FCNetAmount"),
                                 lAmount = dg.First().Field<decimal?>("LAmount"),
                                 landingCost = dg.First().Field<decimal?>("LandingCost"),
@@ -290,10 +300,10 @@ namespace BuildExeMaterialServices.Repository
                                 fCBillAmount = dg.First().Field<decimal?>("FCBillAmount"),
                                 isServiceCharge = 0,
                                 warrantyDetails = dg
-                                    .Where(w => w.Field<string>("VoucherNumber") != null) // Fixed column casing target
+                                    .Where(w => w.Field<int?>("VoucherNumber") != null) 
                                     .Select(w => new
                                     {
-                                        serialNumber = w.Field<string>("SerialNo"),
+                                        serialNo = w.Field<string>("SerialNo"),
                                         warrantyDate = w.Field<DateTime?>("WarrantyDate"),
                                     }).ToList()
                             }).ToList();
@@ -303,7 +313,7 @@ namespace BuildExeMaterialServices.Repository
                             {
                                 purchaseDetailId = Convert.ToInt32(sc["purchaseDetailId"]),
                                 purchaseId = Convert.ToInt32(sc["purchaseId"]),
-                                materialId = "0",
+                                materialId = 0,
                                 materialName = Convert.ToString(sc["materialName"]),
                                 quantity = 1,
                                 rate = Convert.ToDecimal(sc["rate"]),
@@ -340,6 +350,61 @@ namespace BuildExeMaterialServices.Repository
                         return new
                         {
                             Id = p.Key,
+                            purchaseInvoiceNo = header.Field<string>("PurchaseInvoiceNo"),
+                            purchaseOrderNo = header.Field<int?>("PurchaseOrderNo"),
+                            supplierId = header.Field<int?>("SupplierId"),
+                            unitId = header.Field<int?>("UnitId"),
+                            blockId = header.Field<int?>("BlockId"),
+                            floorId = header.Field<int?>("FloorId"),
+                            divisionId = header.Field<int?>("DivisionId"),
+                            category = header.Field<int?>("Category"),
+                            approvalStatus = header.Field<int?>("ApprovalStatus"),
+                            approvalLevel = header.Field<int?>("ApprovalLevel"),
+                            approvedDate = header.Field<DateTime?>("ApprovedDate"),
+                            approvedBy = header.Field<int?>("ApprovedBy"),
+                            companyId = header.Field<int?>("CompanyId"),
+                            branchId = header.Field<int?>("BranchId"),
+                            financialYearId = header.Field<int?>("FinancialYearId"),
+                            billdiscount = header.Field<decimal?>("billdiscount"),
+                            billdiscountPer = header.Field<decimal?>("billdiscountPer"),
+                            materialTypeId = header.Field<int?>("MaterialTypeId"),
+                            siteManagerId = header.Field<int?>("SiteManagerId"),
+                            approvalRemarks = header.Field<string>("ApprovalRemarks"),
+                            isReject = header.Field<int?>("IsReject"),
+                            workNameId = header.Field<int?>("WorkNameId"),
+                            isPercentage = header.Field<int?>("IsPercentage"),
+                            disableFlag = header.Field<int?>("DisableFlag"),
+                            disablePercentageFlag = header.Field<int?>("DisablePercentageFlag"),
+                            disableAmountFlag = header.Field<int?>("DisableAmountFlag"),
+                            userId = header.Field<int?>("UserId"),
+                            subcontractorId = header.Field<int?>("SubcontractorId"),
+                            temporaryTransitLocation = header.Field<string>("TemporaryTransitLocation"),
+                            creditPeriod = header.Field<int?>("CreditPeriod"),
+                            bankId = header.Field<int?>("BankId"),
+                            chequeDate = header.Field<DateTime?>("ChequeDate"),
+                            withClear = header.Field<int?>("WithClear"),
+                            isAsset = header.Field<int?>("IsAsset"),
+                            handlingChargePer = header.Field<decimal?>("HandlingChargePer"),
+                            handlingCharge = header.Field<decimal?>("HandlingCharge"),
+                            gstPercentage = header.Field<decimal?>("GstPercentage"),
+                            siteLoan = header.Field<int?>("SiteLoan"),
+                            storageChargePer = header.Field<decimal?>("StorageChargePer"),
+                            storageCharge = header.Field<decimal?>("StorageCharge"),
+                            rejectRemarks = header.Field<string>("RejectRemarks"),
+                            isAmount = header.Field<int?>("IsAmount"),
+                            isOtherCharge = header.Field<int?>("IsOtherCharge"),
+                            isLoadingUnloading = header.Field<int?>("IsLoadingUnloading"),
+                            isTransportation = header.Field<int?>("IsTransportation"),
+                            isGst = header.Field<int?>("IsGst"),
+                            tcsPer = header.Field<decimal?>("TcsPer"),
+                            tcsAmount = header.Field<decimal?>("TcsAmount"),
+                            projectId = header.Field<int?>("ProjectId"),
+                            paymentModeId = header.Field<int?>("PaymentModeId"),
+                            loadingUnloadingPer = header.Field<decimal?>("LoadingUnloadingPer"),
+                            billAmount = header.Field<decimal?>("BillAmount"),
+                            billAmountBalance = header.Field<decimal?>("BillAmountBalance"),
+                            currencyId = header.Field<int?>("CurrencyId"),
+                            exchangeRate = header.Field<decimal?>("ExchangeRate"),
                             loadingUnloadingChargeGst = header.Field<decimal?>("LoadingUnloadingChargeGst"), 
                             purchaseDate = header.Field<DateTime?>("PurchaseDate"),
                             paymentNo = header.Field<string>("PaymentNo"), 
@@ -418,21 +483,144 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
+        //public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID, int menuid, int FinancialYearId, int IsAsset)
+        //{
+        //    try
+        //    {
+        //        var json = JsonConvert.SerializeObject(new { IsAsset });
+        //        var Id = new SqlParameter("@Id", FinancialYearId);
+        //        var item = new SqlParameter("@item", json);
+        //        var CompanyId = new SqlParameter("@CompanyId", companyId);
+        //        var BranchId = new SqlParameter("@BranchId", branchid);
+        //        var UserId = new SqlParameter("@UserId", UserID);
+        //        var MenuId = new SqlParameter("@MenuId", menuid);
+        //        var Action = new SqlParameter("@Action", Actions.Selectforapproval);
+
+        //        var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId,@MenuId ,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
+        //        return _product;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
+
         public async Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID, int menuid, int FinancialYearId, int IsAsset)
         {
             try
             {
-                var json = JsonConvert.SerializeObject(new { IsAsset });
-                var Id = new SqlParameter("@Id", FinancialYearId);
-                var item = new SqlParameter("@item", json);
-                var CompanyId = new SqlParameter("@CompanyId", companyId);
-                var BranchId = new SqlParameter("@BranchId", branchid);
-                var UserId = new SqlParameter("@UserId", UserID);
-                var MenuId = new SqlParameter("@MenuId", menuid);
-                var Action = new SqlParameter("@Action", Actions.Selectforapproval);
+                var purchaseList = new List<PurchaseList>();
 
-                var _product = await _dbContext.tbl_PurchaseMasterList.FromSqlRaw("Stpro_PurchaseMasterForApproval @Id,@item, @CompanyId, @BranchId,@UserId,@MenuId ,@Action", Id, item, CompanyId, BranchId, UserId, MenuId, Action).ToListAsync();
-                return _product;
+                using (var connection = new SqlConnection(_dbContext.Database.GetConnectionString()))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new SqlCommand("Stpro_PurchaseMasterForApproval", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                       
+                        command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(new { IsAsset }));
+                        command.Parameters.AddWithValue("@Id", FinancialYearId);
+                        command.Parameters.AddWithValue("@CompanyId", companyId);
+                        command.Parameters.AddWithValue("@BranchId", branchid);
+                        command.Parameters.AddWithValue("@UserId", UserID);
+                        command.Parameters.AddWithValue("@MenuId", menuid);
+                        command.Parameters.AddWithValue("@Action", 5); 
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            
+                            while (await reader.ReadAsync())
+                            {
+                                var purchase = new PurchaseList
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    NetAmount = reader["NetAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("NetAmount")),
+                                    PurchaseDate = reader["PurchaseDate"] == DBNull.Value ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("PurchaseDate")),
+                                    SupplierName = reader["SupplierName"]?.ToString() ?? "",
+                                    ProjectName = reader["ProjectName"]?.ToString() ?? "",
+                                    PurchaseDetail = new List<PurchaseDetail>(),
+                                    OtherCharge = new List<PurchaseOtherCharge>(),
+                                    Service = new List<int>()
+                                };
+                                purchaseList.Add(purchase);
+                            }
+
+                           
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                var purchaseId = reader.GetInt32(reader.GetOrdinal("PurchaseId"));
+                                var parent = purchaseList.FirstOrDefault(p => p.Id == purchaseId);
+                                if (parent == null) continue;
+
+                                parent.PurchaseDetail.Add(new PurchaseDetail
+                                {
+                                    PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("PurchaseDetailId")),
+                                    PurchaseId = purchaseId,
+                                    MaterialId = reader["MaterialId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaterialId"]),
+                                    MaterialName = reader["MaterialName"]?.ToString() ?? "",
+                                    Quantity = reader["Quantity"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Quantity")),
+                                    Rate = reader["Rate"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Rate")),
+                                    Total = reader["Total"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Total")),
+                                    IsServiceCharge = reader["isServiceCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["isServiceCharge"])
+                                });
+                            }
+
+                            
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                var purchaseId = reader.GetInt32(reader.GetOrdinal("PurchaseId"));
+                                var parent = purchaseList.FirstOrDefault(p => p.Id == purchaseId);
+                                if (parent == null) continue;
+
+                                int isServiceCharge = reader["IsServiceCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsServiceCharge"]);
+
+                                if (isServiceCharge == 1)
+                                {
+                                    
+                                    parent.PurchaseDetail.Add(new PurchaseDetail
+                                    {
+                                        PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("Id")),
+                                        PurchaseId = purchaseId,
+                                        MaterialName = reader["ChargeName"]?.ToString() ?? "Service Charge",
+                                        Quantity = 1,
+                                        Rate = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        Total = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        IsServiceCharge = 1
+                                    });
+                                }
+                                else
+                                {
+                                    parent.OtherCharge.Add(new PurchaseOtherCharge
+                                    {
+                                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                        PurchaseId = purchaseId,
+                                        ChargeName = reader["ChargeName"]?.ToString() ?? "",
+                                        ChargeAmount = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount"))
+                                    });
+                                }
+                            }
+
+                            
+                            await reader.NextResultAsync();
+                            while (await reader.ReadAsync())
+                            {
+                                var purchaseId = reader.GetInt32(reader.GetOrdinal("PurchaseId"));
+                                var parent = purchaseList.FirstOrDefault(p => p.Id == purchaseId);
+                                if (parent == null) continue;
+
+                                if (reader["ServiceId"] != DBNull.Value)
+                                {
+                                    parent.Service.Add(reader.GetInt32(reader.GetOrdinal("ServiceId")));
+                                }
+                            }
+                        }
+                    }
+                }
+                return purchaseList;
             }
             catch (Exception ex)
             {
@@ -513,12 +701,141 @@ namespace BuildExeMaterialServices.Repository
                             {
                                 var purchase = new PurchaseList
                                 {
-                                    
-                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    NetAmount = reader["NetAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("NetAmount")),
-                                    PurchaseDate = reader["PurchaseDate"] == DBNull.Value ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("PurchaseDate")),
+                                    Id = reader["Id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Id"]),
+                                    PurchaseInvoiceNo = reader["PurchaseInvoiceNo"]?.ToString() ?? "",
+
+                                    PurchaseOrderNo = reader["PurchaseOrderNo"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["PurchaseOrderNo"]),
+
+                                    PurchaseDate = reader["PurchaseDate"] == DBNull.Value
+    ? (DateTime?)null
+    : Convert.ToDateTime(reader["PurchaseDate"]),
+
+                                    SupplierId = reader["SupplierId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["SupplierId"]),
+
                                     SupplierName = reader["SupplierName"]?.ToString() ?? "",
+
+                                    ProjectId = reader["ProjectId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["ProjectId"]),
+
                                     ProjectName = reader["ProjectName"]?.ToString() ?? "",
+
+                                    UnitId = reader["UnitId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["UnitId"]),
+
+                                    BlockId = reader["BlockId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["BlockId"]),
+
+                                    FloorId = reader["FloorId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["FloorId"]),
+
+                                    DivisionId = reader["DivisionId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["DivisionId"]),
+
+                                    CompanyId = reader["CompanyId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["CompanyId"]),
+
+                                    BranchId = reader["BranchId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["BranchId"]),
+
+                                    FinancialYearId = reader["FinancialYearId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["FinancialYearId"]),
+
+                                    Remark = reader["Remark"]?.ToString() ?? "",
+
+                                    Taxarea = reader["Taxarea"]?.ToString() ?? "",
+
+                                    Category = reader["Category"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["Category"]),
+
+                                    ApprovalStatus = reader["ApprovalStatus"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["ApprovalStatus"]),
+
+                                    ApprovalLevel = reader["ApprovalLevel"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["ApprovalLevel"]),
+
+                                    ApprovedBy = reader["ApprovedBy"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["ApprovedBy"]),
+
+                                    BillAmount = reader["BillAmount"] == DBNull.Value
+    ? 0
+    : Convert.ToDecimal(reader["BillAmount"]),
+
+                                    BillAmountBalance = reader["BillAmountBalance"] == DBNull.Value
+    ? 0
+    : Convert.ToDecimal(reader["BillAmountBalance"]),
+
+                                    NetAmount = reader["NetAmount"] == DBNull.Value
+    ? 0
+    : Convert.ToDecimal(reader["NetAmount"]),
+
+                                    PaymentModeId = reader["PaymentModeId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["PaymentModeId"]),
+
+                                    MaterialTypeId = reader["MaterialTypeId"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["MaterialTypeId"]),
+
+                                    DisableFlag = reader["DisableFlag"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["DisableFlag"]),
+
+                                    IsGst = reader["IsGst"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["IsGst"]),
+
+                                    IsTransportation = reader["IsTransportation"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["IsTransportation"]),
+
+                                    IsLoadingUnloading = reader["IsLoadingUnloading"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["IsLoadingUnloading"]),
+
+                                    IsOtherCharge = reader["IsOtherCharge"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["IsOtherCharge"]),
+
+                                    IsAmount = reader["IsAmount"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["IsAmount"]),
+
+                                    IsPercentage = reader["IsPercentage"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["IsPercentage"]),
+
+                                    WithClear = reader["WithClear"] == DBNull.Value
+    ? 0
+    : Convert.ToInt32(reader["WithClear"]),
+
+                                    Currency = reader["Currency"] == DBNull.Value
+    ? (int?)null
+    : Convert.ToInt32(reader["Currency"]),
+
+                                    ExchangeRate = reader["ExchangeRate"] == DBNull.Value
+    ? (decimal?)null
+    : Convert.ToDecimal(reader["ExchangeRate"]),
+
+                                    LAmount = reader["LAmount"] == DBNull.Value
+    ? (decimal?)null
+    : Convert.ToDecimal(reader["LAmount"]),
+
                                     PurchaseDetail = new List<PurchaseDetail>(),
                                     OtherCharge = new List<PurchaseOtherCharge>(),
                                     Service = new List<int>()
