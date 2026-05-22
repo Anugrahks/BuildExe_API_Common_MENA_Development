@@ -56,6 +56,7 @@ namespace BuildExeBasic.Repository
 
         Task<string> StaticPrintableServiceQuatation(int BranchId, int ReportId, int RecordId);
 
+        Task<string> StaticPrintablePDI(int BranchId, int ReportId, int RecordId);
 
     }
 }
