@@ -519,7 +519,7 @@ namespace BuildExeServices.Repository
 
                     await _dbContext.Database.ExecuteSqlRawAsync("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, @ProjectDescription, @Status, " +
                         "@StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, @Address, @Post, @Pin, @PhoneNumber, " +
-                        "@MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action, @id, @IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@PromiseDate@json",
+                        "@MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action, @id, @IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@PromiseDate,@json",
                         ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription, StartDate, EndDate, GST_No, ClientId, FirstName,
                         LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea, RatePerArea, TotalAmount, PaymentModeId,
                         CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, PromiseDate, json);
