@@ -60,6 +60,8 @@ namespace BuildExeMaterialServices.Models
 
         public List<int> selectedPurchaseOrders { get; set; }
 
+        public bool IsWareHouse { get; set; } = false;
+
         // Optional navigation properties if needed
         [JsonProperty("deliveryOrderDetails")]
         public List<DeliveryOrderDetails> DeliveryOrderDetails { get; set; }
