@@ -30,7 +30,7 @@ namespace BuildExeMaterialServices.Models
         public int ProjectId { get; set; }
 
         [JsonProperty("unitId")]
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
 
         [JsonProperty("blockId")]
         public int BlockId { get; set; }
@@ -180,7 +180,7 @@ namespace BuildExeMaterialServices.Models
         public decimal KFCAmount { get; set; }
 
         [JsonProperty("materialTypeId")]
-        public Int16 MaterialTypeId { get; set; }
+        public Int16? MaterialTypeId { get; set; }
 
         [JsonProperty("paymentModeId")]
         public Int16 PaymentModeId { get; set; }

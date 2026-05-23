@@ -440,7 +440,7 @@ namespace BuildExeMaterialServices.Repository
                             reqLoadingTax = header.Field<string>("ReqLoadingTax"),
                             reqTransportTax = header.Field<string>("ReqTransportTax"),
 
-                            PurchaseDeliveryDetail = p
+                            purchaseDeliveryDetail = p
                                 .Where(x => x.Field<int?>("Id") == p.Key)
                                 .GroupBy(q => q.Field<int?>("Id"))
                                 .Select(pdd => new
@@ -457,7 +457,7 @@ namespace BuildExeMaterialServices.Repository
                                     coefficientFactorValue = pdd.First().Field<decimal?>("CoefficientFactorValue"),
                                 }).ToList(),
 
-                            PurchaseReturnBill = p
+                            purchaseReturnBill = p
                                 .Where(x => x.Field<int?>("Id") == p.Key)
                                 .GroupBy(r => r.Field<int?>("Id"))
                                 .Select(prbl => new
@@ -466,7 +466,7 @@ namespace BuildExeMaterialServices.Repository
                                 }).ToList(),
 
                             otherCharge = globalOtherCharges,
-                            PurchaseDetails = allPurchaseDetails,
+                            purchaseDetail = allPurchaseDetails,
                             service = serviceIdsList
                         };
 
