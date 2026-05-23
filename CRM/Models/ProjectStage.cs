@@ -63,6 +63,8 @@ namespace BuildExeServices.Models
 
         public int WorkCategoryId { get; set; }
 
+        public string InvoiceNo { get; set; }
+
 
     }
 }
