@@ -94,6 +94,8 @@ namespace BuildExeServiceManagement.Models
         public decimal? RunningClearance2AA { get; set; }
         public decimal? RunningClearance2BB { get; set; }
 
+        public string ShaftRunoutImage { get; set; }
+        public string ShaftRunoutImageDbPath { get; set; }
         // ---------- CHILD ----------
 
         public Dictionary<string, decimal?> ShaftRunOutValues { get; set; }
