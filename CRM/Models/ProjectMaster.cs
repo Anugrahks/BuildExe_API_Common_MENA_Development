@@ -67,6 +67,7 @@ namespace BuildExeServices.Models
 
         public DateTime DatePeriodFrom { get; set;}
         public DateTime DatePeriodTo { get; set; }
+        public int? isproformainvoice { get; set; }
 
         public DateTime? PromiseDate { get; set; }
         //public DateTime PromiseDate { get; internal set; }
