@@ -193,7 +193,7 @@ namespace BuildExeMaterialServices.Controllers
         }
 
         // new api fro stock point and pdi warehouse stock >0
-        [HttpGet("getForPDIWareHouse/{BranchId}")]
+        [HttpGet("getForPDIWareHouse/{BranchId}")]///
         [Authorize]
         public async Task<IActionResult> GetForPDIWareHouse(int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
         {
