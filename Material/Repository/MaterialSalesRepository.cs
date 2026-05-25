@@ -402,6 +402,47 @@ namespace BuildExeMaterialServices.Repository
           throw;
       }
      }
+
+        public async Task<string> GetForPDIWareHouse(int BranchId)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_MaterialSales";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@SalesDate", SqlDbType.DateTime) { Value = DateTime.Now });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 14 }); // ← Action 14
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                string purcasedetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    purcasedetails = purcasedetails + dataTable.Rows[i][0].ToString();
+                }
+                if (purcasedetails == "")
+                    purcasedetails = "[]";
+                return purcasedetails;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
         public async Task<string> GetforReport(MaterialSearch materialSearch)
         {
             try

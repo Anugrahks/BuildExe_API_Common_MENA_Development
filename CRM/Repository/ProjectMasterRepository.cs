@@ -116,6 +116,8 @@ namespace BuildExeServices.Repository
                     cmd.Parameters.Add(new SqlParameter("@ContactPerson", SqlDbType.NVarChar) { Value = "" });
                     cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = "" });
                     cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = "1990-01-01" });
+                    cmd.Parameters.Add(new SqlParameter("@promiseDate", SqlDbType.Date) { Value = "1990-01-01" });
+
                 }
                 else
                 {
@@ -167,6 +169,10 @@ namespace BuildExeServices.Repository
                     cmd.Parameters.Add(new SqlParameter("@ContactPerson", SqlDbType.NVarChar) { Value = project.ContactPerson });
                     cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = project.LpoNo });
                     cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = project.LpoDate });
+                    cmd.Parameters.Add(new SqlParameter("@PromiseDate", SqlDbType.Date)
+                    {
+                        Value = project.PromiseDate ?? new DateTime(1990, 1, 1)
+                    });
 
                 }
 
@@ -466,6 +472,8 @@ namespace BuildExeServices.Repository
                         project.ContactPerson = "";
                     if (project.LpoDate == null)
                         project.LpoDate = new DateTime(1990, 1, 1);
+                    if (project.PromiseDate == null)
+                        project.PromiseDate = new DateTime(1990, 1, 1);
 
 
                     var id = new SqlParameter("@id", project.id);
@@ -512,14 +520,15 @@ namespace BuildExeServices.Repository
                     var ContactPerson = new SqlParameter("@ContactPerson", project.ContactPerson);
                     var LpoNo = new SqlParameter("@LpoNo", project.LpoNo);
                     var LpoDate = new SqlParameter("@LpoDate", project.LpoDate);
+                    var PromiseDate = new SqlParameter("@PromiseDate", project.PromiseDate);
                     var json= new SqlParameter("@json", JsonConvert.SerializeObject(project));
 
                     await _dbContext.Database.ExecuteSqlRawAsync("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, @ProjectDescription, @Status, " +
                         "@StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, @Address, @Post, @Pin, @PhoneNumber, " +
-                        "@MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action, @id, @IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@json",
+                        "@MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action, @id, @IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@PromiseDate,@json",
                         ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription, StartDate, EndDate, GST_No, ClientId, FirstName,
                         LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea, RatePerArea, TotalAmount, PaymentModeId,
-                        CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, json);
+                        CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, PromiseDate, json);
 
                     val.Id = project.id;
                     val.StatusCode = 1;
@@ -1522,6 +1531,8 @@ namespace BuildExeServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = DateTime.Now });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@PromiseDate", SqlDbType.Date) { Value = DateTime.Now });
+
 
                 if (cmd.Connection.State != ConnectionState.Open)
                 {

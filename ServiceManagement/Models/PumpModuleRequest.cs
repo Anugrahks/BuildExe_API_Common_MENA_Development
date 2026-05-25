@@ -10,7 +10,7 @@ namespace BuildExeServiceManagement.Models
     public class PumpModuleRequest
     {
         // ---------- MASTER ----------
-        public int Id { get; set; }                 // For update
+        public int Id { get; set; }                 
         public int EntryType { get; set; }
         public int? StockPointId { get; set; }
 
@@ -115,12 +115,11 @@ namespace BuildExeServiceManagement.Models
     public class AssemblyCheckModel
     {
         public int SlNo { get; set; }
-        public string Description { get; set; }
+        public string ItemDescription { get; set; }
         public string YorN { get; set; }
         public int NA { get; set; }
-        public string Remarks { get; set; }
-    }
-
+        public string Observation { get; set; }
+    }    
 
     public class ElectricalChecks
     {
