@@ -69,13 +69,21 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
-                var materialId = new SqlParameter("@materialId", Id);
-                var item = new SqlParameter("@item", "");
-                var CompanyId = new SqlParameter("@CompanyId", "0");
-                var BranchId = new SqlParameter("@BranchId", "0");
-                var UserId = new SqlParameter("@UserId", UserID);
-                var Action = new SqlParameter("@Action", Actions.Delete);
-                var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_PurchaseMaster @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
+                var jsonParam = new SqlParameter("@json", SqlDbType.NVarChar)
+                {
+                    Value = DBNull.Value
+                };
+
+                var purchaseList = await _dbContext.tbl_validations
+                    .FromSqlRaw("Stpro_PurchaseMaster @Id, @json, @CompanyId, @BranchId, @UserId, @Action",
+                        new SqlParameter("@Id", SqlDbType.Int) { Value = Id },
+                        jsonParam,
+                        new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 },
+                        new SqlParameter("@BranchId", SqlDbType.Int) { Value = 0 },
+                        new SqlParameter("@UserId", SqlDbType.Int) { Value = UserID },
+                        new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.Delete })
+                    .ToListAsync();
+
                 return purchaseList;
             }
             catch (Exception ex)
@@ -519,35 +527,66 @@ namespace BuildExeMaterialServices.Repository
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                       
                         command.Parameters.AddWithValue("@json", JsonConvert.SerializeObject(new { IsAsset }));
                         command.Parameters.AddWithValue("@Id", FinancialYearId);
                         command.Parameters.AddWithValue("@CompanyId", companyId);
                         command.Parameters.AddWithValue("@BranchId", branchid);
                         command.Parameters.AddWithValue("@UserId", UserID);
                         command.Parameters.AddWithValue("@MenuId", menuid);
-                        command.Parameters.AddWithValue("@Action", 5); 
+                        command.Parameters.AddWithValue("@Action", 5);
 
                         using (var reader = await command.ExecuteReaderAsync())
                         {
-                            
                             while (await reader.ReadAsync())
                             {
                                 var purchase = new PurchaseList
                                 {
-                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    NetAmount = reader["NetAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("NetAmount")),
-                                    PurchaseDate = reader["PurchaseDate"] == DBNull.Value ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("PurchaseDate")),
+                                    Id = reader["Id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Id"]),
+                                    PurchaseInvoiceNo = reader["PurchaseInvoiceNo"]?.ToString() ?? "",
+                                    PurchaseOrderNo = reader["PurchaseOrderNo"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PurchaseOrderNo"]),
+                                    PurchaseDate = reader["PurchaseDate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["PurchaseDate"]),
+                                    SupplierId = reader["SupplierId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SupplierId"]),
                                     SupplierName = reader["SupplierName"]?.ToString() ?? "",
+                                    ProjectId = reader["ProjectId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ProjectId"]),
                                     ProjectName = reader["ProjectName"]?.ToString() ?? "",
+                                    UnitId = reader["UnitId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["UnitId"]),
+                                    BlockId = reader["BlockId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BlockId"]),
+                                    FloorId = reader["FloorId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["FloorId"]),
+                                    DivisionId = reader["DivisionId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["DivisionId"]),
+                                    CompanyId = reader["CompanyId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["CompanyId"]),
+                                    BranchId = reader["BranchId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BranchId"]),
+                                    FinancialYearId = reader["FinancialYearId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["FinancialYearId"]),
+                                    Remark = reader["Remark"]?.ToString() ?? "",
+                                    Taxarea = reader["Taxarea"]?.ToString() ?? "",
+                                    Category = reader["Category"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Category"]),
+                                    ApprovalStatus = reader["ApprovalStatus"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ApprovalStatus"]),
+                                    ApprovalLevel = reader["ApprovalLevel"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ApprovalLevel"]),
+                                    ApprovedBy = reader["ApprovedBy"] == DBNull.Value ? 0 : Convert.ToInt32(reader["ApprovedBy"]),
+                                    BillAmount = reader["BillAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["BillAmount"]),
+                                    BillAmountBalance = reader["BillAmountBalance"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["BillAmountBalance"]),
+                                    NetAmount = reader["NetAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["NetAmount"]),
+                                    PaymentModeId = reader["PaymentModeId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PaymentModeId"]),
+                                    MaterialTypeId = reader["MaterialTypeId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaterialTypeId"]),
+                                    DisableFlag = reader["DisableFlag"] == DBNull.Value ? 0 : Convert.ToInt32(reader["DisableFlag"]),
+                                    IsGst = reader["IsGst"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsGst"]),
+                                    IsTransportation = reader["IsTransportation"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsTransportation"]),
+                                    IsLoadingUnloading = reader["IsLoadingUnloading"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsLoadingUnloading"]),
+                                    IsOtherCharge = reader["IsOtherCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsOtherCharge"]),
+                                    IsAmount = reader["IsAmount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsAmount"]),
+                                    IsPercentage = reader["IsPercentage"] == DBNull.Value ? 0 : Convert.ToInt32(reader["IsPercentage"]),
+                                    WithClear = reader["WithClear"] == DBNull.Value ? 0 : Convert.ToInt32(reader["WithClear"]),
+                                    Currency = reader["Currency"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["Currency"]),
+                                    ExchangeRate = reader["ExchangeRate"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["ExchangeRate"]),
+                                    LAmount = reader["LAmount"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["LAmount"]),
+
                                     PurchaseDetail = new List<PurchaseDetail>(),
                                     OtherCharge = new List<PurchaseOtherCharge>(),
-                                    Service = new List<int>()
+                                    Service = new List<int>(),
+                                    PurchaseReturnBill = new List<BuildExeMaterialServices.Models.PurchaseReturnBill>()
                                 };
                                 purchaseList.Add(purchase);
                             }
 
-                           
                             await reader.NextResultAsync();
                             while (await reader.ReadAsync())
                             {
@@ -563,12 +602,17 @@ namespace BuildExeMaterialServices.Repository
                                     MaterialName = reader["MaterialName"]?.ToString() ?? "",
                                     Quantity = reader["Quantity"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Quantity")),
                                     Rate = reader["Rate"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Rate")),
+                                    Discount = reader["Discount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Discount")),
+                                    Tax = reader["Tax"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Tax")),
                                     Total = reader["Total"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Total")),
-                                    IsServiceCharge = reader["isServiceCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["isServiceCharge"])
+                                    Amount = reader["Amount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("Amount")),
+                                    LAmount = reader["LAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("LAmount")),
+                                    LandingCost = reader["LandingCost"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("LandingCost")),
+                                    IsServiceCharge = reader["isServiceCharge"] == DBNull.Value ? 0 : Convert.ToInt32(reader["isServiceCharge"]),
+                                    MaterialRemarks = reader["MaterialRemarks"]?.ToString() ?? ""
                                 });
                             }
 
-                            
                             await reader.NextResultAsync();
                             while (await reader.ReadAsync())
                             {
@@ -580,16 +624,22 @@ namespace BuildExeMaterialServices.Repository
 
                                 if (isServiceCharge == 1)
                                 {
-                                    
                                     parent.PurchaseDetail.Add(new PurchaseDetail
                                     {
                                         PurchaseDetailId = reader.GetInt32(reader.GetOrdinal("Id")),
                                         PurchaseId = purchaseId,
+                                        MaterialId = 0,
                                         MaterialName = reader["ChargeName"]?.ToString() ?? "Service Charge",
                                         Quantity = 1,
                                         Rate = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        Discount = 0,
+                                        Tax = reader["ChargePercentage"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargePercentage")),
                                         Total = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
-                                        IsServiceCharge = 1
+                                        Amount = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        LAmount = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        LandingCost = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        IsServiceCharge = 1,
+                                        MaterialRemarks = "Mapped from Other Charges Table"
                                     });
                                 }
                                 else
@@ -599,12 +649,16 @@ namespace BuildExeMaterialServices.Repository
                                         Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                         PurchaseId = purchaseId,
                                         ChargeName = reader["ChargeName"]?.ToString() ?? "",
-                                        ChargeAmount = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount"))
+                                        ChargePercentage = reader["ChargePercentage"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargePercentage")),
+                                        ChargeAmount = reader["ChargeAmount"] == DBNull.Value ? 0 : reader.GetDecimal(reader.GetOrdinal("ChargeAmount")),
+                                        PaymentModeId = reader["PaymentModeId"] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("PaymentModeId")),
+                                        SupplierId = reader["SupplierId"] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("SupplierId")),
+                                        WithClear = reader["WithClear"] == DBNull.Value ? 0 : (Convert.ToBoolean(reader["WithClear"]) ? 1 : 0),
+                                        IsServiceCharge = 0
                                     });
                                 }
                             }
 
-                            
                             await reader.NextResultAsync();
                             while (await reader.ReadAsync())
                             {
@@ -620,6 +674,7 @@ namespace BuildExeMaterialServices.Repository
                         }
                     }
                 }
+
                 return purchaseList;
             }
             catch (Exception ex)
