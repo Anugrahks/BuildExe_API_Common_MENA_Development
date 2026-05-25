@@ -81,6 +81,8 @@ namespace BuildExeServices.Models
         public int WorkCategoryId { get; set; }
 
         public string? clientUniqueName { get; set; }
+
+        public string? InvoiceNo { get; set; }
         public List<PartBillDetails> PartBillDetails { get; set; }
         public List<PartBillRetentiondetail> PartBillRetentiondetail { get; set; }
 
