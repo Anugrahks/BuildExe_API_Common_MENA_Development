@@ -116,6 +116,8 @@ namespace BuildExeServices.Repository
                     cmd.Parameters.Add(new SqlParameter("@ContactPerson", SqlDbType.NVarChar) { Value = "" });
                     cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = "" });
                     cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = "1990-01-01" });
+                    cmd.Parameters.Add(new SqlParameter("@promiseDate", SqlDbType.Date) { Value = "1990-01-01" });
+
                 }
                 else
                 {
@@ -167,6 +169,10 @@ namespace BuildExeServices.Repository
                     cmd.Parameters.Add(new SqlParameter("@ContactPerson", SqlDbType.NVarChar) { Value = project.ContactPerson });
                     cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = project.LpoNo });
                     cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = project.LpoDate });
+                    cmd.Parameters.Add(new SqlParameter("@PromiseDate", SqlDbType.Date)
+                    {
+                        Value = project.PromiseDate ?? new DateTime(1990, 1, 1)
+                    });
 
                 }
 
@@ -1525,7 +1531,7 @@ namespace BuildExeServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@LpoNo", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@LpoDate", SqlDbType.Date) { Value = DateTime.Now });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
-                cmd.Parameters.Add(new SqlParameter("@promiseDate", SqlDbType.Date) { Value = DateTime.Now });
+                cmd.Parameters.Add(new SqlParameter("@PromiseDate", SqlDbType.Date) { Value = DateTime.Now });
 
 
                 if (cmd.Connection.State != ConnectionState.Open)
