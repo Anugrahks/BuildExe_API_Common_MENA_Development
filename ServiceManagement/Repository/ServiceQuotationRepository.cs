@@ -13,6 +13,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -43,9 +44,11 @@ namespace BuildExeServiceManagement.Repository
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
-                var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
+                var FinancialYearId = new SqlParameter("@FinancialYearId", "0"); 
+                var cusId = new SqlParameter("@CustomerId", "0" );
+                var jobId = new SqlParameter("@JobId", "0" );
                 var Action = new SqlParameter("@Action", Actions.Insert);
-                var serviceList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_ServiceInvoice @Id, @json, @CompanyId, @BranchId ,@UserId, @FinancialYearId, @Action", invoiceId, item, CompanyId, BranchId, UserId, FinancialYearId, Action).ToListAsync();
+                var serviceList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_ServiceInvoice @Id, @json, @CompanyId, @BranchId ,@UserId, @FinancialYearId,@CustomerId,@JobId, @Action", invoiceId, item, CompanyId, BranchId, UserId, FinancialYearId,cusId,jobId,   Action).ToListAsync();
                 return serviceList;
             }
             catch (Exception ex)
@@ -64,9 +67,11 @@ namespace BuildExeServiceManagement.Repository
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
-                var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
+                var FinancialYearId = new SqlParameter("@FinancialYearId", "0"); 
+                var cusId = new SqlParameter("@CustomerId", "0" );
+                var jobId = new SqlParameter("@JobId", "0" );
                 var Action = new SqlParameter("@Action", Actions.Update);
-                var serviceList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_ServiceInvoice @Id, @json, @CompanyId, @BranchId ,@UserId, @FinancialYearId, @Action", invoiceId, item, CompanyId, BranchId, UserId, FinancialYearId, Action).ToListAsync();
+                var serviceList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_ServiceInvoice @Id, @json, @CompanyId, @BranchId ,@UserId, @FinancialYearId,@CustomerId,@JobId, @Action", invoiceId, item, CompanyId, BranchId, UserId, FinancialYearId, cusId, jobId,   Action).ToListAsync();
                 return serviceList;
             }
             catch (Exception ex)
@@ -87,8 +92,10 @@ namespace BuildExeServiceManagement.Repository
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", UserID);
                 var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
+                var cusId=new SqlParameter("@CustomerId", "0" );
+                var jobId=new SqlParameter("@JobId", "0" );
                 var Action = new SqlParameter("@Action", Actions.Delete);
-                var serviceList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_ServiceInvoice @Id, @json, @CompanyId, @BranchId ,@UserId, @FinancialYearId, @Action", invoiceId, item, CompanyId, BranchId, UserId, FinancialYearId,  Action).ToListAsync();
+                var serviceList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_ServiceInvoice @Id, @json, @CompanyId, @BranchId ,@UserId, @FinancialYearId,@CustomerId,@JobId, @Action", invoiceId, item, CompanyId, BranchId, UserId, FinancialYearId,cusId,jobId, Action).ToListAsync();
                 return serviceList;
             }
             catch (Exception ex)
@@ -113,6 +120,8 @@ namespace BuildExeServiceManagement.Repository
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = FinancialYearId });
+                cmd.Parameters.Add(new SqlParameter("@CustomerId", SqlDbType.Int) { Value = 0  });
+                cmd.Parameters.Add(new SqlParameter("@JobId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectforData });
                 if (cmd.Connection.State != ConnectionState.Open)
                     await cmd.Connection.OpenAsync();
