@@ -84,7 +84,7 @@ namespace BuildExeMaterialServices.Models
         public decimal? BillAmount { get; set; }
 
         [JsonProperty("billAmountBalance")]
-        public decimal BillAmountBalance { get; set; }
+        public decimal? BillAmountBalance { get; set; }
 
         [JsonProperty("amountPaidAdvance")]
         public decimal AmountPaidAdvance { get; set; }
@@ -381,7 +381,7 @@ namespace BuildExeMaterialServices.Models
         public decimal Rate { get; set; }
 
         [JsonProperty("discount")]
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
 
         [JsonProperty("tax")]
         public decimal Tax { get; set; }
@@ -564,6 +564,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? exchangeRate { get; set; }
         public decimal? fCBillAmount { get; set; }
         public int isServiceCharge { get; set; }
+
+        public string materialUnit { get; set; }
         public object warrantyDetails { get; set; }
     }
 
