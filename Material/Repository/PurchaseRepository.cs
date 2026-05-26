@@ -281,7 +281,7 @@ namespace BuildExeMaterialServices.Repository
                             {
                                 purchaseDetailId = dg.Key,
                                 purchaseId = p.Key,
-                                materialId = int.TryParse(dg.First().Field<string>("materialId"), out int mid) ? mid : 0,
+                                materialId = dg.First().Field<int?>("materialId") ?? 0,
                                 materialName = dg.First().Field<string?>("materialName")??"",
                                 quantity = dg.First().Field<decimal?>("Quantity"),
                                 rate = dg.First().Field<decimal?>("Rate"),
@@ -427,6 +427,7 @@ namespace BuildExeMaterialServices.Repository
                             documentationChargePer = header.Field<decimal?>("DocumentationChargePer"), 
                             freightCharge = header.Field<decimal?>("FreightCharge"), 
                             freightChargePer = header.Field<decimal?>("FreightChargePer"),
+                            purchasetype=header.Field<int?>("PurchaseType"),
                             loadingUnloadingCharge = header.Field<decimal?>("LoadingUnloadingCharge"),
                             mofaCharge = header.Field<decimal?>("mofaCharge"),
                             mofaChargePer = header.Field<decimal?>("mofaChargePer"),

@@ -325,6 +325,10 @@ namespace BuildExeMaterialServices.Models
 
         [JsonProperty("lAmount")]
         public decimal LAmount { get; set; }
+
+        [JsonProperty("purchasetype")]
+
+        public int PurchaseType { get; set; }
     }
 
     public class PurchaseOtherCharge
@@ -386,7 +390,7 @@ namespace BuildExeMaterialServices.Models
         public int? PurchaseOrderDetailsId { get; set; }
 
         [JsonProperty("KFC_Per")]
-        public decimal KFC_Per { get; set; }
+        public decimal? KFC_Per { get; set; }
 
         [JsonProperty("sgst")]
         public decimal? Sgst { get; set; }
@@ -431,7 +435,7 @@ namespace BuildExeMaterialServices.Models
         public decimal? ExchangeRate { get; set; }
 
         [JsonProperty("lamount")]
-        public decimal LAmount { get; set; }
+        public decimal? LAmount { get; set; }
 
         [JsonProperty("materialName")]
         public string MaterialName { get; set; }
