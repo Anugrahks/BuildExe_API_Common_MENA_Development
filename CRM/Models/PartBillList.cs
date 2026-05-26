@@ -87,6 +87,7 @@ namespace BuildExeServices.Models
         public string? clientUniqueName { get; set; }
 
         public int IsService { get; set; }
+        public string? InvoiceNo { get; set; }
 
     }
 }
