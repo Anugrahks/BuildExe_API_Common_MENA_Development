@@ -88,7 +88,7 @@ namespace BuildExeMaterialServices.Models
     [Keyless]
     public class MaterialStockDetailDto
     {
-        public string MaterialId { get; set; }
+        public int MaterialId { get; set; }
         public string MaterialName { get; set; }
         public decimal StockedQty { get; set; }
         public string SerialNo { get; set; }
