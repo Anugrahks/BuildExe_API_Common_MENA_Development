@@ -49,5 +49,7 @@ namespace BuildExeServices.Models
         public string? CustomerName { get; set; }
         public int? IsCreditPayment { get; set; }
         public string? clientUniqueName { get; set; }
+
+        public string? InvoiceNo { get; set; }
     }
 }
