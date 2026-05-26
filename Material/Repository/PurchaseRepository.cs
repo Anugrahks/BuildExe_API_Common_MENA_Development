@@ -283,6 +283,7 @@ namespace BuildExeMaterialServices.Repository
                                 purchaseId = p.Key,
                                 materialId = dg.First().Field<int?>("materialId") ?? 0,
                                 materialName = dg.First().Field<string?>("materialName")??"",
+                                materialUnit=dg.First().Field<string?>("materialUnit"),
                                 quantity = dg.First().Field<decimal?>("Quantity"),
                                 rate = dg.First().Field<decimal?>("Rate"),
                                 total = dg.First().Field<decimal?>("Total"),
@@ -350,7 +351,7 @@ namespace BuildExeMaterialServices.Repository
                                 warrantyDetails = new List<object>()
                             }).ToList();
 
-                        // Merge both lists
+                        
                         var allPurchaseDetails = realPurchaseDetails
                             .Concat(serviceChargeDetails)
                             .ToList();
