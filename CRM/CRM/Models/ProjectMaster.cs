@@ -68,6 +68,8 @@ namespace BuildExeServices.Models
         public DateTime DatePeriodFrom { get; set;}
         public DateTime DatePeriodTo { get; set; }
 
+        public bool? isproformainvoice { get; set; }
+
         //public string? OpeningType { get; set; }
         //public decimal? OpeningBalance { get; set; }
 
