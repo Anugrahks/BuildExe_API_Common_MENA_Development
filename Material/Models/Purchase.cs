@@ -477,21 +477,45 @@ namespace BuildExeMaterialServices.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PurchaseDeliveryDetailId { get; set; }
+
         public int PurchaseId { get; set; }
+
         public int MaterialId { get; set; }
 
         public int MaterialBrandId { get; set; }
+
         public decimal Quantity { get; set; }
+
         public decimal Rate { get; set; }
+
         public decimal Discount { get; set; }
+
         public decimal Tax { get; set; }
+
         public int DeliveryOrderDetailsId { get; set; }
 
         public int DeliveryOrderId { get; set; }
+
         public decimal KFC_Per { get; set; }
 
         public decimal? Total { get; set; }
 
+      
+        public int OrderId { get; set; }
+
+        public decimal BalanceQty { get; set; }
+
+        public decimal CurrentQuantity { get; set; }
+
+        public DateTime? OrderDate { get; set; }
+
+        public string? Remarks { get; set; }
+
+        public bool Select { get; set; }
+
+        public string? MaterialName { get; set; }
+
+        public string? UnitLongName { get; set; }
     }
 
     public class PurchaseReturnBill
