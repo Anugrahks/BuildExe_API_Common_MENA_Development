@@ -56,7 +56,7 @@ namespace BuildExeBasic.Models
 
         public int FundTransferVoucher {  get; set; }
 
-        public int BatchID { get; set; }
+        public int? BatchID { get; set; }
 
         public string BatchNo { get; set; }
 
