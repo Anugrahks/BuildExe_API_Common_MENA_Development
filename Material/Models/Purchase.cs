@@ -329,6 +329,18 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("purchasetype")]
 
         public int PurchaseType { get; set; }
+
+        [JsonProperty("customerId")]
+
+        public int CustomerId { get; set; }
+
+        [JsonProperty("clientUniqueName")]
+
+        public string? ClientUniqueName { get; set; }
+
+        [JsonProperty("isWareHouse")]
+
+        public bool IsWareHouse { get; set; }
     }
 
     public class PurchaseOtherCharge
