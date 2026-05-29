@@ -21,6 +21,8 @@ namespace BuildExeServices.Controllers
         private readonly IUserLogRepository _userLogRepository;
         private readonly IMdHashValidator _mdHashValidator;
 
+
+
         public PendingClientBillsController(IPendingClientBillsRepository pendingClientBillsRepository, IUserLogRepository userLogRepository, IMdHashValidator mdHashValidator)
         {
             _pendingClientBillsRepository = pendingClientBillsRepository;
@@ -72,6 +74,29 @@ namespace BuildExeServices.Controllers
                         message = $"An error occurred: {ex.Message}",
                         statusCode = 0
                     });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+        [HttpGet("ServiceInvoice/{JobId}/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetPendingServiceInvoices(int JobId, int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _pendingClientBillsRepository.GetPendingServiceInvoices(JobId, CompanyId, BranchId);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
                 }
             }
             else
