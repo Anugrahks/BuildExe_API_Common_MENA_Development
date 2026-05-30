@@ -19,6 +19,6 @@ namespace BuildExeMaterialServices.Repository
         Task<string> GetWorkOrderMaterial(int SaleOrderId, int Id);
         Task<string> GetOrdersForSaleOrder(int CustomerId, int MaterialId, int Id);
         Task<string> GetPresentStock(int StockPoint, int CustomerId, DateTime Date);
-        Task<string> GetForPDIWareHouse(int BranchId);
+        //Task<string> GetForPDIWareHouse(int BranchId);
     }
 }

@@ -42,6 +42,9 @@ namespace BuildExeServices.Models
         public int CustomerId { get; set; }
         public int? IsCreditPayment { get; set; }
         public string? clientUniqueName { get; set; }
+
+
+        public string? InvoiceNo { get; set; }
         public List<RecieptDetail> RecieptDetail { get; set; }
 
     }

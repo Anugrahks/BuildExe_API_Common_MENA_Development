@@ -84,7 +84,7 @@ namespace BuildExeMaterialServices.Models
         public decimal? BillAmount { get; set; }
 
         [JsonProperty("billAmountBalance")]
-        public decimal BillAmountBalance { get; set; }
+        public decimal? BillAmountBalance { get; set; }
 
         [JsonProperty("amountPaidAdvance")]
         public decimal AmountPaidAdvance { get; set; }
@@ -325,6 +325,22 @@ namespace BuildExeMaterialServices.Models
 
         [JsonProperty("lAmount")]
         public decimal LAmount { get; set; }
+
+        [JsonProperty("purchasetype")]
+
+        public int PurchaseType { get; set; }
+
+        [JsonProperty("customerId")]
+
+        public int CustomerId { get; set; }
+
+        [JsonProperty("clientUniqueName")]
+
+        public string? ClientUniqueName { get; set; }
+
+        [JsonProperty("isWareHouse")]
+
+        public bool IsWareHouse { get; set; }
     }
 
     public class PurchaseOtherCharge
@@ -377,7 +393,7 @@ namespace BuildExeMaterialServices.Models
         public decimal Rate { get; set; }
 
         [JsonProperty("discount")]
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
 
         [JsonProperty("tax")]
         public decimal Tax { get; set; }
@@ -386,7 +402,7 @@ namespace BuildExeMaterialServices.Models
         public int? PurchaseOrderDetailsId { get; set; }
 
         [JsonProperty("KFC_Per")]
-        public decimal KFC_Per { get; set; }
+        public decimal? KFC_Per { get; set; }
 
         [JsonProperty("sgst")]
         public decimal? Sgst { get; set; }
@@ -431,7 +447,7 @@ namespace BuildExeMaterialServices.Models
         public decimal? ExchangeRate { get; set; }
 
         [JsonProperty("lamount")]
-        public decimal LAmount { get; set; }
+        public decimal? LAmount { get; set; }
 
         [JsonProperty("materialName")]
         public string MaterialName { get; set; }
@@ -461,21 +477,45 @@ namespace BuildExeMaterialServices.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PurchaseDeliveryDetailId { get; set; }
+
         public int PurchaseId { get; set; }
+
         public int MaterialId { get; set; }
 
         public int MaterialBrandId { get; set; }
+
         public decimal Quantity { get; set; }
+
         public decimal Rate { get; set; }
+
         public decimal Discount { get; set; }
+
         public decimal Tax { get; set; }
+
         public int DeliveryOrderDetailsId { get; set; }
 
         public int DeliveryOrderId { get; set; }
+
         public decimal KFC_Per { get; set; }
 
         public decimal? Total { get; set; }
 
+      
+        public int OrderId { get; set; }
+
+        public decimal BalanceQty { get; set; }
+
+        public decimal CurrentQuantity { get; set; }
+
+        public DateTime? OrderDate { get; set; }
+
+        public string? Remarks { get; set; }
+
+        public bool Select { get; set; }
+
+        public string? MaterialName { get; set; }
+
+        public string? UnitLongName { get; set; }
     }
 
     public class PurchaseReturnBill
@@ -560,6 +600,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? exchangeRate { get; set; }
         public decimal? fCBillAmount { get; set; }
         public int isServiceCharge { get; set; }
+
+        public string materialUnit { get; set; }
         public object warrantyDetails { get; set; }
     }
 

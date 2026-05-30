@@ -49,8 +49,8 @@ namespace BuildExeMaterialServices.Repository
                 var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
                 Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
 
-                var materialId = new SqlParameter("@materialId", "0");
-                var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase));
+                var materialId = new SqlParameter("@materialId", "0");  var item = new SqlParameter("@item",JsonConvert.SerializeObject(purchase, camelCaseSettings)
+                            );
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
@@ -281,8 +281,9 @@ namespace BuildExeMaterialServices.Repository
                             {
                                 purchaseDetailId = dg.Key,
                                 purchaseId = p.Key,
-                                materialId = int.TryParse(dg.First().Field<string>("materialId"), out int mid) ? mid : 0,
+                                materialId = dg.First().Field<int?>("materialId") ?? 0,
                                 materialName = dg.First().Field<string?>("materialName")??"",
+                                materialUnit=dg.First().Field<string?>("materialUnit"),
                                 quantity = dg.First().Field<decimal?>("Quantity"),
                                 rate = dg.First().Field<decimal?>("Rate"),
                                 total = dg.First().Field<decimal?>("Total"),
@@ -350,7 +351,7 @@ namespace BuildExeMaterialServices.Repository
                                 warrantyDetails = new List<object>()
                             }).ToList();
 
-                        // Merge both lists
+                        
                         var allPurchaseDetails = realPurchaseDetails
                             .Concat(serviceChargeDetails)
                             .ToList();
@@ -363,6 +364,9 @@ namespace BuildExeMaterialServices.Repository
                             supplierId = header.Field<int?>("SupplierId"),
                             unitId = header.Field<int?>("UnitId"),
                             blockId = header.Field<int?>("BlockId"),
+                            isWareHouse = header.Field<bool?>("IsWareHouse") ?? false,
+                            clientUniqueName=header.Field<string?>("ClientUniqueName"),
+                            customerId=header.Field<int?>("CustomerId"),
                             floorId = header.Field<int?>("FloorId"),
                             divisionId = header.Field<int?>("DivisionId"),
                             category = header.Field<int?>("Category"),
@@ -427,6 +431,7 @@ namespace BuildExeMaterialServices.Repository
                             documentationChargePer = header.Field<decimal?>("DocumentationChargePer"), 
                             freightCharge = header.Field<decimal?>("FreightCharge"), 
                             freightChargePer = header.Field<decimal?>("FreightChargePer"),
+                            purchasetype=header.Field<int?>("PurchaseType"),
                             loadingUnloadingCharge = header.Field<decimal?>("LoadingUnloadingCharge"),
                             mofaCharge = header.Field<decimal?>("mofaCharge"),
                             mofaChargePer = header.Field<decimal?>("mofaChargePer"),
@@ -449,21 +454,58 @@ namespace BuildExeMaterialServices.Repository
                             reqTransportTax = header.Field<string>("ReqTransportTax"),
 
                             purchaseDeliveryDetail = p
-                                .Where(x => x.Field<int?>("Id") == p.Key)
-                                .GroupBy(q => q.Field<int?>("Id"))
-                                .Select(pdd => new
-                                {
-                                    purchaseId = pdd.Key,
-                                    quantity = pdd.First().Field<decimal?>("pdsQuantity"), 
-                                    convertionQuantity = pdd.First().Field<decimal?>("ConversionQuantity"),
-                                    conversionUnitName = pdd.First().Field<string>("ConversionUnitName"), 
-                                    discount = pdd.First().Field<decimal?>("pdsDiscount"), 
-                                    tax = pdd.First().Field<decimal?>("pdsTax"), 
-                                    KFC_Per = pdd.First().Field<decimal?>("pdsKFC_Per"), 
-                                    total = pdd.First().Field<decimal?>("pdstotal"),
-                                    MaterialRemarks = pdd.First().Field<string>("MaterialRemarks"),
-                                    coefficientFactorValue = pdd.First().Field<decimal?>("CoefficientFactorValue"),
-                                }).ToList(),
+                            .Where(x => x.Field<int?>("Id") == p.Key)
+                            .GroupBy(q => q.Field<int?>("Id"))
+                            .Select(pdd => new
+                            {
+                                purchaseId = pdd.Key,
+
+                                materialId = pdd.First().Field<int?>("MaterialId"),
+
+                                materialBrandId = pdd.First().Field<int?>("MaterialBrandId"),
+
+                                orderId = pdd.First().Field<int?>("OrderId"),
+
+                                deliveryOrderDetailsId = pdd.First().Field<int?>("DeliveryOrderDetailsId"),
+
+                                deliveryOrderId = pdd.First().Field<int?>("DeliveryOrderId"),
+
+                                materialName = pdd.First().Field<string>("DeliveryMaterialName"),
+
+                                unitLongName = pdd.First().Field<string>("UnitLongName"),
+
+                                quantity = pdd.First().Field<decimal?>("pdsQuantity"),
+
+                                balanceQty = pdd.First().Field<decimal?>("BalanceQty"),
+
+                                currentQuantity = pdd.First().Field<decimal?>("CurrentQuantity"),
+
+                                rate = pdd.First().Field<decimal?>("pdsRate"),
+
+                                convertionQuantity = pdd.First().Field<decimal?>("ConversionQuantity"),
+
+                                conversionUnitName = pdd.First().Field<string>("ConversionUnitName"),
+
+                                discount = pdd.First().Field<decimal?>("pdsDiscount"),
+
+                                tax = pdd.First().Field<decimal?>("pdsTax"),
+
+                                KFC_Per = pdd.First().Field<decimal?>("pdsKFC_Per"),
+
+                                total = pdd.First().Field<decimal?>("pdstotal"),
+
+                                orderDate = pdd.First()["DeliveryOrderDate"] == DBNull.Value
+                                                                    ? (DateTime?)null
+                                                                    : Convert.ToDateTime(pdd.First()["DeliveryOrderDate"]),
+
+                                remarks = pdd.First().Field<string>("Remarks"),
+
+                                select = pdd.First().Field<bool?>("Select"),
+
+                                MaterialRemarks = pdd.First().Field<string>("MaterialRemarks"),
+
+                                coefficientFactorValue = pdd.First().Field<decimal?>("CoefficientFactorValue"),
+                            }).ToList(),
 
                             purchaseReturnBill = p
                                 .Where(x => x.Field<int?>("Id") == p.Key)

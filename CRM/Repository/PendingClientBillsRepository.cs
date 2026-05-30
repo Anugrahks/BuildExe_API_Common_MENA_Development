@@ -91,7 +91,44 @@ namespace BuildExeServices.Repository
                 throw;
             }
         }
+          public async Task<string> GetPendingServiceInvoices(int jobId, int companyId, int branchId)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_GetPendingServiceInvoices";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@JobId", SqlDbType.Int) { Value = jobId });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
 
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string invoiceDetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    invoiceDetails += dataTable.Rows[i][0].ToString();
+                }
+
+                if (invoiceDetails == "")
+                    invoiceDetails = "[]";
+
+                return invoiceDetails;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
 
 
 
