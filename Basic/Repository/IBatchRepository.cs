@@ -15,7 +15,7 @@ namespace BuildExeBasic.Interfaces
         Task<string> GenerateBatchNumberAsync(int companyId, int branchid,int sitemanagerId, bool batchvalidate);
         Task<bool> UpdateCloseStateAsync(long batchId);
 
-        Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId);
+        Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId, int transactionType);
 
         Task<IEnumerable<Batch>> GetAllBatchesBySiteManagerAsync(int siteManagerId);
     }

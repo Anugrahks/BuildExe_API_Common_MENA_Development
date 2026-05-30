@@ -212,27 +212,24 @@ namespace BuildExeBasic.Controllers
         }
 
         //To get all open Batchno aginst sitemanager
-        [HttpGet("GetBatchBySiteManager/{sitemanagerId}/{companyId:int}/{branchId:int}")]
+        [HttpGet("GetBatchBySiteManager/{sitemanagerId}/{companyId:int}/{branchId:int}/{transactionType:int}")]
         [Authorize]
-        public async Task<IActionResult> GetBatchBySiteManager(int siteManagerId, int CompanyId, int Branchid, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetBatchBySiteManager(int siteManagerId, int CompanyId, int Branchid, int transactionType, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           
-                try
-                {
-                    var batches = await _batchRepository
-       .GetBatchBySiteManagerAsync(siteManagerId);
+            try
+            {
+                var batches = await _batchRepository  .GetBatchBySiteManagerAsync(siteManagerId, transactionType);
 
-                    return new OkObjectResult(batches);
-                }
-                catch (Exception ex)
+                return new OkObjectResult(batches);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
                 {
-                    return StatusCode(500, new
-                    {
-                        message = $"An error occurred: {ex.Message}",
-                        statusCode = 0
-                    });
-                }
-           
+                    message = $"An error occurred: {ex.Message}",
+                    statusCode = 0
+                });
+            }
         }
         //To get all (open & close) Batchno aginst sitemanager
         [HttpGet("by-site-manager/{siteManagerId}")]
