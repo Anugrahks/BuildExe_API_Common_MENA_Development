@@ -39,6 +39,31 @@ namespace BuildExeBasic.Repository
         {
             try
             {
+                //  Check pending before saving
+                bool hasPending = await _dbContext.tbl_SitemanagersTransactions
+                    .AnyAsync(t =>
+                        t.EmployeeId == sitemanager.EmployeeId &&
+                        t.BatchID == sitemanager.BatchID &&
+                        t.TransactionType == sitemanager.TransactionType &&
+                        t.ApprovalStatus == 0 &&
+                        t.IsDeleted == 0);
+
+                if (hasPending)
+                {
+                    return new List<Validation>
+            {
+                new Validation
+                {
+                    StatusCode = 0,
+                    Id = 0,
+                    Status = "false",
+                    ErrorMessage = "Pending approvals exist.",
+                    ErrorType = "Warning"
+                }
+            };
+                }
+                
+
                 if (sitemanager.ApprovalRemarks == null)
                     sitemanager.ApprovalRemarks = "";
 
@@ -68,45 +93,39 @@ namespace BuildExeBasic.Repository
                 var PaymentModeId = new SqlParameter();
                 var PaymentMode = new SqlParameter();
                 var PaymentNo = new SqlParameter();
+
                 if (sitemanager.TransactionType == 1)
                 {
-
                     PaymentModeId = new SqlParameter("@PaymentModeId", sitemanager.PaymentModeId);
                     PaymentMode = new SqlParameter("@PaymentMode", sitemanager.PaymentMode);
                     PaymentNo = new SqlParameter("@PaymentNo", sitemanager.PaymentNo);
-
                 }
                 else if (sitemanager.TransactionType == 2)
                 {
-
                     PaymentModeId = new SqlParameter("@PaymentModeId", sitemanager.PaymentModeId);
                     PaymentMode = new SqlParameter("@PaymentMode", sitemanager.PaymentMode);
                     PaymentNo = new SqlParameter("@PaymentNo", sitemanager.PaymentNo);
-
                 }
                 else
                 {
-
                     PaymentModeId = new SqlParameter("@PaymentModeId", "0");
                     PaymentMode = new SqlParameter("@PaymentMode", "CASH");
                     PaymentNo = new SqlParameter("@PaymentNo", "");
-
                 }
-
 
                 var WithClear = new SqlParameter("@WithClear", sitemanager.WithClear);
                 var ApprovalStatus = new SqlParameter("@ApprovalStatus", sitemanager.ApprovalStatus);
                 var ApprovalLevel = new SqlParameter("@ApprovalLevel", sitemanager.ApprovalLevel);
                 var ApprovedBy = new SqlParameter("@ApprovedBy", sitemanager.ApprovedBy);
-
-
                 var PaymentDate = new SqlParameter("@PaymentDate", sitemanager.paymentDate ?? (object)DBNull.Value);
                 var workNameId = new SqlParameter("@workNameId", sitemanager.WorkNameId ?? (object)DBNull.Value);
                 var IsReject = new SqlParameter("@IsReject", "0");
+
                 if (sitemanager.TaxArea == null)
                     sitemanager.TaxArea = "";
                 if (sitemanager.RoundOff == null)
                     sitemanager.RoundOff = 0;
+
                 var TaxArea = new SqlParameter("@TaxArea", sitemanager.TaxArea);
                 var GSTper = new SqlParameter("@GSTper", sitemanager.GSTper);
                 var SGST = new SqlParameter("@SGST", sitemanager.SGST);
@@ -118,7 +137,15 @@ namespace BuildExeBasic.Repository
                 var RejectRemarks = new SqlParameter("@RejectRemarks", sitemanager.RejectRemarks);
                 var FundTransferVoucher = new SqlParameter("@FundTransferVoucher", sitemanager.FundTransferVoucher);
                 var BatchID = new SqlParameter("@BatchID", sitemanager.BatchID);
-                return await _dbContext.tbl_validation.FromSqlRaw("Stpro_SitemanagerTransaction @id,@TransactionType,@TransactionDate,@ProjectId,@DivisionId, @UnitId, @BlockId, @FloorId, @CompanyId, @BranchId, @FinancialYearId, @DebitHeadId , @CreditHeadId, @Amount,@EmployeeId,@TransferedEmployeeId,@Narration,@Category,@WithClear ,@ApprovalStatus,@ApprovalLevel,@ApprovedBy,@PaymentModeId,@PaymentMode,@PaymentNo,@PaymentDate,@workNameId, @Action, @UserId, @IsReject,@TaxArea, @GSTper,@SGST,@CGST,@IGST,@RoundOff,@SiteLoanAmt,@ApprovalRemarks,@RejectRemarks,@FundTransferVoucher,@BatchID", id, TransactionType, TransactionDate, ProjectId, DivisionId, UnitId, BlockId, FloorId, CompanyId, BranchId, FinancialYearId, DebitHeadId, CreditHeadId, Amount, EmployeeId, TransferedEmployeeId, Narration, Category, WithClear, ApprovalStatus, ApprovalLevel, ApprovedBy, PaymentModeId, PaymentMode, PaymentNo, PaymentDate, workNameId, Action, Userid, IsReject,TaxArea,GSTper,SGST,CGST,IGST, RoundOff, SiteLoanAmt, ApprovalRemarks, RejectRemarks, FundTransferVoucher,BatchID).ToListAsync();
+
+                return await _dbContext.tbl_validation.FromSqlRaw(
+                    "Stpro_SitemanagerTransaction @id,@TransactionType,@TransactionDate,@ProjectId,@DivisionId, @UnitId, @BlockId, @FloorId, @CompanyId, @BranchId, @FinancialYearId, @DebitHeadId , @CreditHeadId, @Amount,@EmployeeId,@TransferedEmployeeId,@Narration,@Category,@WithClear ,@ApprovalStatus,@ApprovalLevel,@ApprovedBy,@PaymentModeId,@PaymentMode,@PaymentNo,@PaymentDate,@workNameId, @Action, @UserId, @IsReject,@TaxArea, @GSTper,@SGST,@CGST,@IGST,@RoundOff,@SiteLoanAmt,@ApprovalRemarks,@RejectRemarks,@FundTransferVoucher,@BatchID",
+                    id, TransactionType, TransactionDate, ProjectId, DivisionId, UnitId, BlockId, FloorId,
+                    CompanyId, BranchId, FinancialYearId, DebitHeadId, CreditHeadId, Amount, EmployeeId,
+                    TransferedEmployeeId, Narration, Category, WithClear, ApprovalStatus, ApprovalLevel,
+                    ApprovedBy, PaymentModeId, PaymentMode, PaymentNo, PaymentDate, workNameId, Action,
+                    Userid, IsReject, TaxArea, GSTper, SGST, CGST, IGST, RoundOff, SiteLoanAmt,
+                    ApprovalRemarks, RejectRemarks, FundTransferVoucher, BatchID).ToListAsync();
             }
             catch (Exception ex)
             {
