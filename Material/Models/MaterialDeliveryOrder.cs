@@ -83,6 +83,8 @@ namespace BuildExeMaterialServices.Models
 
         public string HSNCode { get; set; }
         public string Country { get; set; }
+        public List<MaterialDetails> MaterialDetails { get; set; } = new List<MaterialDetails>();
+
     }
 
     [Keyless]
@@ -95,6 +97,19 @@ namespace BuildExeMaterialServices.Models
         public decimal LandingCost { get; set; }
         public DateTime? WarrantyDate { get; set; }
         public string Pdi { get; set; }
+    }
+    public class MaterialDetails
+    {
+        public int UniqueId { get; set; }
+        public int DeliveryOrderDetailId { get; set; }
+        public string MaterialName { get; set; }
+        public string SerialNo { get; set; }
+        public decimal LandingCost { get; set; }
+        public DateTime? WarrantyDate { get; set; }
+        public DateTime? ExtendedDate { get; set; }
+        public string PDI { get; set; }
+        public decimal StockedQty { get; set; }
+        public decimal Quantity { get; set; }
     }
 
 }
