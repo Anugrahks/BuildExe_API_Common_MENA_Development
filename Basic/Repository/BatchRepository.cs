@@ -166,13 +166,12 @@ namespace BuildExeBasic.Repository
             return true;
         }
 
-        public async Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId)
+        // Repository method signature change
+        public async Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId, int transactionType)
         {
             var batches = await _context.tbl_Batch
                 .Where(b =>
                     b.SitemanagerId == siteManagerId &&
-                    //b.CompanyId == CompanyId &&
-                    //b.BranchId == Branchid &&
                     (b.CloseState == false || b.CloseState == null))
                 .Select(b => new Batch
                 {
@@ -182,14 +181,14 @@ namespace BuildExeBasic.Repository
                 })
                 .ToListAsync();
 
-
             bool hasPending = await _context.tbl_SitemanagersTransactions
-     .AnyAsync(t =>
-         t.EmployeeId == siteManagerId &&
-         t.BatchID != null &&       
-         t.BatchID != 0 &&         
-         t.ApprovalStatus == 0 &&
-         t.IsDeleted == 0);
+                .AnyAsync(t =>
+                    t.EmployeeId == siteManagerId &&
+                    t.BatchID != null &&
+                    t.BatchID != 0 &&
+                    t.ApprovalStatus == 0 &&
+                    t.IsDeleted == 0 &&
+                    t.TransactionType == transactionType);
 
             foreach (var batch in batches)
             {

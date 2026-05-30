@@ -120,6 +120,7 @@ namespace BuildExeServices
             services.AddTransient<IEnquiryProfessionRepository, EnquiryProfessionRepository>();
             services.AddTransient<IQCRepository, QCRepository>();
             services.AddTransient<IReturnRepository, ReturnRepository>();
+            services.AddTransient<IServiceInvoiceRepository, ServiceInvoiceRepository>();
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
