@@ -45,6 +45,10 @@ namespace BuildExeServices.Models
 
 
         public string? InvoiceNo { get; set; }
+
+        public bool? IsService { get; set; }
+
+        public int? JobId { get; set; }
         public List<RecieptDetail> RecieptDetail { get; set; }
 
     }
