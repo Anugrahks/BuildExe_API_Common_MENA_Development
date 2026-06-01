@@ -13,8 +13,11 @@ namespace BuildExeServiceManagement.Models
         public int Id { get; set; }                 // For update
         public int InvoiceNo { get; set; }
         public DateTime InvoiceDate { get; set; }
+        public DateTime BillDate { get; set; }
         public string RefNo { get; set; }
+        public string BillNo { get; set; }
         public string ServiceType { get; set; }
+        public int IsService { get; set; }
         public int VoucherTypeId { get; set; }
         public int VoucherNumber { get; set; }
         public int CustomerId { get; set; }
@@ -37,6 +40,7 @@ namespace BuildExeServiceManagement.Models
         public int IsDeleted { get; set; }
         public DateTime ApprovedDate { get; set; }
         public int JobNo { get; set; }
+        public int JobId { get; set; }
         public List<ServiceQuotationDetails> ServiceInvoiceDetails { get; set; }
 
     }
@@ -47,6 +51,8 @@ namespace BuildExeServiceManagement.Models
         public int ServiceInvDetailId { get; set; } 
         public int InvoiceId { get; set; }
         public int MaterialId { get; set; }
+        public int Id { get; set; }
+        public int JobNo { get; set; }
         public string PartNo { get; set; }
         public string Description { get; set; }
         public decimal Quantity { get; set; }

@@ -183,6 +183,56 @@ namespace BuildExeServiceManagement.Controllers
 
         }
 
+        [HttpGet("getService/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> GetbySericeid(int companyid, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var product = await _serviceQuotationRepository.GetforEditServiceuser(companyid, BranchId, UserId, FinancialYearId);
+                    return new OkObjectResult(product);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+        [HttpGet("getServiceApproval/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> GetbySericeidApproval(int companyid, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var product = await _serviceQuotationRepository.GetforEditServiceuserApproval(companyid, BranchId, UserId, FinancialYearId);
+                    return new OkObjectResult(product);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
 
     }
 }

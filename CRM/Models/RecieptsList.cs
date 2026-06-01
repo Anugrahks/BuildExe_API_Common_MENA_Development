@@ -51,5 +51,9 @@ namespace BuildExeServices.Models
         public string? clientUniqueName { get; set; }
 
         public string? InvoiceNo { get; set; }
+
+        public bool? IsService { get; set; }
+
+        public int? JobId { get; set; }
     }
 }
