@@ -17,6 +17,7 @@ namespace BuildExeServiceManagement.Models
         public string RefNo { get; set; }
         public string BillNo { get; set; }
         public string ServiceType { get; set; }
+        public int IsService { get; set; }
         public int VoucherTypeId { get; set; }
         public int VoucherNumber { get; set; }
         public int CustomerId { get; set; }
