@@ -62,8 +62,12 @@ namespace BuildExeServices.Repository
             {
 
                 var Id = new SqlParameter("@Id", "0");
-                var item = new SqlParameter("@item", JsonConvert.SerializeObject(reciepts));
-                var CompanyId = new SqlParameter("@CompanyId", "0");
+                var item = new SqlParameter("@item", JsonConvert.SerializeObject(reciepts,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+                }));
+                            var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var userId = new SqlParameter("@userId", "0");
                 var Action = new SqlParameter("@Action", Actions.Update);
@@ -75,6 +79,7 @@ namespace BuildExeServices.Repository
                 Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
                 throw;
             }
+
         }
         public async Task<IEnumerable<Validation>> Delete(int Idworkorder, int userid)
         {
