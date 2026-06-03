@@ -96,7 +96,7 @@ namespace BuildExeMaterialServices.Models
         public string SerialNo { get; set; }
         public decimal LandingCost { get; set; }
         public DateTime? WarrantyDate { get; set; }
-        public string Pdi { get; set; }
+        public int? Pdi { get; set; }
     }
     public class MaterialDetails
     {
