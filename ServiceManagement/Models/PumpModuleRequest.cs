@@ -148,6 +148,10 @@ namespace BuildExeServiceManagement.Models
 
 
         public string Observation { get; set; }
+        public string ItemDescription { get; set; }
+
+
+
     }
 
     public class PumpDetailsModuleModel
