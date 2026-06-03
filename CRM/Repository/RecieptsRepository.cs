@@ -37,10 +37,34 @@ namespace BuildExeServices.Repository
         //type=2 --Additional bill
         //type=3 --Percentage Bill
         //type=4 --Stage bill
+        //public async Task<IEnumerable<Validation>> Insert(IEnumerable<Reciept> reciepts)
+        //{
+        //    try
+        //    {
+        //        var Id = new SqlParameter("@Id", "0");
+        //        var item = new SqlParameter("@item", JsonConvert.SerializeObject(reciepts));
+        //        var CompanyId = new SqlParameter("@CompanyId", "0");
+        //        var BranchId = new SqlParameter("@BranchId", "0");
+        //        var userId = new SqlParameter("@userId", "0");
+        //        var Action = new SqlParameter("@Action", Actions.Insert);
+
+        //        return await _dbContext.tbl_validation.FromSqlRaw("Stpro_Reciepts @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+        //        throw;
+        //    }
+        //}
+
         public async Task<IEnumerable<Validation>> Insert(IEnumerable<Reciept> reciepts)
         {
             try
             {
+                
+                bool isServiceTransaction = reciepts.FirstOrDefault()?.IsService ?? false;
+                string procedureName = isServiceTransaction ? "Stpro_Recieptsinvoice" : "Stpro_Reciepts";
+
                 var Id = new SqlParameter("@Id", "0");
                 var item = new SqlParameter("@item", JsonConvert.SerializeObject(reciepts));
                 var CompanyId = new SqlParameter("@CompanyId", "0");
@@ -48,7 +72,10 @@ namespace BuildExeServices.Repository
                 var userId = new SqlParameter("@userId", "0");
                 var Action = new SqlParameter("@Action", Actions.Insert);
 
-                return await _dbContext.tbl_validation.FromSqlRaw("Stpro_Reciepts @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
+               
+                string sqlQuery = $"{procedureName} @Id,@item,@CompanyId,@BranchId,@userId,@Action";
+
+                return await _dbContext.tbl_validation.FromSqlRaw(sqlQuery, Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
             }
             catch (Exception ex)
             {
