@@ -107,7 +107,7 @@ namespace BuildExeMaterialServices.Models
         public decimal LandingCost { get; set; }
         public DateTime? WarrantyDate { get; set; }
         public DateTime? ExtendedDate { get; set; }
-        public string PDI { get; set; }
+        public int PDI { get; set; }
         public decimal StockedQty { get; set; }
         public decimal Quantity { get; set; }
     }
