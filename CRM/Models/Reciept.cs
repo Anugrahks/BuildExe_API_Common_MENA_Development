@@ -16,8 +16,8 @@ namespace BuildExeServices.Models
         public int UnitId { get; set; }
         public int BlockId { get; set; }
         public int FloorId { get; set; }
-        public int VoucherNumber { get; set; }
-        public int VoucherTypeId { get; set; }
+        public int? VoucherNumber { get; set; }
+        public int? VoucherTypeId { get; set; }
         public Int16  FinancialYearId { get; set; }
         public Int16 CompanyId { get; set; }
         public Int16 BranchId { get; set; }
