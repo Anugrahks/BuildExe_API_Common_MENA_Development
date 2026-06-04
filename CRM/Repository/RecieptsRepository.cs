@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BuildExeServices.DBContexts;
+﻿using BuildExeServices.DBContexts;
 using BuildExeServices.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using BuildExeServices.Repository;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BuildExeServices.Repository
 {
@@ -61,21 +61,25 @@ namespace BuildExeServices.Repository
         {
             try
             {
-                
                 bool isServiceTransaction = reciepts.FirstOrDefault()?.IsService ?? false;
                 string procedureName = isServiceTransaction ? "Stpro_Recieptsinvoice" : "Stpro_Reciepts";
 
+                var serialized = isServiceTransaction
+                    ? JsonConvert.SerializeObject(reciepts, new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    })
+                    : JsonConvert.SerializeObject(reciepts);
+
                 var Id = new SqlParameter("@Id", "0");
-                var item = new SqlParameter("@item", JsonConvert.SerializeObject(reciepts));
+                var json = new SqlParameter("@json", serialized);
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var userId = new SqlParameter("@userId", "0");
                 var Action = new SqlParameter("@Action", Actions.Insert);
 
-               
-                string sqlQuery = $"{procedureName} @Id,@item,@CompanyId,@BranchId,@userId,@Action";
-
-                return await _dbContext.tbl_validation.FromSqlRaw(sqlQuery, Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
+                string sqlQuery = $"{procedureName} @Id,@json,@CompanyId,@BranchId,@userId,@Action";
+                return await _dbContext.tbl_validation.FromSqlRaw(sqlQuery, Id, json, CompanyId, BranchId, userId, Action).ToListAsync();
             }
             catch (Exception ex)
             {
