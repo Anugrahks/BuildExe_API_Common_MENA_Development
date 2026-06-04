@@ -52,6 +52,31 @@ namespace BuildExeHR.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+        [HttpGet("List/{CompanyId}/{Branchid}/{CategoryId}")]
+        [Authorize]
+        public async Task<IActionResult> GetList(int CompanyId, int Branchid, int CategoryId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var material = await _employeeListRepository.GetList(CompanyId, Branchid, CategoryId);
+                    return new OkObjectResult(material);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
 
         [HttpGet("AdvanceLedger/{CompanyId}/{Branchid}/{CategoryId}/{ProjectId}")]
         [Authorize]
