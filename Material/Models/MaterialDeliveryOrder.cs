@@ -102,6 +102,7 @@ namespace BuildExeMaterialServices.Models
     {
         public int UniqueId { get; set; }
         public int DeliveryOrderDetailId { get; set; }
+        public int MaterialId { get; set; }
         public string MaterialName { get; set; }
         public string SerialNo { get; set; }
         public decimal LandingCost { get; set; }
