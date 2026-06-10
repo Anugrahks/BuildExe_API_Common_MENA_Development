@@ -38,6 +38,7 @@ namespace BuildExeServiceManagement.Repository
         Task<List<Dictionary<string, object>>> workshopApproved(int companyid, int branchId, int userId, int financialYearId);
 
         Task<List<Dictionary<string, object>>> siteServiceApproved(int companyid, int branchId, int userId, int financialYearId);
+        Task<string> GetApprovalOrReject(int CustomerId, int JobId);
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
