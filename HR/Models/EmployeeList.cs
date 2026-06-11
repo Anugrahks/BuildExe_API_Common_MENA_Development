@@ -29,6 +29,8 @@ namespace BuildExeHR.Models
 
         public string FullName { get; set; }
 
+        //public string SourceType { get; set; }
+
         public int? ProjectId { get; set; }
         public string? ProjectName { get; set; }
     }

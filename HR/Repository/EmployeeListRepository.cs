@@ -31,6 +31,7 @@ namespace BuildExeHR.Repository
                 SelectSMbyProj = 8,
                 SelectAllByProjectId =10,
             GetByProjectId = 11,
+            SelectAllList = 17,
 
         }
 
@@ -50,6 +51,26 @@ namespace BuildExeHR.Repository
                 var DesignationId = new SqlParameter("@DesignationId", "0");
                 var Action = new SqlParameter("@Action", Actions.SelectAll);
                 var _product = await _dbContext.tbl_EmployeeMasterlistPersonal.FromSqlRaw("Stpro_EmployeeList @CompanyId,@BranchId,@item,@CategoryId,@DepartmentId,@DesignationId, @Action", CompanyId, BranchId, item, CategoryId, DepartmentId, DesignationId, Action).ToListAsync ();
+                return _product;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+        public async Task<IEnumerable<EmployeeListPersonalLedger>> GetList(int companid, int branchid, int categoryId)
+        {
+            try
+            {
+                var CompanyId = new SqlParameter("@CompanyId", companid);
+                var BranchId = new SqlParameter("@BranchId", branchid);
+                var item = new SqlParameter("@item", "");
+                var CategoryId = new SqlParameter("@categoryId", categoryId);
+                var DepartmentId = new SqlParameter("@DepartmentId", "0");
+                var DesignationId = new SqlParameter("@DesignationId", "0");
+                var Action = new SqlParameter("@Action", Actions.SelectAllList);
+                var _product = await _dbContext.tbl_EmployeeMasterlistPersonal.FromSqlRaw("Stpro_EmployeeList @CompanyId,@BranchId,@item,@CategoryId,@DepartmentId,@DesignationId, @Action", CompanyId, BranchId, item, CategoryId, DepartmentId, DesignationId, Action).ToListAsync();
                 return _product;
             }
             catch (Exception ex)

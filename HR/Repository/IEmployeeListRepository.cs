@@ -9,6 +9,8 @@ namespace BuildExeHR.Repository
     public interface IEmployeeListRepository
     {
        Task <IEnumerable<EmployeeListPersonalLedger>> Get(int companid, int branchid, int categoryId);
+        Task<IEnumerable<EmployeeListPersonalLedger>> GetList(int companid, int branchid, int categoryId);
+
         Task<IEnumerable<EmployeeList>> GetByProj(int companid, int branchid, int projectId, int unitId, int blockId, int floorId, int sitemanager, int sitemanagerid);
         Task<IEnumerable<EmployeeList>> Getsiteuser(int companid, int branchid, int categoryId, int sitemanager, int sitemanagerid);
         Task<IEnumerable<EmployeeList>> Getsiteuser(int companid, int branchid);
