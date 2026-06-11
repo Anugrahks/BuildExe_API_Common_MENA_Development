@@ -1247,7 +1247,7 @@ namespace BuildExeServiceManagement.Repository
             }
         }
 
-        public async Task<string> GetApprovalOrReject(int CustomerId, int JobId)
+        public async Task<string> GetApprovalOrReject(int CompanyId,int BranchId,int CustomerId, int JobId)
         {
             try
             {
@@ -1256,10 +1256,10 @@ namespace BuildExeServiceManagement.Repository
                 cmd.CommandText = "dbo.Stpro_ServiceQuotation";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.NVarChar) { Value = DBNull.Value });
-                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CustomerId });
-                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = JobId });
-                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.NVarChar) { Value = CustomerId });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = JobId });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = DBNull.Value });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 17 });
