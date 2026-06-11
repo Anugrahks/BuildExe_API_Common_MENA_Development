@@ -790,10 +790,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpGet("GetApprovalOrReject/{Companyid}/{BranchId}/{CustomerId}/{JobId}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId,[FromHeader] string mdhash, [FromHeader] int User)
         {
-            //if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -809,11 +809,12 @@ namespace BuildExeServiceManagement.Controllers
                     });
 
                 }
+
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
     }
