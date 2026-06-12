@@ -41,6 +41,14 @@ namespace BuildExeServiceManagement.Models
         public DateTime ApprovedDate { get; set; }
         public int JobNo { get; set; }
         public int JobId { get; set; }
+        public int TaxTypeId { get; set; }
+        public int IsClientReject { get; set; }
+        public decimal DiscountPercent { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal IGSTPercent { get; set; }
+        public decimal IGSTAmount { get; set; }
+        public string TaxArea { get; set; }
+        public string Taxtype { get; set; }
         public List<ServiceQuotationDetails> ServiceInvoiceDetails { get; set; }
 
     }
