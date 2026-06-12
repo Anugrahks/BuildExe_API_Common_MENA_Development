@@ -416,5 +416,48 @@ namespace BuildExeMaterialServices.Repository
                 return null;
             }
         }
+
+        public async Task<string> GetMaterialDetails( int CompanyId, int BranchId, int ProjectId, int MaterialTypeId,int MaterialId)
+        {
+            try
+            {
+                var obj = new
+                {
+                    ProjectId,
+                    MaterialTypeId,
+                    MaterialId
+                };
+
+                string item = JsonConvert.SerializeObject(obj);
+
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_MaterialTransfer";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = item });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 11 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    cmd.Connection.Open();
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string json = JsonConvert.SerializeObject(dataTable);
+
+                return json;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

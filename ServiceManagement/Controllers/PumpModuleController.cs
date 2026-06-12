@@ -789,5 +789,33 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
+        [HttpGet("GetApprovalOrReject/{Companyid}/{BranchId}/{CustomerId}/{JobId}")]
+        [Authorize]
+        public async Task<IActionResult> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId,[FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetApprovalOrReject(Companyid, BranchId, CustomerId, JobId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+
+                }
+
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
     }
     }
