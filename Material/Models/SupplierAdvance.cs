@@ -54,5 +54,9 @@ namespace BuildExeMaterialServices.Models
 
 
         public decimal NewAmount { get; set; }
+
+        public int? CurrencyId { get; set; }
+        public decimal? ExchangeRate { get; set; }
+        public decimal? LCAmount { get; set; }
     }
 }
