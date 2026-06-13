@@ -98,5 +98,18 @@ namespace BuildExeBasic.DBContexts
         public DbSet<Batch> tbl_Batch { get; set; }
 
         public DbSet<EmployeeMaster> tbl_EmployeeMaster { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Fix for tables with triggers - EF Core OUTPUT clause conflict
+            modelBuilder.Entity<TermsAndConditons>()
+                .ToTable(tb => tb.UseSqlOutputClause(false));
+
+            modelBuilder.Entity<TermsAndConditonDetails>()
+                .ToTable(tb => tb.UseSqlOutputClause(false));
+        }
     }
+
 }
