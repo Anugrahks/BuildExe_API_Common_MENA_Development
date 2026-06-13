@@ -84,6 +84,11 @@ namespace BuildExeMaterialServices.Models
         public string ConversionUnitName { get; set; }
 
         public List<TransferItemDetails> TransferItemDetails { get; set; }
+
+        public List <TransferSerialNoDetails> TransferSerialNoDetails { get; set;}
+
+
+
     }
 
 
@@ -100,6 +105,15 @@ namespace BuildExeMaterialServices.Models
         public int AssetMasterId { get; set; }
         public string? ItemCode { get; set; }
        
+    }
+
+    public class TransferSerialNoDetails
+    {
+        public int Id { get; set; }
+        public string SerialNumber { get; set; }
+
+        public int MaterialTransferId { get; set; }
+
     }
 
 }
