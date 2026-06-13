@@ -22,7 +22,7 @@ namespace BuildExeMaterialServices.Repository
         Task<IEnumerable<MaterialTransferList>> GetforApproval(int CompanyId, int Branchid, int userId, int FinancialYearId,int IsAsset);
         Task<string> GetDetailsbyid(int IndentId);
         Task<string> GetforReport(MaterialSearch materialSearch);
-        Task<string> GetMaterialDetails( int CompanyId, int BranchId, int ProjectId, int MaterialTypeId, int MaterialId);
+        Task<string> GetMaterialDetails( int CompanyId, int BranchId, int ProjectId, int DivisionId, int MaterialTypeId, int MaterialId, int id);
 
 
     }

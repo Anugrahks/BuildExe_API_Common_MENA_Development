@@ -201,15 +201,15 @@ namespace BuildExeMaterialServices.Controllers
         }
 
 
-        [HttpGet("materialdetails/{CompanyId}/{BranchId}/{ProjectId}/{MaterialTypeId}/{MaterialId}")]
+        [HttpGet("materialdetails/{CompanyId}/{BranchId}/{ProjectId}/{DivisionId}/{MaterialTypeId}/{MaterialId}/{id}")]
         [Authorize]
-        public async Task<IActionResult> Get(int CompanyId, int BranchId,int ProjectId,int MaterialTypeId,int MaterialId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Get(int CompanyId, int BranchId,int ProjectId,int DivisionId, int MaterialTypeId,int MaterialId,int id ,[FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var purchase = await _materialTransferRepository.GetMaterialDetails(CompanyId, BranchId, ProjectId, MaterialTypeId, MaterialId);
+                    var purchase = await _materialTransferRepository.GetMaterialDetails(CompanyId, BranchId, ProjectId,DivisionId, MaterialTypeId, MaterialId,id);
                     return new OkObjectResult(purchase);
                 }
                 catch (Exception ex)
