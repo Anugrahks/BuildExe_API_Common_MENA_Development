@@ -417,7 +417,7 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<string> GetMaterialDetails( int CompanyId, int BranchId, int ProjectId, int MaterialTypeId,int MaterialId)
+        public async Task<string> GetMaterialDetails( int CompanyId, int BranchId, int ProjectId,int DivisionId , int MaterialTypeId,int MaterialId,int id)
         {
             try
             {
@@ -425,7 +425,9 @@ namespace BuildExeMaterialServices.Repository
                 {
                     ProjectId,
                     MaterialTypeId,
-                    MaterialId
+                    MaterialId,
+                    DivisionId
+
                 };
 
                 string item = JsonConvert.SerializeObject(obj);
@@ -434,7 +436,7 @@ namespace BuildExeMaterialServices.Repository
                 cmd.CommandText = "dbo.Stpro_MaterialTransfer";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = id });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = item });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
