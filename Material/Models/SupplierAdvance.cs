@@ -21,19 +21,19 @@ namespace BuildExeMaterialServices.Models
         public string PaymentNo { get; set; }
         public decimal AdvanceAmount { get; set; }
         public decimal AdvanceRecoveryBalance { get; set; }
-        public Int16 CompanyId { get; set; }
-        public Int16 BranchId { get; set; }
+        public int CompanyId { get; set; }
+        public int BranchId { get; set; }
         public int UserId { get; set; }
-        public Int16 FinancialYearId { get; set; }
+        public int FinancialYearId { get; set; }
         public string Narration { get; set; }
-        public Int16 WithClear { get; set; }
-        public Int16 ApprovalStatus { get; set; }
-        public Int16 ApprovalLevel { get; set; }
-        public Int16 ApprovedBy { get; set; }
+        public int WithClear { get; set; }
+        public int ApprovalStatus { get; set; }
+        public int ApprovalLevel { get; set; }
+        public int ApprovedBy { get; set; }
         public DateTime ApprovedDate { get; set; }
         public int VoucherTypeId { get; set; }
         public int VoucherNumber { get; set; }
-        public Int16 IsDeleted { get; set; }
+        public int IsDeleted { get; set; }
         public DateTime? chequeDate { get; set; }
         public int SitemanagerId { get; set; }
         public int IsReject { get; set; }
@@ -54,5 +54,9 @@ namespace BuildExeMaterialServices.Models
 
 
         public decimal NewAmount { get; set; }
+
+        public int? CurrencyId { get; set; }
+        public decimal? ExchangeRate { get; set; }
+        public decimal? LCAmount { get; set; }
     }
 }

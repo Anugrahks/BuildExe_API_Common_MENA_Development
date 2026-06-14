@@ -1196,8 +1196,66 @@ namespace BuildExeServices.Repository
 
         }
 
-        
-         public async Task<IEnumerable<ProjectList>> GetAllClientproject(int companyid, int branchid, string clientName)
+        public async Task<IEnumerable<ProjectList>> GetPendingProjects(int companyid, int branchid, int userId, int siteuser)
+        {
+            try
+            {
+                var id = new SqlParameter("@id", "0");
+                var ProjectId = new SqlParameter("@ProjectId", siteuser);
+                var ProjectTypeId = new SqlParameter("@ProjectTypeId", "0");
+                var DepartmentId = new SqlParameter("@DepartmentId", "0");
+                var ProjectName = new SqlParameter("@ProjectName", "0");
+                var ProjectDescription = new SqlParameter("@ProjectDescription", "0");
+                var Status = new SqlParameter("@Status", "0");
+                var StatusDescription = new SqlParameter("@StatusDescription", "0");
+                var StartDate = new SqlParameter("@StartDate", "2020-01-01");
+                var EndDate = new SqlParameter("@EndDate", "2020-01-01");
+                var GST_No = new SqlParameter("@GST_No", "0");
+                var ClientId = new SqlParameter("@ClientId", "0");
+                var FirstName = new SqlParameter("@FirstName", "0");
+                var LastName = new SqlParameter("@LastName", "0");
+                var Sex = new SqlParameter("@Sex", "0");
+                var DateOfBirth = new SqlParameter("@DateOfBirth", "2020-01-01");
+                var Address = new SqlParameter("@Address", "0");
+                var Post = new SqlParameter("@Post", "0");
+                var Pin = new SqlParameter("@Pin", "0");
+                var PhoneNumber = new SqlParameter("@PhoneNumber", "0");
+                var MobileNumber = new SqlParameter("@MobileNumber", "0");
+                var EmailId = new SqlParameter("@EmailId", "0");
+                var TotalArea = new SqlParameter("@TotalArea", "0");
+                var RatePerArea = new SqlParameter("@RatePerArea", "0");
+                var TotalAmount = new SqlParameter("@TotalAmount", "0");
+                var PaymentModeId = new SqlParameter("@PaymentModeId", "0");
+                var CompanyId = new SqlParameter("@CompanyId", companyid);
+                var BranchId = new SqlParameter("@BranchId", branchid);
+                var UserId = new SqlParameter("@UserId", userId);
+                var EnquiryId = new SqlParameter("@EnquiryId", "0");
+                var ScheduleType = new SqlParameter("@ScheduleType", "0");
+                var Action = new SqlParameter("@Action", 21);
+                var IsWareHouse = new SqlParameter("@IsWareHouse", "false");
+                var UserName = new SqlParameter("@UserName", "");
+                var PassWord = new SqlParameter("@Password", "");
+                var ProjectArea = new SqlParameter("@ProjectArea", "");
+                var Latitude = new SqlParameter("@Latitude", "0");
+                var Longitude = new SqlParameter("@Longitude", "0");
+                var ClientUniqueName = new SqlParameter("@ClientUniqueName", "");
+                var ContactPerson = new SqlParameter("@ContactPerson", "");
+                var LpoNo = new SqlParameter("@LpoNo", "");
+                var LpoDate = new SqlParameter("@LpoDate", "1990-01-01");
+                var json = new SqlParameter("@json", "");
+
+                var _product = await _dbContext.tbl_ProjectMasterlist.FromSqlRaw("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, @ProjectDescription, @Status, @StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, @Address, @Post, @Pin, @PhoneNumber, @MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action,@id, @IsWareHouse ,@UserName, @Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate, @json", ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription, StartDate, EndDate, GST_No, ClientId, FirstName, LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea, RatePerArea, TotalAmount, PaymentModeId, CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo, LpoDate, json).ToListAsync();
+                return _product;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+
+        }
+
+        public async Task<IEnumerable<ProjectList>> GetAllClientproject(int companyid, int branchid, string clientName)
         {
             try
             {

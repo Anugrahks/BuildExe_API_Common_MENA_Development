@@ -816,6 +816,30 @@ namespace BuildExeServiceManagement.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
-
+        [HttpGet("GetJobAutoFetch/{CompanyId}/{BranchId}/{ServiceType}")]
+        [Authorize]
+        public async Task<IActionResult> GetJobAutoFetch(int CompanyId, int BranchId, int ServiceType, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetJobAutoFetch(CompanyId, BranchId, ServiceType);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
     }

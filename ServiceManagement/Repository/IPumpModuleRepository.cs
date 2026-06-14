@@ -39,6 +39,7 @@ namespace BuildExeServiceManagement.Repository
 
         Task<List<Dictionary<string, object>>> siteServiceApproved(int companyid, int branchId, int userId, int financialYearId);
         Task<string> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId);
+        Task<string> GetJobAutoFetch(int CompanyId, int BranchId, int ServiceType);
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
