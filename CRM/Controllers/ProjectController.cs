@@ -198,6 +198,33 @@ namespace BuildExeServices.Controllers
             }
         }
 
+        //new api for pending project
+        [HttpGet("PendingProject/{companyid}/{branchId}/{userId}/{siteuser}")]
+        [Authorize]
+        public async Task<IActionResult> GetPendingProjects(int companyid, int branchId, int userId, int siteuser, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var Project = await _ProjectMasterRepository.GetPendingProjects(companyid, branchId, userId, siteuser);
+                    return new OkObjectResult(Project);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
 
         [HttpGet("List/{companyid}/{branchId}")]
         [Authorize]

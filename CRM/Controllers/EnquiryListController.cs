@@ -80,6 +80,33 @@ namespace BuildExeServices.Controllers
             }
         }
 
+        //new api for pending enquiry 
+        [HttpGet("Pendingenquiry/{Companyid}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetPendingenquiry(int Companyid, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var product = await _enquiryRepository.GetPendingenquiry(Companyid, BranchId);
+                    return new OkObjectResult(product);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
         [HttpGet("enquiryreport/{Companyid}/{BranchId}")]
         [Authorize]
         public async Task<IActionResult> Getenquiryreport(int Companyid, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
