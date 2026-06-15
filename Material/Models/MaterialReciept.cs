@@ -71,5 +71,13 @@ namespace BuildExeMaterialServices.Models
         public decimal ConversionQuantity { get; set; }
 
         public string ConversionUnitName { get; set; }
+
+        public List<TransferSerialNoDetail>? TransferSerialNoDetails { get; set; }
+    }
+
+    public class TransferSerialNoDetail
+    {
+        public int Id { get; set; }
+        public string SerialNumber { get; set; }
     }
 }
