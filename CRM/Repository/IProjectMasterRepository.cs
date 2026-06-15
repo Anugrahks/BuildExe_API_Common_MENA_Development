@@ -24,6 +24,7 @@ namespace BuildExeServices.Repository
         Task<IEnumerable<ProjectList>> Getproject(int companyid, int branchid);
         Task<IEnumerable<ProjectList>> GetAllproject(int companyid, int branchid);
         Task<IEnumerable<ProjectList>> GetAllproject(int companyid, int branchid, int userId, int siteuser);
+        Task<IEnumerable<ProjectList>> GetPendingProjects(int companyid, int branchid, int userId, int siteuser);
         Task<IEnumerable<ProjectList>> GetprojectList(int companyid, int branchid);
         Task<string> GetprojectListuser(int companyid, int branchid, int UserId);
         Task<IEnumerable<ProjectList>> Getproject_withStage(int companyid, int branchid);

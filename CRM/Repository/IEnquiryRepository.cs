@@ -10,7 +10,9 @@ namespace BuildExeServices.Repository
         Task<IEnumerable<EnquiryForMobile >> GetEnquiry();
         Task<IEnumerable<Enquiry>> GetEnquiry(int CompanyId, int BranchId);
        Task<IEnumerable<EnquiryList>> GetEnquirylist(int CompanyId, int BranchId);
+        Task<string> GetPendingenquiry(int CompanyId, int BranchId);
         Task<string> GetEnquirybylist(int CompanyId, int BranchId);
+
         Task<string> GetEnquirybylistreport(int CompanyId, int BranchId);
        // Task<IEnumerable<EnquiryList>> GetEnquirylistuser(int CompanyId, int BranchId, int UserId);
         Task<string> GetEnquirySearch(EnquirySearch enquirySearch );

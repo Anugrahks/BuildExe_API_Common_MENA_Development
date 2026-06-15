@@ -24,7 +24,8 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> GetServiceLookUp(int CustomerId, int CompanyId, int BranchId);       
 
-        Task<string> GetServiceQuotation(int CompanyId, int BranchId);       
+        Task<string> GetServiceQuotation(int CompanyId, int BranchId);
+        Task<string> GetServiceQuotationReceipt(int CompanyId, int BranchId);
         Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  
         Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   
         Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); 
@@ -39,6 +40,7 @@ namespace BuildExeServiceManagement.Repository
 
         Task<List<Dictionary<string, object>>> siteServiceApproved(int companyid, int branchId, int userId, int financialYearId);
         Task<string> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId);
+        Task<string> GetJobAutoFetch(int CompanyId, int BranchId, int ServiceType);
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
