@@ -289,7 +289,7 @@ namespace BuildExeServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@companyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@branchId", SqlDbType.Int) { Value = BranchId });
                 cmd.Parameters.Add(new SqlParameter("@Userid", SqlDbType.Int) { Value = 0 });
-                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 25  });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 10  });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
                     cmd.Connection.Open();
@@ -326,7 +326,7 @@ namespace BuildExeServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@companyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@branchId", SqlDbType.Int) { Value = BranchId });
                 cmd.Parameters.Add(new SqlParameter("@Userid", SqlDbType.Int) { Value = 0 });
-                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 10 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 25 });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
                     cmd.Connection.Open();
