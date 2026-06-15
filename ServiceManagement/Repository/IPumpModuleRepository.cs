@@ -31,7 +31,8 @@ namespace BuildExeServiceManagement.Repository
         Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); 
         Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID);      
         Task<string> GetByIdQuotation(int Id);    
-        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);  
+        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);
+        Task<string> GetClientPending(int CompanyId, int BranchId, int UserId, int FinancialYearId);
         Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  
         Task<string> GetPumpAutoFetch(int CompanyId, int BranchId); 
         Task<string> GetJobAutoFetch(int CompanyId, int BranchId);
