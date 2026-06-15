@@ -74,6 +74,8 @@ namespace BuildExeServiceManagement.Models
         public List<ElectricalChecks> ElectricalChecks { get; set; }
 
         public List<MechanicalChecks> MechanicalChecks { get; set; }
+
+        public List<InstallationChecks> InstallationChecks { get; set; }
         public List<PumpDocumentModel> DocumentDetails { get; set; }
         public List<PumpDetailsModuleModel> PumpDetailsModule { get; set; }
 
@@ -199,5 +201,14 @@ namespace BuildExeServiceManagement.Models
         public decimal qty { get; set; }
         public decimal unitPrice { get; set; }
         public decimal total { get; set; }
+    }
+
+    public class InstallationChecks
+    {
+        public int SlNo { get; set; }
+        public string ItemDescription { get; set; }
+        public string YorN { get; set; }
+        public int NA { get; set; }
+        public string Observation { get; set; }
     }
 }
