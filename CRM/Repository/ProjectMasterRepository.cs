@@ -1231,7 +1231,7 @@ namespace BuildExeServices.Repository
                 var UserId = new SqlParameter("@UserId", userId);
                 var EnquiryId = new SqlParameter("@EnquiryId", "0");
                 var ScheduleType = new SqlParameter("@ScheduleType", "0");
-                var Action = new SqlParameter("@Action", 21);
+                var Action = new SqlParameter("@Action", 25);
                 var IsWareHouse = new SqlParameter("@IsWareHouse", "false");
                 var UserName = new SqlParameter("@UserName", "");
                 var PassWord = new SqlParameter("@Password", "");
