@@ -24,13 +24,16 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> GetServiceLookUp(int CustomerId, int CompanyId, int BranchId);       
 
-        Task<string> GetServiceQuotation(int CompanyId, int BranchId);       
+        Task<string> GetServiceQuotation(int CompanyId, int BranchId);
+        Task<string> GetServiceQuotationReceipt(int CompanyId, int BranchId);
+        Task<string> GetServiceQuotationList(int CompanyId, int BranchId);
         Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  
         Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   
         Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); 
         Task<IEnumerable<Validation>> DeleteQuotation(int Id, int UserID);      
         Task<string> GetByIdQuotation(int Id);    
-        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);  
+        Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);
+        Task<string> GetClientPending(int CompanyId, int BranchId, int UserId, int FinancialYearId);
         Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  
         Task<string> GetPumpAutoFetch(int CompanyId, int BranchId); 
         Task<string> GetJobAutoFetch(int CompanyId, int BranchId);
@@ -39,6 +42,7 @@ namespace BuildExeServiceManagement.Repository
 
         Task<List<Dictionary<string, object>>> siteServiceApproved(int companyid, int branchId, int userId, int financialYearId);
         Task<string> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId);
+        Task<string> GetJobAutoFetch(int CompanyId, int BranchId, int ServiceType);
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
     }
