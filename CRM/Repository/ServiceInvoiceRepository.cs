@@ -84,7 +84,7 @@ namespace BuildExeServices.Repository
             }
         }
 
-        public async Task<string> GetServiceInvoiceCustomer(int jobId)
+        public async Task<string> GetServiceInvoiceCustomer(int jobId, int companyId, int branchId, int customerId)
         {
             try
             {
@@ -92,6 +92,10 @@ namespace BuildExeServices.Repository
                 cmd.CommandText = "dbo.sp_GetServiceInvoiceCustomer";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@JobId", SqlDbType.Int) { Value = jobId });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = customerId });
+
 
                 if (cmd.Connection.State != ConnectionState.Open)
                     cmd.Connection.Open();
