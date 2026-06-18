@@ -84,7 +84,7 @@ namespace BuildExeServices.Repository
             }
         }
 
-        public async Task<string> GetServiceInvoiceCustomer(int jobId, int companyId, int branchId, int customerId)
+        public async Task<string> GetServiceInvoiceCustomer(int jobId, int companyId, int branchId, int Id)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace BuildExeServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@JobId", SqlDbType.Int) { Value = jobId });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = customerId });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = Id });
 
 
                 if (cmd.Connection.State != ConnectionState.Open)

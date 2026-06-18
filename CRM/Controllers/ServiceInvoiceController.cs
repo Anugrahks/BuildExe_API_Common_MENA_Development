@@ -64,15 +64,15 @@ namespace BuildExeServices.Controllers
             }
         }
 
-        [HttpGet("Customer/{JobId}/{CompanyId}/{BranchId}/{CustomerId}")]
+        [HttpGet("Customer/{JobId}/{CompanyId}/{BranchId}/{Id}")]
         [Authorize]
-        public async Task<IActionResult> GetServiceInvoiceCustomer(int JobId, int CompanyId, int BranchId, int CustomerIdId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetServiceInvoiceCustomer(int JobId, int CompanyId, int BranchId, int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var result = await _serviceInvoiceRepository.GetServiceInvoiceCustomer(JobId, CompanyId, BranchId, CustomerIdId);
+                    var result = await _serviceInvoiceRepository.GetServiceInvoiceCustomer(JobId, CompanyId, BranchId, Id);
                     return new OkObjectResult(result);
                 }
                 catch (Exception ex)
