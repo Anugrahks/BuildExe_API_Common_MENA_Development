@@ -27,6 +27,7 @@ namespace BuildExeServiceManagement.Repository
         Task<string> GetServiceQuotation(int CompanyId, int BranchId);
         Task<string> GetServiceQuotationReceipt(int CompanyId, int BranchId);
         Task<string> GetServiceQuotationList(int CompanyId, int BranchId);
+        Task<string> GetServiceQuotationAll(int CompanyId, int BranchId);
         Task<IEnumerable<Validation>> InsertQuotation(PumpModuleRequest mat);  
         Task<IEnumerable<Validation>> UpdateQuotation(PumpModuleRequest mat);   
         Task<string> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId); 

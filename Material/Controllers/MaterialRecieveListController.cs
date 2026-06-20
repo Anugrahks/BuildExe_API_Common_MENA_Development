@@ -26,7 +26,7 @@ namespace BuildExeMaterialServices.Controllers
             _mdHashValidator = mdHashValidator;
         }
         [HttpGet("{Id}")]
-        [Authorize]
+       [Authorize]
         public async Task<IActionResult> Get(int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
@@ -227,6 +227,32 @@ namespace BuildExeMaterialServices.Controllers
                 }
                 return new NoContentResult();
             }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+        [HttpGet("GetRecievecematerial/{Id}")]
+         [Authorize]
+        public async Task<IActionResult> GetByid(int Id, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var purchase = await _materialReceiveRepository.Getbalancesbyid(Id);
+                    return new OkObjectResult(purchase);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
