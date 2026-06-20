@@ -6,6 +6,6 @@ namespace BuildExeServices.Repository
     {
         Task<string> GetPendingServiceInvoices(int jobId, int companyId, int branchId);
         Task<string> GetPendingServiceInvoicesEdit(int jobId, int companyId, int branchId, int id);
-        Task<string> GetServiceInvoiceCustomer(int jobId);
+        Task<string> GetServiceInvoiceCustomer(int jobId, int companyId, int branchId, int Id);
     }
 }

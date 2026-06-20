@@ -18,7 +18,6 @@ namespace BuildExeMaterialServices.Models
         public Int16 CompanyId { get; set; }
         public Int16 BranchId { get; set; }
 
-        
         public DateTime PaymentDate { get; set; }
         public DateTime? chequeDate { get; set; }
         public string PaymentMode { get; set; }
@@ -38,5 +37,10 @@ namespace BuildExeMaterialServices.Models
         public int? SitemanagerId { get; set; }
         public decimal? TotalPaymentAmount { get; set; }
         public string RejectRemarks { get; set; }
+
+  
+        public string Currency { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal ExchangeRate { get; set; }
     }
 }
