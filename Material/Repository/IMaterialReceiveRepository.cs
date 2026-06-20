@@ -21,5 +21,7 @@ namespace BuildExeMaterialServices.Repository
         Task<string> GetDetailWithTransferQtyid(int MaterialRecieptId);
         Task<string> GetforReport(MaterialSearch materialSearch);
         Task<IEnumerable<MaterialRecieveList>> GetforView(MaterialSearch materialSearch);
+
+        Task<string> Getbalancesbyid(int IndentId);
     }
 }
