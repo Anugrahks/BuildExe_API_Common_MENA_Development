@@ -166,36 +166,116 @@ namespace BuildExeBasic.Repository
             return true;
         }
 
-        // Repository method signature change
-        public async Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId, int transactionType)
+        //// Repository method signature change
+        //public async Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId, int transactionType)
+        //{
+        //    var batches = await _context.tbl_Batch
+        //        .Where(b =>
+        //            b.SitemanagerId == siteManagerId &&
+        //            (b.CloseState == false || b.CloseState == null))
+        //        .Select(b => new Batch
+        //        {
+        //            Id = b.Id,
+        //            BatchNo = b.BatchNo,
+        //            SitemanagerId = b.SitemanagerId
+        //        })
+        //        .ToListAsync();
+
+        //    bool hasPending = await _context.tbl_SitemanagersTransactions
+        //        .AnyAsync(t =>
+        //            t.EmployeeId == siteManagerId &&
+        //            t.BatchID != null &&
+        //            t.BatchID != 0 &&
+        //            t.ApprovalStatus == 0 &&
+        //            t.IsDeleted == 0 &&
+        //            t.TransactionType == transactionType);
+
+        //    foreach (var batch in batches)
+        //    {
+        //        batch.BatchValidate = hasPending;
+        //    }
+
+        //    return batches;
+        //}
+
+        public async Task<List<Batch>> GetBatchBySiteManagerAsync(int siteManagerId, int transactionType, int id)
         {
-            var batches = await _context.tbl_Batch
-                .Where(b =>
-                    b.SitemanagerId == siteManagerId &&
-                    (b.CloseState == false || b.CloseState == null))
-                .Select(b => new Batch
-                {
-                    Id = b.Id,
-                    BatchNo = b.BatchNo,
-                    SitemanagerId = b.SitemanagerId
-                })
-                .ToListAsync();
-
-            bool hasPending = await _context.tbl_SitemanagersTransactions
-                .AnyAsync(t =>
-                    t.EmployeeId == siteManagerId &&
-                    t.BatchID != null &&
-                    t.BatchID != 0 &&
-                    t.ApprovalStatus == 0 &&
-                    t.IsDeleted == 0 &&
-                    t.TransactionType == transactionType);
-
-            foreach (var batch in batches)
+            if (id > 0)
             {
-                batch.BatchValidate = hasPending;
-            }
+                // EDIT MODE
+                var entryBatchId = await _context.tbl_SitemanagersTransactions
+                    .Where(t => t.SiteExpenseMasterId == id
+                             && t.IsDeleted == 0
+                             && t.BatchID != null
+                             && t.BatchID != 0)
+                    .Select(t => t.BatchID)
+                    .FirstOrDefaultAsync();
 
-            return batches;
+                // Get all open batches for this site manager
+                var batches = await _context.tbl_Batch
+                    .Where(b => b.SitemanagerId == siteManagerId
+                             && (b.CloseState == false || b.CloseState == null))
+                    .Select(b => new Batch
+                    {
+                        Id = b.Id,
+                        BatchNo = b.BatchNo,
+                        SitemanagerId = b.SitemanagerId,
+                        BatchValidate = false  
+                    })
+                    .ToListAsync();
+
+                if (entryBatchId.HasValue && entryBatchId > 0)
+                {
+                    bool alreadyInList = batches.Any(b => b.Id == entryBatchId);
+                    if (!alreadyInList)
+                    {
+                        var savedBatch = await _context.tbl_Batch
+                            .Where(b => b.Id == entryBatchId)
+                            .Select(b => new Batch
+                            {
+                                Id = b.Id,
+                                BatchNo = b.BatchNo,
+                                SitemanagerId = b.SitemanagerId,
+                                BatchValidate = false
+                            })
+                            .FirstOrDefaultAsync();
+
+                        if (savedBatch != null)
+                            batches.Insert(0, savedBatch);
+                    }
+                }
+
+                return batches;
+            }
+            else
+            {
+                // NEW ENTRY MODE
+                var batches = await _context.tbl_Batch
+                    .Where(b => b.SitemanagerId == siteManagerId
+                             && (b.CloseState == false || b.CloseState == null))
+                    .Select(b => new Batch
+                    {
+                        Id = b.Id,
+                        BatchNo = b.BatchNo,
+                        SitemanagerId = b.SitemanagerId
+                    })
+                    .ToListAsync();
+
+                bool hasPending = await _context.tbl_SitemanagersTransactions
+                    .AnyAsync(t =>
+                        t.EmployeeId == siteManagerId &&
+                        t.BatchID != null &&
+                        t.BatchID != 0 &&
+                        t.ApprovalStatus == 0 &&
+                        t.IsDeleted == 0 &&
+                        t.TransactionType == transactionType &&
+                        t.SiteExpenseMasterId != id); 
+
+                foreach (var batch in batches)
+                    batch.BatchValidate = hasPending;
+
+                return batches;
+            }
         }
 
         public async Task<IEnumerable<Batch>> GetAllBatchesBySiteManagerAsync(int siteManagerId)
