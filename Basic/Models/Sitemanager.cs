@@ -60,6 +60,7 @@ namespace BuildExeBasic.Models
 
         public string BatchNo { get; set; }
 
+        public int? SiteExpenseMasterId { get; set; }
         public string? BatchName { get; set; }
     }
 }

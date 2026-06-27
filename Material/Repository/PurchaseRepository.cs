@@ -46,8 +46,8 @@ namespace BuildExeMaterialServices.Repository
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
-                Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
+                //var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
+                //Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
 
                 var materialId = new SqlParameter("@materialId", "0"); 
                 var item = new SqlParameter("@item",JsonConvert.SerializeObject(purchase, camelCaseSettings)
@@ -98,8 +98,13 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
+                var camelCaseSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
                 var materialId = new SqlParameter("@materialId", "0");
-                var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase));
+                var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase, camelCaseSettings));
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
