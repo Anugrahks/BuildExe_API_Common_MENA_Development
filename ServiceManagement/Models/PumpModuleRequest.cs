@@ -65,6 +65,9 @@ namespace BuildExeServiceManagement.Models
         public DateTime RemarkDate { get; set; }
         public int CurrentStage { get; set; }
 
+        public int? MaterialId { get; set; }  
+        public int? ProjectId { get; set; }   
+
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }
         public List<SparePartModel> SpareParts { get; set; }
