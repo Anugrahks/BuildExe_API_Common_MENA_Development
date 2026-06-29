@@ -261,6 +261,21 @@ namespace BuildExeBasic.Repository
                     })
                     .ToListAsync();
 
+                //bool hasPending = await _context.tbl_SitemanagersTransactions
+                //    .AnyAsync(t =>
+                //        t.EmployeeId == siteManagerId &&
+                //        t.BatchID != null &&
+                //        t.BatchID != 0 &&
+                //        t.ApprovalStatus == 0 &&
+                //        t.IsDeleted == 0 &&
+                //        t.TransactionType == transactionType &&
+                //        t.SiteExpenseMasterId != id); 
+
+                //foreach (var batch in batches)
+                //    batch.BatchValidate = hasPending;
+
+                //return batches;
+
                 bool hasPending = await _context.tbl_SitemanagersTransactions
                     .AnyAsync(t =>
                         t.EmployeeId == siteManagerId &&
@@ -268,8 +283,10 @@ namespace BuildExeBasic.Repository
                         t.BatchID != 0 &&
                         t.ApprovalStatus == 0 &&
                         t.IsDeleted == 0 &&
-                        t.TransactionType == transactionType &&
-                        t.SiteExpenseMasterId != id); 
+                        (t.TransactionType == 1 ||
+                         t.TransactionType == 2 ||
+                         t.TransactionType == 3) &&
+                        (id == 0 || t.SiteExpenseMasterId != id));
 
                 foreach (var batch in batches)
                     batch.BatchValidate = hasPending;
