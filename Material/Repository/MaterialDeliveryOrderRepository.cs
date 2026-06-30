@@ -498,21 +498,23 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<IEnumerable<MaterialStockDetailDto>> GetMaterialStockDetails(int CompanyId, int BranchId)
+        public async Task<IEnumerable<MaterialStockDetailDto>> GetMaterialStockDetails(int CompanyId, int BranchId,int ProjectId)
         {
             try
             {
                 var id = new SqlParameter("@Id", SqlDbType.Int) { Value = 0 };                       
                 var companyId = new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId };
                 var branchId = new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId };
+                var projectId = new SqlParameter("@InputProjectId", SqlDbType.Int) { Value = ProjectId };
+
                 var json = new SqlParameter("@json", SqlDbType.NVarChar) { Value = "0" };            
                 var financialYearId = new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 };
                 var userId = new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 };
                 var action = new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectMaterialStockDetails };
 
                 var result = await _dbContext.MaterialStockDetails
-                    .FromSqlRaw("Stpro_MaterialDeliveryOrder @Id, @CompanyId, @BranchId, @json, @FinancialYearId, @UserId, @Action",
-                        id, companyId, branchId, json, financialYearId, userId, action)
+                    .FromSqlRaw("Stpro_MaterialDeliveryOrder @Id, @CompanyId, @BranchId, @InputProjectId, @json, @FinancialYearId, @UserId, @Action",
+                        id, companyId, branchId, projectId ,json, financialYearId, userId, action)
                     .ToListAsync();
 
                 return result;
