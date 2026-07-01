@@ -49,7 +49,7 @@ namespace BuildExeMaterialServices.Repository
                 var item = new SqlParameter("@json", JsonConvert.SerializeObject(mat));
                 var FinancialYearId = new SqlParameter("@FinancialYearId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
-                var Action = new SqlParameter("@Action", Actions.Insert);
+                var Action = new SqlParameter("@Action",  Actions.Insert);
                 var purchaseList = await _dbContext.tbl_validations.FromSqlRaw("Stpro_MaterialDeliveryOrder @Id, @CompanyId, @BranchId,@json,@FinancialYearId,@UserId, @Action", materialId, CompanyId, BranchId, item, FinancialYearId, UserId, Action).ToListAsync();
                 return purchaseList;
             }
@@ -505,16 +505,15 @@ namespace BuildExeMaterialServices.Repository
                 var id = new SqlParameter("@Id", SqlDbType.Int) { Value = 0 };                       
                 var companyId = new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId };
                 var branchId = new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId };
-                var projectId = new SqlParameter("@InputProjectId", SqlDbType.Int) { Value = ProjectId };
-
                 var json = new SqlParameter("@json", SqlDbType.NVarChar) { Value = "0" };            
                 var financialYearId = new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 };
                 var userId = new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 };
                 var action = new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectMaterialStockDetails };
+                var projectId = new SqlParameter("@InputProjectId", SqlDbType.Int) { Value = ProjectId };
 
                 var result = await _dbContext.MaterialStockDetails
-                    .FromSqlRaw("Stpro_MaterialDeliveryOrder @Id, @CompanyId, @BranchId, @InputProjectId, @json, @FinancialYearId, @UserId, @Action",
-                        id, companyId, branchId, projectId ,json, financialYearId, userId, action)
+                    .FromSqlRaw("Stpro_MaterialDeliveryOrder @Id, @CompanyId, @BranchId,  @json, @FinancialYearId, @UserId, @Action,@InputProjectId",
+                        id, companyId, branchId, json, financialYearId, userId, action, projectId)
                     .ToListAsync();
 
                 return result;
