@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 namespace BuildExeMaterialServices.Models
 {
     public class MaterialRecieveList
@@ -54,6 +55,15 @@ namespace BuildExeMaterialServices.Models
         public decimal? RoundOff { get; set; }
         public string Remarks { get; set; }
         public int IsAsset { get; set; }
+
+        public int IsService { get; set; }
+
+        [JsonPropertyName("jobId")]
+        public int? JobId { get; set; }
+        public int? CustomerId { get; set; }
+
+        public string ClientUniqueName { get; set; }
+
 
     }
 }
