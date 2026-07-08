@@ -101,6 +101,12 @@ namespace BuildExeMaterialServices.Models
 
         [JsonProperty("isnewone")]
         public int IsNewone { get; set; }
+
+        [JsonProperty("isselect")]
+        public int IsSelect { get; set; }
+
+       
+
     }
     public class WarrantyDetails
     {
@@ -145,10 +151,17 @@ namespace BuildExeMaterialServices.Models
         public string Remarks { get; set; }
         public string PartNumber { get; set; }
         public DateTime WarrantyDate { get; set; }
+
+        [JsonProperty("iscombined")]
         public int? IsCombined { get; set; }
 
-
+        [JsonProperty("isnewone")]
         public int? IsNewone { get; set; }
+
+        [JsonProperty("isselect")]
+        public int IsSelect { get; set; }
+
+        public decimal ReceivedQuantity { get; set; }
 
     }
 
