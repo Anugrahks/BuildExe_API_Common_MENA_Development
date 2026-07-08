@@ -65,6 +65,8 @@ namespace BuildExeMaterialServices.Models
 
         public string PONo { get; set; }
 
+        public string? SupplierName { get; set; }    
+
         public int? UnitId { get; set; }
 
         public int? StockPoint { get; set; }
