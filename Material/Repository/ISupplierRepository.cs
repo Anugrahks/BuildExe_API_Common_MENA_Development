@@ -8,8 +8,8 @@ namespace BuildExeMaterialServices.Repository
 {
   public  interface ISupplierRepository
     {
-        Task<string> GetSuppliers(int CompanyId, int Branchid, int IsServiceCreditors);
-
+        Task<string> GetSuppliers(int CompanyId, int Branchid, int IsServiceCreditors); 
+         Task<string> SupplierCreditorsGet(int CompanyId, int Branchid);
         Task<string> Getwithfinancial(int CompanyId, int Branchid, int FinancialYearId);
         Task<string> Get(int CompanyId, int Branchid, int UserId);
         Task<string> GetReport(int CompanyId, int Branchid, int Reportid);
