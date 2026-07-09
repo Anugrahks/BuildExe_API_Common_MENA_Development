@@ -125,7 +125,7 @@ namespace BuildExeServices.Repository
                 cmd.CommandText = "dbo.Stpro_UniqueSNo";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = getUniqueId.Id });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = getUniqueId.CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = getUniqueId.BranchId });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(getUniqueId) });
