@@ -97,6 +97,7 @@ namespace BuildExeMaterialServices.Models
         public decimal LandingCost { get; set; }
         public DateTime? WarrantyDate { get; set; }
         public int? Pdi { get; set; }
+        public DateTime? ExtendedDate { get; set; }
     }
     public class MaterialDetails
     {
