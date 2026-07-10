@@ -20,6 +20,8 @@ namespace BuildExeServices.Repository
         Task<IEnumerable<RecieptsList>> GetforEdituser(int companyId, int branchid, int menuid, int UserId, int FinancialYearId);
         Task<IEnumerable<RecieptsList>> GetforView(BillSearch billSearch);
         Task<IEnumerable<RecieptDetail >> Getdetails(int Id);
-        Task<string> getRecieptDetails(int Id);
+        Task<string> getRecieptDetails(int Id); 
+
+        Task<IEnumerable<RecieptsList>> getapprovedData(int companyId, int branchid, int UserId, int FinancialYearId, int financialYearId);
     }
 }

@@ -425,5 +425,53 @@ namespace BuildExeMaterialServices.Repository
                 throw;
             }
         }
+
+        public async Task<string> SupplierCreditorsGet(int CompanyId, int BranchId)
+        {
+            try
+            {
+                string json = "{\"IsServiceCreditors\": 1}"; 
+
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_SupplierPayment";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 2 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 7 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string result = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    result += dataTable.Rows[i][0].ToString();
+                }
+
+                if (result == "")
+                    result = "[]";
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+
     }
 }

@@ -1,15 +1,16 @@
 ﻿
+using BuildExeServices.Library;
+using BuildExeServices.Models;
+using BuildExeServices.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using System.Transactions;
-using BuildExeServices.Repository;
-using BuildExeServices.Models;
-using Microsoft.AspNetCore.Authorization;
-using BuildExeServices.Library;
 using System.Security.Policy;
+using System.Threading.Tasks;
+using System.Transactions;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BuildExeServices.Controllers
@@ -80,13 +81,14 @@ namespace BuildExeServices.Controllers
         }
 
         [HttpPost("SNo")]
-        [Authorize]
+       [Authorize]
         public async Task<IActionResult> GetSNo([FromBody] GetUniqueId getUniqueId, [FromHeader] string mdhash, [FromHeader] int User)
         {
            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
+                    var json = JsonConvert.SerializeObject(getUniqueId);
                     var result = await _uniqueIdRepository.GetSNo(getUniqueId);
                     return new OkObjectResult(result);
                 }
@@ -103,7 +105,7 @@ namespace BuildExeServices.Controllers
             {
                 return Unauthorized("Invalid MdHash");
             }
-    }
+        }
 
 
 
