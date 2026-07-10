@@ -42,5 +42,7 @@ namespace BuildExeMaterialServices.Models
         public string Currency { get; set; }
         public int CurrencyId { get; set; }
         public decimal ExchangeRate { get; set; }
+
+        public bool? IsCreditor { get; set; }
     }
 }
