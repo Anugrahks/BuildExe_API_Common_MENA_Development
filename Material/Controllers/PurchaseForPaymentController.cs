@@ -28,15 +28,15 @@ namespace BuildExeMaterialServices.Controllers
             _mdHashValidator = mdHashValidator;
         }
 
-        [HttpGet("{SupplierId}/{sitemanagerid}/{financialyearId}")]
+        [HttpGet("servicecreditor/{SupplierId}/{sitemanagerid}/{financialyearId}/{isServiceCreditor}")]
         [Authorize]
-        public async Task<IActionResult> Get(int SupplierId, int sitemanagerid, int financialyearId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Get(int SupplierId, int sitemanagerid, int financialyearId, int isServiceCreditor, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
             {
-                var material =await _purchaseForPaymentRepository.Get(SupplierId, sitemanagerid, financialyearId);
+                var material =await _purchaseForPaymentRepository.Get(SupplierId, sitemanagerid, financialyearId, isServiceCreditor);
             return new OkObjectResult(material);
             }
                 catch (Exception ex)
@@ -55,7 +55,7 @@ namespace BuildExeMaterialServices.Controllers
         }
         [HttpGet("{SupplierId}/{sitemanagerid}/{financialyearId}/{Id}")]
         [Authorize]
-        public async Task<IActionResult> Get(int SupplierId, int sitemanagerid, int financialyearId,int Id, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetForEdit(int SupplierId, int sitemanagerid, int financialyearId,int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
