@@ -7,7 +7,7 @@ namespace BuildExeMaterialServices.Repository
 {
    public interface IPurchaseForPaymentRepository
     {
-        Task<string> Get(int SupplierId,int sitemanagerid, int financialyearId);
-        Task<string> Getforedit(int SupplierId, int sitemanagerid, int financialyearId,int id);
+        Task<string> Get(int SupplierId,int sitemanagerid, int financialyearId, int isServiceCreditor);
+        Task<string> Getforedit(int SupplierId, int sitemanagerid, int financialyearId,int id, int isServiceCreditor);
     }
 }

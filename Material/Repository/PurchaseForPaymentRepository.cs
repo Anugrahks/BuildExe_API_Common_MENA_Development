@@ -29,7 +29,7 @@ namespace BuildExeMaterialServices.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<string> Get(int supplierId, int sitemanagerid, int financialyearId)
+        public async Task<string> Get(int supplierId, int sitemanagerid, int financialyearId,int isServiceCreditor)
         {
             try
             {
@@ -43,6 +43,7 @@ namespace BuildExeMaterialServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@siteManagerId", SqlDbType.Int) { Value = sitemanagerid });
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = financialyearId });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectAll });
+                cmd.Parameters.Add(new SqlParameter("@IsServiceCreditor", SqlDbType.Int) { Value = isServiceCreditor });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
                     cmd.Connection.Open();
@@ -69,7 +70,7 @@ namespace BuildExeMaterialServices.Repository
             }
         }
 
-        public async Task<string> Getforedit(int supplierId, int sitemanagerid, int financialyearId, int id)
+        public async Task<string> Getforedit(int supplierId, int sitemanagerid, int financialyearId, int id, int isServiceCreditor)
         {
             try
             {
@@ -83,6 +84,7 @@ namespace BuildExeMaterialServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@siteManagerId", SqlDbType.Int) { Value = sitemanagerid });
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = financialyearId });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectAll });
+                cmd.Parameters.Add(new SqlParameter("@IsServiceCreditor", SqlDbType.Int) { Value = isServiceCreditor });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
                     cmd.Connection.Open();
