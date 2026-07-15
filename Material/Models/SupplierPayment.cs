@@ -45,6 +45,8 @@ namespace BuildExeMaterialServices.Models
         public decimal LocalBillAmount { get; set; }
         public decimal LocalBillAmountBalance { get; set; }
         public decimal LocalPaymentAmount { get; set; }
+
+        public bool? IsCreditor { get; set; }
         public List<SupplierPaymentDetails> SupplierPaymentDetails { get; set; }
         public List<DebitNote> DebitNote { get; set; }
 
