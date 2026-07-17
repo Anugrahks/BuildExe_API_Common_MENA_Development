@@ -124,6 +124,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? requiredQuantity { get; set; }
 
         public decimal? rate { get; set; }
+
+        public string? purchaseOrderId { get; set; }
     }
 
 
