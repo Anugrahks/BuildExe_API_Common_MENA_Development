@@ -133,7 +133,7 @@ namespace BuildExeMaterialServices.Models
 
         public decimal? rate { get; set; }
 
-        public string? purchaseOrderId { get; set; }
+        public int ? purchaseOrderId { get; set; }
     }
 
 
