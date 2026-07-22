@@ -19,5 +19,7 @@ namespace BuildExeMaterialServices.Repository
         Task<string> GetDetailsbyid(int IndentId);
         Task<string> GetforReport(MaterialSearch materialSearch);
         Task<IEnumerable<Validation>> Getvalidation(int ProjectId, DateTime UsageDate, int FinancialYearId);
+
+        Task<string> GetMaterial(int isService, int customerId, int jobId, int projectId, DateTime usageDate);
     }
 }
