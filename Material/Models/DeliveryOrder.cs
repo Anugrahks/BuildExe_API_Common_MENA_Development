@@ -108,10 +108,18 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("isselect")]
         public int IsSelect { get; set; }
 
+        public int purchaseOrderId { get; set; }
 
-        
 
-        
+        public int purchaseOrderIdDetails { get; set; }
+
+
+
+
+
+
+
+
 
     }
 
@@ -124,6 +132,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? requiredQuantity { get; set; }
 
         public decimal? rate { get; set; }
+
+        public int ? purchaseOrderId { get; set; }
     }
 
 
