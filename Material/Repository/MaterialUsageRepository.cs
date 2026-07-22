@@ -25,7 +25,8 @@ namespace BuildExeMaterialServices.Repository
             SelectforEdit = 4,
             Selectforapproval = 5,
             SelectReport = 6,
-            Selectforview = 7
+            Selectforview = 7,
+            SelectMaterial=8
         }
 
         public MaterialUsageRepository(MaterialContext dbContext)
@@ -331,6 +332,62 @@ namespace BuildExeMaterialServices.Repository
             {
                 Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
                 throw;
+            }
+        }
+
+        public async Task<string> GetMaterial(int isService, int customerId, int jobId, int projectId, DateTime usageDate)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_MaterialUsage";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+               
+                var searchParams = new
+                {
+                    IsService = isService,
+                    CustomerId = customerId,
+                    JobId = jobId,
+                    ProjectId = projectId,
+                    UsageDate = usageDate
+                };
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(searchParams) });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectMaterial }); 
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    await cmd.Connection.OpenAsync();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string materialDetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    materialDetails += dataTable.Rows[i][0].ToString();
+                }
+
+                if (string.IsNullOrEmpty(materialDetails))
+                {
+                    materialDetails = "[]";
+                }
+
+                return materialDetails;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                return null;
             }
         }
     }
