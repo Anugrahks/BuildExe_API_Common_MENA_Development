@@ -245,9 +245,35 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
+                //var data = await (from a in _dbContext.tbl_MaterialUsageDetails
+                //                  join b in _dbContext.tbl_MaterialMaster on a.MaterialId equals b.Id
+                //                  join c in _dbContext.tbl_Units on b.UnitId equals c.UnitId
+                //                  select new
+                //                  {
+                //                      materialUsageDetailsId = a.MaterialUsageDetailsId,
+                //                      materialUsageId = a.MaterialUsageId,
+                //                      materialId = a.MaterialId,
+                //                      materialName = b.MaterialName,
+                //                      unitId = b.UnitId,
+                //                      materialTypeId = b.MaterialTypeId,
+                //                      unitShortName = c.UnitShortName,
+                //                      quantity = a.Quantity,
+                //                      stock = a.Stock,
+                //                      returnQuantity = a.ReturnQuantity,
+                //                      rate = a.Rate,
+                //                      coefficientFactorValue = a.CoefficientFactorValue,
+                //                      conversionQuantity = a.ConversionQuantity,
+                //                      conversionUnitName = a.ConversionUnitName
+
+
+                //                  }).Where(x => x.materialUsageId == MaterialUsageId).ToListAsync();
+                //string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+                //return jsonString;
+
                 var data = await (from a in _dbContext.tbl_MaterialUsageDetails
                                   join b in _dbContext.tbl_MaterialMaster on a.MaterialId equals b.Id
                                   join c in _dbContext.tbl_Units on b.UnitId equals c.UnitId
+                                  where a.MaterialUsageId == MaterialUsageId
                                   select new
                                   {
                                       materialUsageDetailsId = a.MaterialUsageDetailsId,
@@ -258,13 +284,33 @@ namespace BuildExeMaterialServices.Repository
                                       materialTypeId = b.MaterialTypeId,
                                       unitShortName = c.UnitShortName,
                                       quantity = a.Quantity,
+
+                                      stock = a.Stock,
+                                      returnQuantity = a.ReturnQuantity,
+
                                       rate = a.Rate,
                                       coefficientFactorValue = a.CoefficientFactorValue,
                                       conversionQuantity = a.ConversionQuantity,
-                                      conversionUnitName = a.ConversionUnitName
+                                      conversionUnitName = a.ConversionUnitName,
 
+                                      consumptionSerialNoDetails = _dbContext.tbl_MaterialUsageConsumptionSerials
+                                          .Where(cs => cs.MaterialUsageDetailsId == a.MaterialUsageDetailsId)
+                                          .Select(cs => new
+                                          {
+                                              id = cs.Id,
+                                              serialNumber = cs.SerialNumber
+                                          }).ToList(),
 
-                                  }).Where(x => x.materialUsageId == MaterialUsageId).ToListAsync();
+                                      returnSerialNoDetails = _dbContext.tbl_MaterialUsageReturnSerials
+                                          .Where(rs => rs.MaterialUsageDetailsId == a.MaterialUsageDetailsId)
+                                          .Select(rs => new
+                                          {
+                                              id = rs.Id,
+                                              serialNumber = rs.SerialNumber
+                                          }).ToList()
+
+                                  }).ToListAsync();
+
                 string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
                 return jsonString;
             }
