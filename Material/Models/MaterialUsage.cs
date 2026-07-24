@@ -70,6 +70,8 @@ namespace BuildExeMaterialServices.Models
         public int Id { get; set; } 
         public string SerialNumber { get; set; }
         public int MaterialUsageDetailsId { get; set; }
+
+        public int SerialId { get; set; }
     }
 
     public class ReturnSerialNoDetails
@@ -79,6 +81,8 @@ namespace BuildExeMaterialServices.Models
         public string SerialNumber { get; set; }
 
         public int MaterialUsageDetailsId { get; set; }
+
+        public int SerialId { get; set; }
     }
 
 }
