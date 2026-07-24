@@ -27,6 +27,7 @@ namespace BuildExeMaterialServices.Repository
             SelectReport = 6,
             Selectforview = 7,
             SelectMaterial=8
+
         }
 
         public MaterialUsageRepository(MaterialContext dbContext)
@@ -297,7 +298,7 @@ namespace BuildExeMaterialServices.Repository
                                           .Where(cs => cs.MaterialUsageDetailsId == a.MaterialUsageDetailsId)
                                           .Select(cs => new
                                           {
-                                              id = cs.Id,
+                                              id = cs.SerialId,
                                               serialNumber = cs.SerialNumber
                                           }).ToList(),
 
@@ -305,7 +306,7 @@ namespace BuildExeMaterialServices.Repository
                                           .Where(rs => rs.MaterialUsageDetailsId == a.MaterialUsageDetailsId)
                                           .Select(rs => new
                                           {
-                                              id = rs.Id,
+                                              id = rs.SerialId,
                                               serialNumber = rs.SerialNumber
                                           }).ToList()
 
