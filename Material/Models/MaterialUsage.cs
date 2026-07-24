@@ -34,6 +34,11 @@ namespace BuildExeMaterialServices.Models
 
         public int UserId { get; set; }
         public int? BulkEntry { get; set; }
+        public int IsService { get; set; } = 0;
+        public int? JobId { get; set; }
+        public string? ClientUniqueName { get; set; }
+        public int? CustomerId { get; set; }
+        public int? ProjectIdTo { get; set; }
         public List<MaterialUsageDetails> MaterialUsageDetails { get; set; }
     }
     public class MaterialUsageDetails
@@ -52,7 +57,28 @@ namespace BuildExeMaterialServices.Models
 
         public string ConversionUnitName { get; set; }
 
-        public List<TransferSerialNoDetail> TransferSerialNoDetails { get; set; } = new List<TransferSerialNoDetail>();
+        public decimal Stock { get; set; }
+        public decimal ReturnQuantity { get; set; }
+
+        public List<ConsumptionSerialNoDetails>? ConsumptionSerialNoDetails { get; set; }
+        public List<ReturnSerialNoDetails>? ReturnSerialNoDetails { get; set; }
+
     }
- 
+    public class ConsumptionSerialNoDetails
+    {
+       
+        public int Id { get; set; } 
+        public string SerialNumber { get; set; }
+        public int MaterialUsageDetailsId { get; set; }
+    }
+
+    public class ReturnSerialNoDetails
+    {
+       
+        public int Id { get; set; } 
+        public string SerialNumber { get; set; }
+
+        public int MaterialUsageDetailsId { get; set; }
+    }
+
 }
