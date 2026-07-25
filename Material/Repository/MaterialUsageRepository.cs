@@ -25,7 +25,9 @@ namespace BuildExeMaterialServices.Repository
             SelectforEdit = 4,
             Selectforapproval = 5,
             SelectReport = 6,
-            Selectforview = 7
+            Selectforview = 7,
+            SelectMaterial=8
+
         }
 
         public MaterialUsageRepository(MaterialContext dbContext)
@@ -244,9 +246,35 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
+                //var data = await (from a in _dbContext.tbl_MaterialUsageDetails
+                //                  join b in _dbContext.tbl_MaterialMaster on a.MaterialId equals b.Id
+                //                  join c in _dbContext.tbl_Units on b.UnitId equals c.UnitId
+                //                  select new
+                //                  {
+                //                      materialUsageDetailsId = a.MaterialUsageDetailsId,
+                //                      materialUsageId = a.MaterialUsageId,
+                //                      materialId = a.MaterialId,
+                //                      materialName = b.MaterialName,
+                //                      unitId = b.UnitId,
+                //                      materialTypeId = b.MaterialTypeId,
+                //                      unitShortName = c.UnitShortName,
+                //                      quantity = a.Quantity,
+                //                      stock = a.Stock,
+                //                      returnQuantity = a.ReturnQuantity,
+                //                      rate = a.Rate,
+                //                      coefficientFactorValue = a.CoefficientFactorValue,
+                //                      conversionQuantity = a.ConversionQuantity,
+                //                      conversionUnitName = a.ConversionUnitName
+
+
+                //                  }).Where(x => x.materialUsageId == MaterialUsageId).ToListAsync();
+                //string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+                //return jsonString;
+
                 var data = await (from a in _dbContext.tbl_MaterialUsageDetails
                                   join b in _dbContext.tbl_MaterialMaster on a.MaterialId equals b.Id
                                   join c in _dbContext.tbl_Units on b.UnitId equals c.UnitId
+                                  where a.MaterialUsageId == MaterialUsageId
                                   select new
                                   {
                                       materialUsageDetailsId = a.MaterialUsageDetailsId,
@@ -257,13 +285,33 @@ namespace BuildExeMaterialServices.Repository
                                       materialTypeId = b.MaterialTypeId,
                                       unitShortName = c.UnitShortName,
                                       quantity = a.Quantity,
+
+                                      stock = a.Stock,
+                                      returnQuantity = a.ReturnQuantity,
+
                                       rate = a.Rate,
                                       coefficientFactorValue = a.CoefficientFactorValue,
                                       conversionQuantity = a.ConversionQuantity,
-                                      conversionUnitName = a.ConversionUnitName
+                                      conversionUnitName = a.ConversionUnitName,
 
+                                      consumptionSerialNoDetails = _dbContext.tbl_MaterialUsageConsumptionSerials
+                                          .Where(cs => cs.MaterialUsageDetailsId == a.MaterialUsageDetailsId)
+                                          .Select(cs => new
+                                          {
+                                              id = cs.SerialId,
+                                              serialNumber = cs.SerialNumber
+                                          }).ToList(),
 
-                                  }).Where(x => x.materialUsageId == MaterialUsageId).ToListAsync();
+                                      returnSerialNoDetails = _dbContext.tbl_MaterialUsageReturnSerials
+                                          .Where(rs => rs.MaterialUsageDetailsId == a.MaterialUsageDetailsId)
+                                          .Select(rs => new
+                                          {
+                                              id = rs.SerialId,
+                                              serialNumber = rs.SerialNumber
+                                          }).ToList()
+
+                                  }).ToListAsync();
+
                 string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
                 return jsonString;
             }
@@ -331,6 +379,62 @@ namespace BuildExeMaterialServices.Repository
             {
                 Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
                 throw;
+            }
+        }
+
+        public async Task<string> GetMaterial(int isService, int customerId, int jobId, int projectId, DateTime usageDate)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_MaterialUsage";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+               
+                var searchParams = new
+                {
+                    IsService = isService,
+                    CustomerId = customerId,
+                    JobId = jobId,
+                    ProjectId = projectId,
+                    UsageDate = usageDate
+                };
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(searchParams) });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.SelectMaterial }); 
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    await cmd.Connection.OpenAsync();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string materialDetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    materialDetails += dataTable.Rows[i][0].ToString();
+                }
+
+                if (string.IsNullOrEmpty(materialDetails))
+                {
+                    materialDetails = "[]";
+                }
+
+                return materialDetails;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                return null;
             }
         }
     }

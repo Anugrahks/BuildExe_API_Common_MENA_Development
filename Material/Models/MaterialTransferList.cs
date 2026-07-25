@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 namespace BuildExeMaterialServices.Models
 {
     public class MaterialTransferList
@@ -70,5 +71,11 @@ namespace BuildExeMaterialServices.Models
         public int SubcontractorId { get; set; }
 
         public int IsAsset { get; set; }
+
+        public int? JobId { get; set; }
+        public int? CustomerId { get; set; }
+        public string? ClientUniqueName { get; set; }
+
+        public int? IsService { get; set; } 
     }
 }

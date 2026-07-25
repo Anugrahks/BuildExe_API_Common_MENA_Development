@@ -65,6 +65,9 @@ namespace BuildExeServiceManagement.Models
         public DateTime RemarkDate { get; set; }
         public int CurrentStage { get; set; }
 
+        public int? MaterialId { get; set; }  
+        public int? ProjectId { get; set; }   
+
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }
         public List<SparePartModel> SpareParts { get; set; }
@@ -81,6 +84,8 @@ namespace BuildExeServiceManagement.Models
 
         public List<BoqDetail> boqDetails { get; set; } = new();        //added
         public List<MiscDetail> miscDetails { get; set; } = new();      //added
+
+        public List<ServiceDetail> serviceDetails { get; set; } = new();   //added
         public List<TotalChargeDetail> totalChargeDetails { get; set; } = new(); //added
     }
 
@@ -184,6 +189,16 @@ namespace BuildExeServiceManagement.Models
     }
 
     public class MiscDetail     //added
+    {
+        public int serviceQuoteId { get; set; }
+        public int MaterialId { get; set; }
+        public string itemName { get; set; }
+        public decimal qty { get; set; }
+        public decimal unitPrice { get; set; }
+        public decimal total { get; set; }
+    }
+
+    public class ServiceDetail     //added
     {
         public int serviceQuoteId { get; set; }
         public int MaterialId { get; set; }

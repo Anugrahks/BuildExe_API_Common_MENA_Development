@@ -30,7 +30,8 @@ namespace BuildExeServices.Repository
             SelectforEdit = 4,
             Selectforapproval = 5,
             GetOneDetail = 6,
-            GetforView = 7
+            GetforView = 7,
+            GetApprovedData = 8
         }
 
         // type=1 --PARTBILL
@@ -286,6 +287,33 @@ namespace BuildExeServices.Repository
                 var Action = new SqlParameter("@Action", Actions.SelectforEdit);
 
                 var _product = await _dbContext.tbl_RecieptsList.FromSqlRaw("Stpro_RecieptsForApproval @Id,@item,@CompanyId,@BranchId,@userId,@MenuId,@Action", Id, item, CompanyId, BranchId, userId, MenuId, Action).ToListAsync();
+                return _product;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+
+        public async Task<IEnumerable<RecieptsList>> getapprovedData(int companyId, int branchid, int menuId, int UserId, int FinancialYearId)
+        {
+            try
+            {
+                var Id = new SqlParameter("@Id", FinancialYearId);
+                var item = new SqlParameter("@item", "");
+                var CompanyId = new SqlParameter("@CompanyId", companyId);
+                var BranchId = new SqlParameter("@BranchId", branchid);
+                var userId = new SqlParameter("@userId", UserId);
+                var MenuId = new SqlParameter("@MenuId", menuId);
+                var action = new SqlParameter("@Action", Actions.GetApprovedData);
+
+                var _product = await _dbContext.tbl_RecieptsList.FromSqlRaw(
+                    "Stpro_RecieptsForApproval @Id,@item,@CompanyId,@BranchId,@userId,@MenuId,@Action",
+                    Id, item, CompanyId, BranchId, userId, MenuId, action   
+                ).ToListAsync();
+
                 return _product;
             }
             catch (Exception ex)

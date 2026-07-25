@@ -78,9 +78,9 @@ namespace BuildExeMaterialServices.Repository
                 var SiteLoanAmt = new SqlParameter("@SiteLoanAmt", supplierAdvance.SiteLoanAmt);
                 var ApprovalRemarks = new SqlParameter("@ApprovalRemarks", supplierAdvance.ApprovalRemarks);
                 var RejectRemarks = new SqlParameter("@RejectRemarks", supplierAdvance.RejectRemarks);
-                var CurrencyId = new SqlParameter("@CurrencyId", SqlDbType.Int) { Value = 0 };
-                var ExchangeRate = new SqlParameter("@ExchangeRate", SqlDbType.Decimal) { Value = 0 };
-                var LCAmount = new SqlParameter("@LCAmount", SqlDbType.Decimal) { Value = 0 };
+                var CurrencyId = new SqlParameter("@CurrencyId", SqlDbType.Int) { Value = supplierAdvance.CurrencyId };
+                var ExchangeRate = new SqlParameter("@ExchangeRate", SqlDbType.Decimal) { Value = supplierAdvance.ExchangeRate };
+                var LCAmount = new SqlParameter("@LCAmount", SqlDbType.Decimal) { Value =supplierAdvance.LCAmount };
                 var json = new SqlParameter("@json", JsonConvert.SerializeObject(supplierAdvance));
 
                 return await _dbContext.tbl_validations.FromSqlRaw(
@@ -170,9 +170,9 @@ namespace BuildExeMaterialServices.Repository
                 var SiteLoanAmt = new SqlParameter("@SiteLoanAmt", supplierAdvance.SiteLoanAmt);
                 var ApprovalRemarks = new SqlParameter("@ApprovalRemarks", supplierAdvance.ApprovalRemarks);
                 var RejectRemarks = new SqlParameter("@RejectRemarks", supplierAdvance.RejectRemarks);
-                var CurrencyId = new SqlParameter("@CurrencyId", SqlDbType.Int) { Value = 0 };
-                var ExchangeRate = new SqlParameter("@ExchangeRate", SqlDbType.Decimal) { Value = 0 };
-                var LCAmount = new SqlParameter("@LCAmount", SqlDbType.Decimal) { Value = 0 };
+                var CurrencyId = new SqlParameter("@CurrencyId", SqlDbType.Int) { Value = supplierAdvance.CurrencyId };
+                var ExchangeRate = new SqlParameter("@ExchangeRate", SqlDbType.Decimal) { Value = supplierAdvance.ExchangeRate};
+                var LCAmount = new SqlParameter("@LCAmount", SqlDbType.Decimal) { Value = supplierAdvance.LCAmount };
                 var json = new SqlParameter("@json", JsonConvert.SerializeObject(supplierAdvance));
 
                 return await _dbContext.tbl_validations.FromSqlRaw(

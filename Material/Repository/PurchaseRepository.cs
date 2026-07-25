@@ -46,8 +46,8 @@ namespace BuildExeMaterialServices.Repository
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
-                Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
+                //var debugJson = JsonConvert.SerializeObject(purchase, Formatting.Indented, camelCaseSettings);
+                //Logger.ErrorLog(this.GetType().Name, "Insert_DEBUG", new Exception(debugJson));
 
                 var materialId = new SqlParameter("@materialId", "0"); 
                 var item = new SqlParameter("@item",JsonConvert.SerializeObject(purchase, camelCaseSettings)
@@ -98,8 +98,13 @@ namespace BuildExeMaterialServices.Repository
         {
             try
             {
+                var camelCaseSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
                 var materialId = new SqlParameter("@materialId", "0");
-                var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase));
+                var item = new SqlParameter("@item", JsonConvert.SerializeObject(purchase, camelCaseSettings));
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
@@ -273,18 +278,16 @@ namespace BuildExeMaterialServices.Repository
                     .Select(p =>
                     {
                         var header = p.First();
-
-                        
                         var realPurchaseDetails = p
-                            .Where(x => x.Field<int?>("Id") == p.Key)
+                            .Where(x => x.Field<int?>("Id") == p.Key && x.Field<int?>("purchaseDetailId") != null)
                             .GroupBy(d => d.Field<int?>("purchaseDetailId"))
                             .Select(dg => new PurchaseDetailDto
                             {
                                 purchaseDetailId = dg.Key,
                                 purchaseId = p.Key,
                                 materialId = dg.First().Field<int?>("materialId") ?? 0,
-                                materialName = dg.First().Field<string?>("materialName")??"",
-                                materialUnit=dg.First().Field<string?>("materialUnit"),
+                                materialName = dg.First().Field<string?>("materialName") ?? "",
+                                materialUnit = dg.First().Field<string?>("materialUnit"),
                                 quantity = dg.First().Field<decimal?>("Quantity"),
                                 rate = dg.First().Field<decimal?>("Rate"),
                                 total = dg.First().Field<decimal?>("Total"),
@@ -293,10 +296,10 @@ namespace BuildExeMaterialServices.Repository
                                 kFC_Per = dg.First().Field<decimal?>("KFC_Per"),
                                 coefficientFactorValue = dg.First().Field<decimal?>("CoefficientFactorValue"),
                                 conversionQuantity = dg.First().Field<decimal?>("ConversionQuantity"),
-                                conversionUnitName = dg.First().Field<string?>("ConversionUnitName")??"",
-                                materialRemarks = dg.First().Field<string?>("MaterialRemarks")??"",
+                                conversionUnitName = dg.First().Field<string?>("ConversionUnitName") ?? "",
+                                materialRemarks = dg.First().Field<string?>("MaterialRemarks") ?? "",
                                 materialCategoryId = dg.First().Field<int?>("MaterialCategoryId"),
-                                childDescription = dg.First().Field<string?>("ChildDescription")??"",
+                                childDescription = dg.First().Field<string?>("ChildDescription") ?? "",
                                 fCNetAmount = dg.First().Field<decimal?>("FCNetAmount"),
                                 lAmount = dg.First().Field<decimal?>("LAmount"),
                                 landingCost = dg.First().Field<decimal?>("LandingCost"),
@@ -310,7 +313,7 @@ namespace BuildExeMaterialServices.Repository
                                 fCBillAmount = dg.First().Field<decimal?>("FCBillAmount"),
                                 isServiceCharge = 0,
                                 warrantyDetails = dg
-                                    .Where(w => w.Field<int?>("VoucherNumber") != null) 
+                                    .Where(w => w.Field<int?>("VoucherNumber") != null)
                                     .Select(w => new
                                     {
                                         serialNo = w.Field<string>("SerialNo"),
