@@ -95,13 +95,49 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("warrantyDetails")]
         public List<WarrantyDetails> WarrantyDetails { get; set; } = new();
 
+        [JsonProperty("combineDetails")]
+        public List<combineDetails> CombineDetails { get; set; } = new();
+
         [JsonProperty("iscombined")]
         public int IsCombined { get; set; }
 
 
         [JsonProperty("isnewone")]
         public int IsNewone { get; set; }
+
+        [JsonProperty("isselect")]
+        public int IsSelect { get; set; }
+
+        public int purchaseOrderId { get; set; }
+
+
+        public int purchaseOrderIdDetails { get; set; }
+
+
+
+
+
+
+
+
+
     }
+
+    public class combineDetails
+
+    {
+        public int? itemId { get; set;  }
+        public string? itemName { get; set; }
+
+        public decimal? requiredQuantity { get; set; }
+
+        public decimal? rate { get; set; }
+
+        public int ? purchaseOrderId { get; set; }
+    }
+
+
+
     public class WarrantyDetails
     {
         [JsonProperty("id")]
@@ -145,10 +181,19 @@ namespace BuildExeMaterialServices.Models
         public string Remarks { get; set; }
         public string PartNumber { get; set; }
         public DateTime WarrantyDate { get; set; }
+
+        [JsonProperty("iscombined")]
         public int? IsCombined { get; set; }
 
-
+        [JsonProperty("isnewone")]
         public int? IsNewone { get; set; }
+
+        [JsonProperty("isselect")]
+        public int IsSelect { get; set; }
+
+        [JsonProperty("combineDetails")]
+        public List<combineDetails> CombineDetails { get; set; } = new();
+        public decimal ReceivedQuantity { get; set; }
 
     }
 

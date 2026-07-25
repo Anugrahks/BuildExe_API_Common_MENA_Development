@@ -20,7 +20,7 @@ namespace BuildExeMaterialServices.Repository
         Task<string> getDeliveryOrderForPartbill(int ProjectId, int BlockId, int FloorId, int UnitId, int DivisionId, int Id);
         Task<string> GetForReport(MaterialSearch material);
 
-        Task<IEnumerable<MaterialStockDetailDto>> GetMaterialStockDetails(int CompanyId, int BranchId);
+        Task<IEnumerable<MaterialStockDetailDto>> GetMaterialStockDetails(int CompanyId, int BranchId,int ProjectId);
 
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);

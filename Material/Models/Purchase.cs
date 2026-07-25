@@ -341,6 +341,11 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("isWareHouse")]
 
         public bool IsWareHouse { get; set; }
+
+       
+        public decimal TableTotalAmount { get; set; }
+
+        public decimal TotalAmount { get; set; }
     }
 
     public class PurchaseOtherCharge
@@ -370,6 +375,9 @@ namespace BuildExeMaterialServices.Models
 
         [JsonProperty("isServiceCharge")]
         public int IsServiceCharge { get; set; }
+
+        public int SupplierAutoId { get; set; }
+
     }
     public class PurchaseDetail
     {

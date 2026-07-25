@@ -82,6 +82,10 @@ namespace BuildExeMaterialServices.DBContexts
         public DbSet<SparepartsMaterialDto> SparepartsMaterials { get; set; }
         public DbSet<MaterialStockDetailDto> MaterialStockDetails { get; set; }
 
+
+        public DbSet<ConsumptionSerialNoDetails> tbl_MaterialUsageConsumptionSerials { get; set; }
+        public DbSet<ReturnSerialNoDetails> tbl_MaterialUsageReturnSerials { get; set; }
+
     }
 
 }

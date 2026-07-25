@@ -14,6 +14,8 @@ namespace BuildExeServices.Models
     [Keyless]
     public class GetUniqueId
     {
+        public int Id { get; set; }
+
         public int BranchId { get; set; }
         public int CompanyId { get; set; }
         public int SupplierPreffered { get; set; }
@@ -27,7 +29,13 @@ namespace BuildExeServices.Models
 
         public string EnquiryFor { get; set; }
 
-        public List<string> SerialNumbers { get; set; } = new List<string>();
 
+        public List<SerialNumberItem> SerialNumbers { get; set; } = new();
+
+        public class SerialNumberItem
+        {
+            public int Id { get; set; }
+            public string SerialNo { get; set; }
+        }
     }
 }
