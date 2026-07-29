@@ -1106,7 +1106,8 @@ namespace BuildExeServiceManagement.Repository
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = FinancialYearId });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
                 cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = DBNull.Value });
-                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 19 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 29 }); 
+
 
                 if (cmd.Connection.State != ConnectionState.Open) await cmd.Connection.OpenAsync();
 
