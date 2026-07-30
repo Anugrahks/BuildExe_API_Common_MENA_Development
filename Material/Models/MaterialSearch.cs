@@ -37,7 +37,7 @@ namespace BuildExeMaterialServices.Models
         public int? MaterialTypeId { get; set; }
         public int? MaterialBrandId { get; set; }
         public int? TrasnsferStatusId { get; set; }
-        public int? MaterialId { get; set; }
+        public string? MaterialId { get; set; }
         public int? WorkCategory { get; set; }
 
         public int? WorkCategoryId { get; set; }
