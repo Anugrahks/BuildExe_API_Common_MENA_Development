@@ -316,6 +316,7 @@ namespace BuildExeMaterialServices.Repository
                                     .Where(w => w.Field<int?>("VoucherNumber") != null)
                                     .Select(w => new
                                     {
+                                        id=w.Field<int?>("WarrantyId"),
                                         serialNo = w.Field<string>("SerialNo"),
                                         warrantyDate = w.Field<DateTime?>("WarrantyDate"),
                                     }).ToList()
