@@ -21,6 +21,8 @@ namespace BuildExeBasic.Repository
 
         Task<string> GetUpdateExchangeRate(int CompanyId, int BranchId);
 
+        Task<string> GetLastUpdatedTimestamp(int companyId, int branchId);
+
         Task<IEnumerable<Validation>> InsertExchangeRate(IEnumerable<ExchangeRate> exchange);
 
 

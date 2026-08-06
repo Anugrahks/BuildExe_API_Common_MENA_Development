@@ -8,6 +8,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
@@ -35,7 +36,10 @@ namespace BuildExeBasic.Repository
             SelectAll = 4,
             SelectExchangeRate = 5,
             SelectExchangeRateAmount=6,
-            InsertExchangeRate = 7
+            InsertExchangeRate = 7,
+            LasteUpdatedDate=8
+
+
         }
 
         #region Data Manipulation
@@ -168,6 +172,52 @@ namespace BuildExeBasic.Repository
                 var result = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ExchangeRateNew @Id, @CompanyId, @BranchId, @json, @FinancialYearId, @UserId, @Action", Id, CompanyId, BranchId, item, FinancialYearId, UserId, Action).ToListAsync();
 
                 return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        public async Task<string> GetLastUpdatedTimestamp(int companyId, int branchId)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "Stpro_ExchangeRateNew"; 
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                // cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "{}" });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                //cmd.Parameters.Add(new SqlParameter("@EffectiveDate", SqlDbType.Date) { Value =  });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.LasteUpdatedDate });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    await cmd.Connection.OpenAsync();
+                }
+
+                using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                {
+                    var dataTable = new DataTable();
+                    dataTable.Load(reader);
+
+                    string jsonResult = "";
+                    for (int i = 0; i < dataTable.Rows.Count; i++)
+                    {
+                        jsonResult += dataTable.Rows[i][0].ToString();
+                    }
+
+                    if (string.IsNullOrEmpty(jsonResult))
+                        jsonResult = "{}";
+
+                    return jsonResult;
+                }
             }
             catch (Exception ex)
             {

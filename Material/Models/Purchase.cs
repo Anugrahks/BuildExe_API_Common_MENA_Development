@@ -375,6 +375,9 @@ namespace BuildExeMaterialServices.Models
 
         [JsonProperty("isServiceCharge")]
         public int IsServiceCharge { get; set; }
+
+        public int SupplierAutoId { get; set; }
+
     }
     public class PurchaseDetail
     {

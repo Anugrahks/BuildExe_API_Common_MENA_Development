@@ -26,7 +26,7 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> GetServiceQuotation(int CompanyId, int BranchId);
         Task<string> Getjob(int CustomerId, int CompanyId, int BranchId);
-
+        Task<string> Getjobconsuption(int CustomerId, int CompanyId, int BranchId);
         Task<string> GetServiceQuotationReceipt(int CompanyId, int BranchId);
         Task<string> GetServiceQuotationList(int CompanyId, int BranchId);
         Task<string> GetServiceQuotationAll(int CompanyId, int BranchId);

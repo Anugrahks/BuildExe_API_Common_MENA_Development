@@ -198,5 +198,38 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpGet("{isService}/{customerId}/{jobId}/{projectId}/{usageDate}")]
+        [Authorize]
+        public async Task<IActionResult> GetMaterial(int isService, int customerId, int jobId, int projectId, DateTime usageDate, [FromHeader] string mdhash, [FromHeader] int user)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, user))
+            {
+                try
+                {
+                    var result = await _materialUsageRepository.GetMaterial(
+                        isService,
+                        customerId,
+                        jobId,
+                        projectId,
+                        usageDate
+                    );
+
+                    return Content(result, "application/json");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
 }
