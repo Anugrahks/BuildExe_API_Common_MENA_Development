@@ -312,6 +312,7 @@ namespace BuildExeMaterialServices.Repository
                                 exchangeRate = dg.First().Field<decimal?>("ExchangeRate"),
                                 fCBillAmount = dg.First().Field<decimal?>("FCBillAmount"),
                                 isServiceCharge = 0,
+                                purchaseType = dg.First().Field<int?>("PurchaseType"),//added
                                 warrantyDetails = dg
                                     .Where(w => w.Field<int?>("VoucherNumber") != null)
                                     .Select(w => new
@@ -353,6 +354,7 @@ namespace BuildExeMaterialServices.Repository
                                 exchangeRate = null,
                                 fCBillAmount = null,
                                 isServiceCharge = 1,
+                                purchaseType = null,//added
                                 warrantyDetails = new List<object>()
                             }).ToList();
 
@@ -436,7 +438,7 @@ namespace BuildExeMaterialServices.Repository
                             documentationChargePer = header.Field<decimal?>("DocumentationChargePer"), 
                             freightCharge = header.Field<decimal?>("FreightCharge"), 
                             freightChargePer = header.Field<decimal?>("FreightChargePer"),
-                            purchasetype=header.Field<int?>("PurchaseType"),
+                           // purchasetype=header.Field<int?>("PurchaseType"),
                             loadingUnloadingCharge = header.Field<decimal?>("LoadingUnloadingCharge"),
                             mofaCharge = header.Field<decimal?>("mofaCharge"),
                             mofaChargePer = header.Field<decimal?>("mofaChargePer"),
