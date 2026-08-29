@@ -354,7 +354,7 @@ namespace BuildExeMaterialServices.Repository
                                 exchangeRate = null,
                                 fCBillAmount = null,
                                 isServiceCharge = 1,
-                                purchaseType = null,//added
+                                purchaseType = sc["PurchaseType"] != DBNull.Value ? Convert.ToInt32(sc["PurchaseType"]) : 0,
                                 warrantyDetails = new List<object>()
                             }).ToList();
 
