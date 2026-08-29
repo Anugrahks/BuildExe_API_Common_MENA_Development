@@ -68,6 +68,8 @@ namespace BuildExeServiceManagement.Models
         public int? MaterialId { get; set; }  
         public int? ProjectId { get; set; }   
 
+        public string? Subject { get; set; }
+
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }
         public List<SparePartModel> SpareParts { get; set; }
