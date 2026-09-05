@@ -15,6 +15,11 @@ namespace BuildExeServices.Models
         public string? RefNo { get; set; }
         public DateTime? SpecDate { get; set; }
 
+        public int IsReverse { get; set; } = 0;
+        public int ReversalCount { get; set; } = 0;   
+
+        public int? OriginalSpecId { get; set; }
+
         public int DepartmentId { get; set; } = 0;
         public int SpecOrManual { get; set; } = 0;
 

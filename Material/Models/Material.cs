@@ -74,6 +74,28 @@ namespace BuildExeMaterialServices.Models
         public int? DivisionId { get; set; }
 
         public string ChildDescription { get; set; }
+
+        public List<OpeningStockWarrantyDetails> WarrantyDetails { get; set; }
+    }
+
+    public class OpeningStockWarrantyDetails
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int SlNo { get; set; }
+        public string SerialNumber { get; set; }
+        public DateTime? WarrantyDate { get; set; }
+
+        [NotMapped]
+        public string ExtendedWarrantyDate { get; set; }
+        public int VoucherNumber { get; set; }
+        public int VoucherTypeId { get; set; }
+        public int ProjectId { get; set; }
+        public int MaterialId { get; set; }
+        public int UserId { get; set; }
+        public int BranchId { get; set; }
+        public int CompanyId { get; set; }
+        public DateTime EnteredOn { get; set; }
     }
 
     public class OpeningRent
