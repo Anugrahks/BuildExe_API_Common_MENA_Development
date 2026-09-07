@@ -38,5 +38,8 @@ namespace BuildExeMaterialServices.Models
         public int IsSupplierCreditors { get; set; }
 
         public int? CurrencyId { get; set; }
+
+        public decimal ExchangeRate { get; set; }
+
     }
 }

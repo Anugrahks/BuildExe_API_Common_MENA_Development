@@ -475,6 +475,10 @@ namespace BuildExeMaterialServices.Models
         [JsonProperty("FCNetAmount")]
         public decimal? FCNetAmount { get; set; }
 
+        [JsonProperty("purchasetype")]
+
+        public int PurchaseType { get; set; }
+
         [JsonProperty("WarrantyDetails")]
         public List<MaterialWarrantyDetails> WarrantyDetails { get; set; }
     }
@@ -611,6 +615,8 @@ namespace BuildExeMaterialServices.Models
 
         public string materialUnit { get; set; }
         public object warrantyDetails { get; set; }
+
+        public int? purchaseType { get; set; }
     }
 
 
