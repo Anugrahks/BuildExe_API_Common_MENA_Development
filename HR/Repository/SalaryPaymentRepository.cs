@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BuildExeHR.DBContexts;
 using BuildExeHR.Models;
-using BuildExeHR.DBContexts;
-using Microsoft.EntityFrameworkCore;
 using BuildExeHR.Repository;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Reflection;
-using System.ComponentModel.Design;
+using System.Threading.Tasks;
 
 namespace BuildExeHR.Repository
 {
@@ -27,7 +28,10 @@ namespace BuildExeHR.Repository
             Selectforapproval = 5,
             Getforshow = 6,
             GetById =7,
-            getforReport=8
+            getforReport=8,
+            GetEmployeesByDepartment = 10,
+            GetEmployeesByDepartmentDuration = 11,
+            GetEmployeesByDepartmentMonthly = 12,
         }
 
         public SalaryPaymentRepository(HRContext dbContext)
@@ -413,6 +417,125 @@ namespace BuildExeHR.Repository
             }
         }
 
+        public async Task<string> GetEmployees(DepartmentEmployeeRequest request)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_GetEmployees";
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                var json = JsonConvert.SerializeObject(request, new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = request.CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = request.BranchId });
+                cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = request.CategoryId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetEmployeesByDepartment });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    cmd.Connection.Open();
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string result = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    result += dataTable.Rows[i][0].ToString();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name,
+                                MethodBase.GetCurrentMethod().Name,
+                                ex);
+                throw;
+            }
+        }
+        public async Task<string> GetEmployeesDuration(DepartmentEmployeeRequest request)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_GetEmployees";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var json = JsonConvert.SerializeObject(request);
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = request.CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = request.BranchId });
+                cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetEmployeesByDepartmentDuration });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    cmd.Connection.Open();
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string result = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    result += dataTable.Rows[i][0].ToString();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name,
+                                MethodBase.GetCurrentMethod().Name,
+                                ex);
+                throw;
+            }
+        }
+        public async Task<string> GetEmployeesMonthly(DepartmentEmployeeRequest request)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_GetEmployees";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var json = JsonConvert.SerializeObject(request);
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = request.CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = request.BranchId });
+                cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetEmployeesByDepartmentMonthly });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    cmd.Connection.Open();
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                string result = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    result += dataTable.Rows[i][0].ToString();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name,
+                                MethodBase.GetCurrentMethod().Name,
+                                ex);
+                throw;
+            }
+        }
     }
 }

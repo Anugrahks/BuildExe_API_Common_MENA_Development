@@ -61,4 +61,19 @@ namespace BuildExeHR.Models
         public decimal? RoundOff { get; set; }
         public int IsOpening { get; set; }
     }
+
+    public class DepartmentEmployeeRequest
+    {
+        public int CompanyId { get; set; }
+        public int BranchId { get; set; }
+        public List<int> DepartmentId { get; set; }
+        public int MonthId { get; set; }
+        public int YearId { get; set; }
+        public DateTime? MToDate { get; set; }
+        public DateTime? MFromDate { get; set; }
+        public int MDurationId { get; set; }
+        public string EmployeeMasterId { get; set; }
+        public int CategoryId { get; set; }
+
+    }
 }
