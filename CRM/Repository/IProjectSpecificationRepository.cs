@@ -52,6 +52,9 @@ namespace BuildExeServices.Repository
         Task<string> getforApproval(int companyid, int branchid, int UserId, int FinancialYearId);
         Task<decimal> GetQuotedAmt(int projectId);
         Task<IEnumerable<Validation>> CheckEditDelete(int id, int unit, int block, int floor, int DivisionId, int EnquiryId, int EstimationId);
+
+        Task <string> GetUser(int MenuId, int Company, int Branch);
+
         Task<IEnumerable<Validation>> CheckProject(int projectid, int UnitId, int Blockid, int floorid);
         Task<string> GetbyprojectComp(int projectid, int UnitId, int Blockid, int floorid);
         Task<string> GetReport(SpecSearch specSearch);
