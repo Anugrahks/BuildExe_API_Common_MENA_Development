@@ -72,5 +72,8 @@ namespace BuildExeMaterialServices.Models
         public int? customerId { get; set; }
 
         public bool? IsWareHouse { get; set; }
+
+        public string? ModeOfDelivery { get; set; }
+
     }
 }
