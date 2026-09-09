@@ -43,7 +43,7 @@ namespace BuildExeServiceManagement.Models
         public int ApprovalStatus { get; set; }
         public string SummaryAndRecommendation { get; set; }
 
-        public DateTime WarrantyDate { get; set; }
+        public DateTime? WarrantyDate { get; set; }
 
 
         //Added(For Service Quotation)

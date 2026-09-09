@@ -20,5 +20,8 @@ namespace BuildExeHR.Repository
         Task<string> GetForApproval(int Companyid, int branchid,int userId, int FinancialYearId);
         Task Delete(int id, int UserId);
         Task<string> Getjson(HRSearch hRSearch);
+        Task<string> GetEmployees(DepartmentEmployeeRequest request);
+        Task<string> GetEmployeesDuration(DepartmentEmployeeRequest request);
+        Task<string> GetEmployeesMonthly(DepartmentEmployeeRequest request);
     }
 }

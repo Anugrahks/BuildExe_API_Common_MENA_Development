@@ -329,5 +329,84 @@ namespace BuildExeHR.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpPost("GetEmployees")]
+        [Authorize]
+        public async Task<IActionResult> GetEmployees([FromBody] DepartmentEmployeeRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var details = await _salaryPaymentRepository.GetEmployees(request);
+
+                    return new OkObjectResult(details);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+        [HttpPost("GetEmployeesDuration")]
+        [Authorize]
+        public async Task<IActionResult> GetEmployeesDuration([FromBody] DepartmentEmployeeRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var details = await _salaryPaymentRepository.GetEmployeesDuration(request);
+
+                    return new OkObjectResult(details);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+        [HttpPost("GetEmployeesMonthly")]
+        [Authorize]
+        public async Task<IActionResult> GetEmployeesMonthly([FromBody] DepartmentEmployeeRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var details = await _salaryPaymentRepository.GetEmployeesMonthly(request);
+
+                    return new OkObjectResult(details);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
 }
