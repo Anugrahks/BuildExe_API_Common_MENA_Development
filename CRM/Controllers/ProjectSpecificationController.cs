@@ -495,5 +495,32 @@ namespace BuildExeServices.Controllers
             }
         }
 
+        [HttpPost("QutaionForward")]
+        [Authorize]
+        public async Task<IActionResult> qutationforward([FromBody] IEnumerable<ProjectSpecificationMaster> projectSpecificationMasters, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _projectSpecificationRepository.qutationforward(projectSpecificationMasters);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
     }
 }
