@@ -13,6 +13,8 @@ namespace BuildExeServices.Repository
 
         Task<string> GetSpecDetailsById(string Ids);
         Task<IEnumerable<Validation>> Insert(IEnumerable<ProjectSpecificationMaster> projectSpecificationMaster);
+        Task<IEnumerable<Validation>> qutationforward(IEnumerable<ProjectSpecificationMaster> projectSpecificationMaster);
+
         Task<IEnumerable<Validation>> Update(IEnumerable<ProjectSpecificationMaster> projectSpecificationMaster);
 
         Task<IEnumerable<Validation>> Delete(int id, int userid);
