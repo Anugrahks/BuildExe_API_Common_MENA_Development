@@ -71,6 +71,8 @@ namespace BuildExeMaterialServices.Models
 
         public int? customerId { get; set; }
 
+        public string? ModeOfDelivery { get; set; }
+
 
         public List<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         
