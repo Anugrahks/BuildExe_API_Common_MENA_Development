@@ -29,7 +29,8 @@ namespace BuildExeHR.Repository
             Update = 2,
             Delete = 3,
             GetByMonth = 4,
-            GetAll = 5
+            GetAll = 5,
+            Insert1 = 7
 
         }
         public async Task<IEnumerable<Validation>> Insert(IEnumerable<MonthlyVaryingHeadSettingsMaster> monthlyVaryingHeadSettingsMasters )
@@ -244,6 +245,51 @@ namespace BuildExeHR.Repository
                 throw;
             }
 
+        }
+
+        public async Task<string> Insert1(IEnumerable<MonthlyVaryingHeadSettingsMaster> monthlyVaryingHeadSettingsMasters)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_MonthlyVaryingHeadSettings";
+                cmd.CommandType = CommandType.StoredProcedure;
+                var json = JsonConvert.SerializeObject(monthlyVaryingHeadSettingsMasters);
+                var EmplId = JsonConvert.SerializeObject(monthlyVaryingHeadSettingsMasters.FirstOrDefault().EmployeeMasterId);
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().BranchId });
+                cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().MonthId });
+                cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().YearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().UserId });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = EmplId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.Insert1 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                string varyingHeadDetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    varyingHeadDetails = varyingHeadDetails + dataTable.Rows[i][0].ToString();
+                }
+                return varyingHeadDetails;
+
+
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
         }
 
     }

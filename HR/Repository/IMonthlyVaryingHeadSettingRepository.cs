@@ -14,5 +14,6 @@ namespace BuildExeHR.Repository
         Task<IEnumerable<Validation>> Update(IEnumerable<MonthlyVaryingHeadSettingsMaster> monthlyVaryingHeadSettingsMasters);
         Task<IEnumerable<Validation>> Delete(int Id,int UserId);
         Task<IEnumerable<Validation>> CheckEditDelete(int Id);
+        Task<string> Insert1(IEnumerable<MonthlyVaryingHeadSettingsMaster> monthlyVaryingHeadSettingsMasters);
     }
 }
