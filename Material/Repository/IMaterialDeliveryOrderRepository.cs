@@ -24,5 +24,8 @@ namespace BuildExeMaterialServices.Repository
 
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
+
+        Task<string> GetDeliveryOrderNumbers(int CompanyId, int Branchid, int UserId, int FinancialYearId, int? ProjectId);
+
     }
 }
