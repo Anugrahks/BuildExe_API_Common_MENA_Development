@@ -97,7 +97,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = monthId });
                 cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = yearId });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
-                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.Int) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetByMonth });
 
                 if (cmd.Connection.State != ConnectionState.Open)
@@ -140,7 +140,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
-                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.Int) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetAll });
 
                 if (cmd.Connection.State != ConnectionState.Open)
@@ -185,7 +185,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
-                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.Int) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 6 });
 
                 if (cmd.Connection.State != ConnectionState.Open)
