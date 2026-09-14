@@ -40,5 +40,8 @@ namespace BuildExeHR.Models
         public DateTime MToDate { get; set; }
 
         public int MEmployeeMasterId { get; set; }
+        public string EmployeeMasterId { get; set; }
+        public List<int> DepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
     }
 }

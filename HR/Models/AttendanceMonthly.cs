@@ -40,6 +40,8 @@ namespace BuildExeHR.Models
         public int MEmployeeMasterId { get; set; }
         public string EmployeeMasterId { get; set; }
         public List<AttendanceMonthlyEmployeeDetails> AttendanceMonthlyEmployeeDetails { get; set; }
+        public List<int> DepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
 
     }
     public class AttendanceMonthlyEmployeeDetails
