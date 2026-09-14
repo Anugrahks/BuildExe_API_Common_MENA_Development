@@ -331,5 +331,31 @@ namespace BuildExeMaterialServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+        [HttpGet("getDeliveryOrderNumbers/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
+       // [Authorize]
+        public async Task<IActionResult> GetDeliveryOrderNumbers( int CompanyId, int BranchId, int UserId, int FinancialYearId, [FromQuery] int? ProjectId,[FromHeader] string mdhash, [FromHeader] int User)
+        {
+          //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetDeliveryOrderNumbers(CompanyId, BranchId, UserId, FinancialYearId, ProjectId);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
+        }
+
     }
 }

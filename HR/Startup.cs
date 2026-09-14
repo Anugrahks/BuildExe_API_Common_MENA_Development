@@ -96,6 +96,7 @@ namespace BuildExeHR
             services.AddTransient<IDSRRepository, DSRRepository>();
             services.AddTransient<IPromotionReportRepository, PromotionReportRepository>();
             services.AddTransient<IAnnualLeaveRepository, AnnualLeaveRepository>();
+            services.AddTransient<IExpenseReimbursementRepository, ExpenseReimbursementRepository>();
             services.AddScoped<IMdHashValidator, MdHashValidator>();
 
             services.AddSwaggerGen(c =>
