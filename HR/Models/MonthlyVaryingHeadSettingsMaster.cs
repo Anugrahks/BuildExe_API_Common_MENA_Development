@@ -36,6 +36,9 @@ namespace BuildExeHR.Models
         public int MDurationId { get; set; }
         public int MEmployeeMasterId { get; set; }
         public List<MonthlyVaryingHeadSettingsDetails> MonthlyVaryingHeadSettingsDetails { get; set; }
+        public string? EmployeeMasterId { get; set; }
+        public List<int> DepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
 
 
     }

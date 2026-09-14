@@ -29,7 +29,8 @@ namespace BuildExeHR.Repository
             Update = 2,
             Delete = 3,
             GetByMonth = 4,
-            GetAll = 5
+            GetAll = 5,
+            Insert1 = 7
 
         }
         public async Task<IEnumerable<Validation>> Insert(IEnumerable<MonthlyVaryingHeadSettingsMaster> monthlyVaryingHeadSettingsMasters )
@@ -43,6 +44,7 @@ namespace BuildExeHR.Repository
                 var MonthId = new SqlParameter("@MonthId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().MonthId);
                 var YearId = new SqlParameter("@YearId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().YearId);
                 var UserId = new SqlParameter("@UserId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().UserId);
+                var EmplId = new SqlParameter("@EmplId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().EmployeeMasterId);
                 var Action = new SqlParameter("@Action", Actions.Insert);
                 var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_MonthlyVaryingHeadSettings @Id,@Json,@CompanyId, @BranchId," +
                     " @MonthId,@YearId,@UserId, @Action", Id, Json, CompanyId, BranchId,MonthId, YearId, UserId, Action).ToListAsync();
@@ -66,6 +68,7 @@ namespace BuildExeHR.Repository
                 var MonthId = new SqlParameter("@MonthId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().MonthId);
                 var YearId = new SqlParameter("@YearId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().YearId);
                 var UserId = new SqlParameter("@UserId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().UserId);
+                var EmplId = new SqlParameter("@EmplId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().EmployeeMasterId);
                 var Action = new SqlParameter("@Action", Actions.Update);
                 var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_MonthlyVaryingHeadSettings @Id,@Json,@CompanyId, @BranchId," +
                     " @MonthId,@YearId,@UserId, @Action", Id, Json, CompanyId, BranchId, MonthId, YearId, UserId, Action).ToListAsync();
@@ -94,6 +97,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = monthId });
                 cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = yearId });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetByMonth });
 
                 if (cmd.Connection.State != ConnectionState.Open)
@@ -136,6 +140,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.GetAll });
 
                 if (cmd.Connection.State != ConnectionState.Open)
@@ -180,6 +185,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 6 });
 
                 if (cmd.Connection.State != ConnectionState.Open)
@@ -218,9 +224,10 @@ namespace BuildExeHR.Repository
                 var MonthId = new SqlParameter("@MonthId", "0");
                 var YearId = new SqlParameter("@YearId", "0");
                 var UserId = new SqlParameter("@UserId", userid);
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", Actions.Delete);
                 var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_MonthlyVaryingHeadSettings @Id,@Json,@CompanyId, @BranchId," +
-                    " @MonthId,@YearId,@UserId, @Action", Id, Json, CompanyId, BranchId, MonthId, YearId, UserId, Action).ToListAsync();
+                    " @MonthId,@YearId,@UserId,@EmplId, @Action", Id, Json, CompanyId, BranchId, MonthId, YearId, UserId, EmplId ,Action).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
@@ -244,6 +251,51 @@ namespace BuildExeHR.Repository
                 throw;
             }
 
+        }
+
+        public async Task<string> Insert1(IEnumerable<MonthlyVaryingHeadSettingsMaster> monthlyVaryingHeadSettingsMasters)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_MonthlyVaryingHeadSettings";
+                cmd.CommandType = CommandType.StoredProcedure;
+                var json = JsonConvert.SerializeObject(monthlyVaryingHeadSettingsMasters);
+                var EmplId = JsonConvert.SerializeObject(monthlyVaryingHeadSettingsMasters.FirstOrDefault().EmployeeMasterId);
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().BranchId });
+                cmd.Parameters.Add(new SqlParameter("@MonthId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().MonthId });
+                cmd.Parameters.Add(new SqlParameter("@YearId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().YearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = monthlyVaryingHeadSettingsMasters.FirstOrDefault().UserId });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = EmplId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.Insert1 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    cmd.Connection.Open();
+                }
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                string varyingHeadDetails = "";
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    varyingHeadDetails = varyingHeadDetails + dataTable.Rows[i][0].ToString();
+                }
+                return varyingHeadDetails;
+
+
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
         }
 
     }

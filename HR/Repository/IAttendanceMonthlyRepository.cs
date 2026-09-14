@@ -10,6 +10,8 @@ namespace BuildExeHR.Repository
        Task <IEnumerable<AttendanceMonthly >> Get();
         Task<IEnumerable<AttendanceMonthly>> GetbyID(int Id);
         Task<IEnumerable<Validation>> Insert(IEnumerable<AttendanceMonthly> attendances);
+        Task<IEnumerable<Validation>> Validation(IEnumerable<AttendanceMonthly> attendances);
+        Task<string> GetData(IEnumerable<AttendanceMonthly> attendances);
         Task Delete(int Id, int UserID);
         Task<IEnumerable<Validation>> Update(IEnumerable<AttendanceMonthly> attendances);
         Task<IEnumerable<AttendanceMonthlyList >> GetforEdit(int companyId, int Branchid,int MenuId, int userID, int FinancialYearId);
