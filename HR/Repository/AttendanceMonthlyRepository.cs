@@ -45,8 +45,9 @@ namespace BuildExeHR.Repository
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", Actions.Insert);
-                var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
+                var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@UserId,@EmplId, @Action", materialId, item, CompanyId, BranchId, UserId, EmplId, Action).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
@@ -64,8 +65,9 @@ namespace BuildExeHR.Repository
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", userId);
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", Actions.Delete);
-                await _dbContext.Database.ExecuteSqlRawAsync("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action);
+                await _dbContext.Database.ExecuteSqlRawAsync("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@UserId, @EmplId, @Action", materialId, item, CompanyId, BranchId, UserId, EmplId, Action);
             }
             catch (Exception ex)
             {
@@ -83,8 +85,9 @@ namespace BuildExeHR.Repository
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var UserId = new SqlParameter("@UserId", "0");
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", Actions.Update);
-                var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@UserId, @Action", materialId, item, CompanyId, BranchId, UserId, Action).ToListAsync();
+                var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@UserId,@EmplId, @Action", materialId, item, CompanyId, BranchId, UserId,EmplId, Action).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
@@ -134,8 +137,9 @@ namespace BuildExeHR.Repository
             var CompanyId = new SqlParameter("@CompanyId", FinancialYearId);
             var BranchId = new SqlParameter("@BranchId", Branchid);
             var userid = new SqlParameter("@userid", userID);
-            var Action = new SqlParameter("@Action", Actions.SelectforEdit );
-            var _product =await _dbContext.tbl_AttendanceMaster_MonthlyList .FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@userid, @Action", materialId, item, CompanyId, BranchId, userid, Action).ToListAsync();
+                var EmplId = new SqlParameter("@EmplId", "");
+                var Action = new SqlParameter("@Action", Actions.SelectforEdit );
+            var _product =await _dbContext.tbl_AttendanceMaster_MonthlyList .FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@userid,@EmplId, @Action", materialId, item, CompanyId, BranchId, userid,EmplId, Action).ToListAsync();
             return _product;
             }
             catch (Exception ex)
@@ -153,8 +157,9 @@ namespace BuildExeHR.Repository
             var CompanyId = new SqlParameter("@CompanyId", FinancialYearId);
             var BranchId = new SqlParameter("@BranchId", Branchid);
             var userid = new SqlParameter("@userid", userID);
-            var Action = new SqlParameter("@Action", Actions.Selectforapproval);
-            var _product =await _dbContext.tbl_AttendanceMaster_MonthlyList.FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@userid, @Action", materialId, item, CompanyId, BranchId, userid, Action).ToListAsync();
+                var EmplId = new SqlParameter("@EmplId", "");
+                var Action = new SqlParameter("@Action", Actions.Selectforapproval);
+            var _product =await _dbContext.tbl_AttendanceMaster_MonthlyList.FromSqlRaw("Stpro_Attendance_Monthly @materialId,@item, @CompanyId, @BranchId,@userid,@EmplId, @Action", materialId, item, CompanyId, BranchId, userid, EmplId, Action).ToListAsync();
             return _product;
             }
             catch (Exception ex)
@@ -177,6 +182,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = financialyearid });
                 cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = employeeid });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.getdetails });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
@@ -214,6 +220,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyid });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchid });
                 cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = financialyearid });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.showdetails });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
@@ -276,6 +283,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = employeeid });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = Actions.getleave });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
