@@ -333,6 +333,60 @@ namespace BuildExeHR.Controllers
             }
         }
 
+        [HttpPost("Validation")]
+        [Authorize]
+        public async Task<IActionResult> Post1([FromBody] IEnumerable<AttendanceMonthly> attendance, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _attendanceMonthlyRepository.Validation(attendance);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+        [HttpPost("GetData")]
+        [Authorize]
+        public async Task<IActionResult> Post2([FromBody] IEnumerable<AttendanceMonthly> attendance, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        var result = await _attendanceMonthlyRepository.GetData(attendance);
+                        return new OkObjectResult(result);
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
 
         [HttpGet("validation/{monthid}/{financialyearid}/{branchid}")]
         [Authorize]

@@ -38,7 +38,8 @@ namespace BuildExeServices.Repository
             validation = 9,
             getQuotedamt = 10,
             ProjectValidation = 11,
-            SelectReport = 12
+            SelectReport = 12,
+            QutationForward =27
         }
         public async Task<IEnumerable<Validation>> Insert(IEnumerable<ProjectSpecificationMaster> specificationMasters)
         {
@@ -1194,6 +1195,26 @@ namespace BuildExeServices.Repository
                 throw;
             }
 
+        }
+
+        public async Task<IEnumerable<Validation>> qutationforward(IEnumerable<ProjectSpecificationMaster> specificationMasters)
+        {
+            try
+            {
+                var Id = new SqlParameter("@Id", "0");
+                var item = new SqlParameter("@item", JsonConvert.SerializeObject(specificationMasters));
+                var CompanyId = new SqlParameter("@CompanyId", "0");
+                var BranchId = new SqlParameter("@BranchId", "0");
+                var userId = new SqlParameter("@userId", "0");
+                var Action = new SqlParameter("@Action", Actions.QutationForward);
+
+                return await _dbContext.tbl_validation.FromSqlRaw("Stpro_ProjectSpecification @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
         }
 
 
