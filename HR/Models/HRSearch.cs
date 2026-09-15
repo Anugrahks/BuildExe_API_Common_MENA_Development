@@ -22,7 +22,7 @@ namespace BuildExeHR.Models
         public int? BlockId { get; set; }
         public int? FloorId { get; set; }
         public DateTime? FromDate { get; set; }
-        public DateTime?joiningDate { get; set; }
+        public DateTime? joiningDate { get; set; }
         public DateTime? ToDate { get; set; }
 
         public DateTime? EndDate { get; set; }
@@ -44,7 +44,7 @@ namespace BuildExeHR.Models
         public String? PaymentMode { get; set; }
         public int? MonthId { get; set; }
         public int? ViewType { get; set; }
-        public int? WorkTypeId  { get; set; }
+        public int? WorkTypeId { get; set; }
         public int? ReportId { get; set; }
         public int? WorkNameId { get; set; }
         public int? UserId { get; set; }
@@ -55,7 +55,7 @@ namespace BuildExeHR.Models
 
         public int? DurationId { get; set; }
         public int? LabourWorkId { get; set; }
-        public int? ProjectWise {  get; set; }
+        public int? ProjectWise { get; set; }
         public int? ApprovalLevel { get; set; }
 
         public int Id { get; set; }
@@ -73,6 +73,11 @@ namespace BuildExeHR.Models
         public string? Attendance { get; set; }
         public string? CategoryIds { get; set; }
 
+        public List<int>? EmployeeIds { get; set; }
+        public List<int>? EmployeeDepartmentIds { get; set; }
+
+
+
         public DateTime DateAssigned { get; set; }
 
         public List<ProjectDateRange> JsonData { get; set; } = new List<ProjectDateRange>();
@@ -81,6 +86,11 @@ namespace BuildExeHR.Models
         public int? ContractorId { get; set; }
 
         public string EmployeeStatus { get; set; }
+        public int? Category { get; set; }
+
+        public string CategoryName { get; set; }
+        public int Holiday { get; set; }
+
     }
 
     public class ProjectDateRange
@@ -88,6 +98,11 @@ namespace BuildExeHR.Models
         public int ProjectId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+
+        public int? Category { get; set; }
+
+
+
 
     }
 }
