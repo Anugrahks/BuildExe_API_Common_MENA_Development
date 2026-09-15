@@ -36,10 +36,10 @@ namespace BuildExeHR.Models
         public int VoucherTypeId { get; set; }
         public int ApprovalStatus { get; set; }
         public DateTime ApprovedDate { get; set; }
-        public int ApprovedBy  {get;set;}
+        public int ApprovedBy { get; set; }
         public int ApprovalLevel { get; set; }
         public int IsDeleted { get; set; }
-        public int IsReject { get; set;}
+        public int IsReject { get; set; }
         public string? Remarks { get; set; }
         public string? ApprovalRemarks { get; set; }
         public string? RejectRemarks { get; set; }
@@ -51,6 +51,7 @@ namespace BuildExeHR.Models
         public string MultiEmployeeId { get; set; }
 
         public List<SalaryBillDetails> SalaryBillDetails { get; set; }
+
         public List<int> DepartmentId { get; set; }
 
     }
@@ -78,5 +79,24 @@ namespace BuildExeHR.Models
         public decimal? GrossSalary { get; set; }
         public decimal NetSalary { get; set; }
 
+        public decimal? OtHours { get; set; }
+
+
+        public decimal? LoanAmount { get; set; }
+        public decimal? AdvanceAmount { get; set; }
+
+    }
+
+    public class SalaryBillDepartmentRequest
+    {
+        public int Id { get; set; }
+        public int CompanyId { get; set; }
+        public int BranchId { get; set; }
+        public int MonthId { get; set; }
+        public int YearId { get; set; }
+        public int UserId { get; set; }
+        public int FinancialYearId { get; set; }
+        public DateTime? BillDate { get; set; }
+        public List<int> DepartmentId { get; set; }
     }
 }
