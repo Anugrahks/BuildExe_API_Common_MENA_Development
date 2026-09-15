@@ -51,6 +51,7 @@ namespace BuildExeHR.Models
         public string MultiEmployeeId { get; set; }
 
         public List<SalaryBillDetails> SalaryBillDetails { get; set; }
+        public List<int> DepartmentId { get; set; }
 
     }
 
