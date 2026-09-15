@@ -432,6 +432,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@userid", SqlDbType.Int) { Value = DesignationId });
                 cmd.Parameters.Add(new SqlParameter("@durationId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@action", SqlDbType.Int) { Value = 3 });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
