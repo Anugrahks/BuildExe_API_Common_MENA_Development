@@ -37,6 +37,8 @@ namespace BuildExeHR.Models
         public decimal? TransactionCharge { get; set; }
         public List<SalaryPaymentDetails> SalaryPaymentDetails { get; set; }
 
+        public List<int> DepartmentId { get; set; }
+
     }
 
 
