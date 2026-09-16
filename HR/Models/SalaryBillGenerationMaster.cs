@@ -50,6 +50,9 @@ namespace BuildExeHR.Models
 
         public string MultiEmployeeId { get; set; }
 
+        public string? ExpenseHead { get; set; }
+
+
         public List<SalaryBillDetails> SalaryBillDetails { get; set; }
 
         public List<int> DepartmentId { get; set; }
@@ -84,6 +87,9 @@ namespace BuildExeHR.Models
 
         public decimal? LoanAmount { get; set; }
         public decimal? AdvanceAmount { get; set; }
+
+        public string? Expenses { get; set; }
+
 
     }
 
