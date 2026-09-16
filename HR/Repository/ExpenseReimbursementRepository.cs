@@ -100,15 +100,17 @@ namespace BuildExeHR.Repository
             {
                 var idParam = new SqlParameter("@Id", id);
                 var jsonParam = new SqlParameter("@Json", string.Empty);
-                var companyIdParam = new SqlParameter("@CompanyId", 0);
-                var branchIdParam = new SqlParameter("@BranchId", 0);
-                var monthIdParam = new SqlParameter("@MonthId", 0);
-                var yearIdParam = new SqlParameter("@YearId", 0);
+
+                var companyIdParam = new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 };
+                var branchIdParam = new SqlParameter("@BranchId", SqlDbType.Int) { Value = 0 };
+
+                var monthIdParam = new SqlParameter("@MonthId", SqlDbType.Int) { Value = 0 };
+                var yearIdParam = new SqlParameter("@YearId", SqlDbType.Int) { Value = 0 };
                 var userIdParam = new SqlParameter("@UserId", userId);
                 var actionParam = new SqlParameter("@Action", Actions.Delete);
 
                 await _dbContext.Database.ExecuteSqlRawAsync(
-                    "Stpro_Stpro_EmployeeExpenseReimbursement @Id, @Json, @CompanyId, @BranchId, @MonthId, @YearId, @UserId, @Action",
+                    "Stpro_EmployeeExpenseReimbursement @Id, @Json, @CompanyId, @BranchId, @MonthId, @YearId, @UserId, @Action",
                     idParam, jsonParam, companyIdParam, branchIdParam, monthIdParam, yearIdParam, userIdParam, actionParam
                 );
             }
