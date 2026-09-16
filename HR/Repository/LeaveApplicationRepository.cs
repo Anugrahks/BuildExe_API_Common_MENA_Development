@@ -257,8 +257,9 @@ namespace BuildExeHR.Repository
                 var Userid = new SqlParameter("@UserId", "0");
                 var durationId = new SqlParameter("@durationId", "0");
                 var json = new SqlParameter("@json", "");
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", 1);
-                var _product = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ValidationsinPayroll @FromDate,@EmployeeId,@LeaveId,@UserId,@durationId, @json, @Action", date, EmployeeId, LeaveId, Userid, durationId,json, Action).ToListAsync();
+                var _product = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ValidationsinPayroll @FromDate,@EmployeeId,@LeaveId,@UserId,@durationId, @json,@EmplId, @Action", date, EmployeeId, LeaveId, Userid, durationId, json, EmplId, Action).ToListAsync();
                 return _product;
             }
             catch (Exception ex)
@@ -282,6 +283,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@userid", SqlDbType.Int) { Value = financialYearId });
                 cmd.Parameters.Add(new SqlParameter("@durationId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@action", SqlDbType.Int) { Value = 2 });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
@@ -324,6 +326,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@userid", SqlDbType.Int) { Value = financialYearId });
                 cmd.Parameters.Add(new SqlParameter("@durationId", SqlDbType.Int) { Value = DurationId });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@action", SqlDbType.Int) { Value = 6 });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
@@ -364,6 +367,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@userid", SqlDbType.Int) { Value = Category });
                 cmd.Parameters.Add(new SqlParameter("@durationId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@action", SqlDbType.Int) { Value = 7 });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {
@@ -547,8 +551,9 @@ namespace BuildExeHR.Repository
                 var Userid = new SqlParameter("@UserId", "0");
                 var durationId = new SqlParameter("@durationId", "0");
                 var json = new SqlParameter("@json", "");
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", 1);
-                var _product = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ValidationsinPayroll @FromDate,@EmployeeId,@LeaveId,@UserId,@durationId, @json, @Action", date, EmployeeId, LeaveId, Userid, durationId, json, Action).ToListAsync();
+                var _product = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ValidationsinPayroll @FromDate,@EmployeeId,@LeaveId,@UserId,@durationId, @json,@EmplId, @Action", date, EmployeeId, LeaveId, Userid, durationId, json,EmplId, Action).ToListAsync();
                 return _product;
             }
             catch (Exception ex)
@@ -597,6 +602,7 @@ namespace BuildExeHR.Repository
                 cmd.Parameters.Add(new SqlParameter("@userid", SqlDbType.Int) { Value = financialYearId });
                 cmd.Parameters.Add(new SqlParameter("@durationId", SqlDbType.Int) { Value = DurationId });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@EmplId", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@action", SqlDbType.Int) { Value = 6 });
                 if (cmd.Connection.State != ConnectionState.Open)
                 {

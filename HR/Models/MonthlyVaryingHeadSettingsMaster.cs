@@ -35,11 +35,11 @@ namespace BuildExeHR.Models
 
         public int MDurationId { get; set; }
         public int MEmployeeMasterId { get; set; }
-        public List<MonthlyVaryingHeadSettingsDetails> MonthlyVaryingHeadSettingsDetails { get; set; }
         public string? EmployeeMasterId { get; set; }
+        public List<MonthlyVaryingHeadSettingsDetails> MonthlyVaryingHeadSettingsDetails { get; set; }
+
         public List<int> DepartmentId { get; set; }
         public string? DepartmentName { get; set; }
-
 
     }
     [Keyless]
@@ -56,4 +56,11 @@ namespace BuildExeHR.Models
 
         public decimal TAAmountMonthly { get; set; }
     }
+    //public class MonthlyVaryingHeadSettingsMasterDepartments
+    //{
+    //    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    //    public int Id { get; set; }
+    //    public int MasterId { get; set; }
+    //    public int DepartmentId { get; set; }
+    //}
 }

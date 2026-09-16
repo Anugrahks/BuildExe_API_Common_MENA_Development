@@ -47,7 +47,7 @@ namespace BuildExeHR.Repository
                 var EmplId = new SqlParameter("@EmplId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().EmployeeMasterId);
                 var Action = new SqlParameter("@Action", Actions.Insert);
                 var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_MonthlyVaryingHeadSettings @Id,@Json,@CompanyId, @BranchId," +
-                    " @MonthId,@YearId,@UserId, @Action", Id, Json, CompanyId, BranchId,MonthId, YearId, UserId, Action).ToListAsync();
+                    " @MonthId,@YearId,@UserId,@EmplId, @Action", Id, Json, CompanyId, BranchId,MonthId, YearId, UserId,EmplId, Action).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace BuildExeHR.Repository
                 var EmplId = new SqlParameter("@EmplId", monthlyVaryingHeadSettingsMasters.FirstOrDefault().EmployeeMasterId);
                 var Action = new SqlParameter("@Action", Actions.Update);
                 var purchaseList = await _dbContext.tbl_validation.FromSqlRaw("Stpro_MonthlyVaryingHeadSettings @Id,@Json,@CompanyId, @BranchId," +
-                    " @MonthId,@YearId,@UserId, @Action", Id, Json, CompanyId, BranchId, MonthId, YearId, UserId, Action).ToListAsync();
+                    " @MonthId,@YearId,@UserId,@EmplId, @Action", Id, Json, CompanyId, BranchId, MonthId, YearId, UserId,EmplId ,Action).ToListAsync();
                 return purchaseList;
             }
             catch (Exception ex)
