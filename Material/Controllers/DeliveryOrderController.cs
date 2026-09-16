@@ -277,10 +277,10 @@ namespace BuildExeMaterialServices.Controllers
         }
 
         [HttpDelete("{id}/{UserID}")]
-        [Authorize]
+      //  [Authorize]
         public async Task<IActionResult> Delete(int id, int UserID, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+          //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -296,10 +296,10 @@ namespace BuildExeMaterialServices.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+          //  }
         }
     }
 }

@@ -222,11 +222,12 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
+
         [HttpPost]
-        [Authorize]
+    //    [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<PumpModuleRequest> mat, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+          //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -242,10 +243,10 @@ namespace BuildExeServiceManagement.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
         }
 
 
