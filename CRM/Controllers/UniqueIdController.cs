@@ -81,10 +81,10 @@ namespace BuildExeServices.Controllers
         }
 
         [HttpPost("SNo")]
-     //  [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetSNo([FromBody] GetUniqueId getUniqueId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-          // if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -101,10 +101,10 @@ namespace BuildExeServices.Controllers
                     });
                 }
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
 

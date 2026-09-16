@@ -170,10 +170,10 @@ namespace BuildExeMaterialServices.Controllers
 
         [HttpPost]
         [Route("PurchaseReturnEntry")]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> PurchaseReturnEntry([FromBody] MaterialProjectSearchList materialList, Int16 supplierId, DateTime requiredDate, [FromHeader] string mdhash, [FromHeader] int User)
         {
-          //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
             {
@@ -199,10 +199,10 @@ namespace BuildExeMaterialServices.Controllers
                     });
                 }
             }
-            //else
-            //{
-            //    return Unauthorized("Invalid MdHash");
-            //}
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
         }
 
         [HttpPost]
