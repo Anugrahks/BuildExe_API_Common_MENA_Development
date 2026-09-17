@@ -1,4 +1,12 @@
-﻿using System;
+﻿using BuildExeHR.Common;
+using BuildExeHR.DBContexts;
+using BuildExeHR.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -6,12 +14,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using BuildExeHR.Common;
-using BuildExeHR.DBContexts;
-using BuildExeHR.Models;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace BuildExeHR.Repository
 {
@@ -94,25 +96,27 @@ namespace BuildExeHR.Repository
             }
         }
 
-        public async Task Delete(int id, int userId)
+        public async Task<IEnumerable<Validation>> Delete(int id, int userId)
         {
             try
             {
                 var idParam = new SqlParameter("@Id", id);
                 var jsonParam = new SqlParameter("@Json", string.Empty);
-
                 var companyIdParam = new SqlParameter("@CompanyId", SqlDbType.Int) { Value = 0 };
                 var branchIdParam = new SqlParameter("@BranchId", SqlDbType.Int) { Value = 0 };
-
                 var monthIdParam = new SqlParameter("@MonthId", SqlDbType.Int) { Value = 0 };
                 var yearIdParam = new SqlParameter("@YearId", SqlDbType.Int) { Value = 0 };
                 var userIdParam = new SqlParameter("@UserId", userId);
                 var actionParam = new SqlParameter("@Action", Actions.Delete);
 
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "Stpro_EmployeeExpenseReimbursement @Id, @Json, @CompanyId, @BranchId, @MonthId, @YearId, @UserId, @Action",
-                    idParam, jsonParam, companyIdParam, branchIdParam, monthIdParam, yearIdParam, userIdParam, actionParam
-                );
+                var result = await _dbContext.tbl_validation
+                    .FromSqlRaw(
+                        "EXEC Stpro_EmployeeExpenseReimbursement @Id, @Json, @CompanyId, @BranchId, @MonthId, @YearId, @UserId, @Action",
+                        idParam, jsonParam, companyIdParam, branchIdParam, monthIdParam, yearIdParam, userIdParam, actionParam
+                    )
+                    .ToListAsync();
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -120,6 +124,7 @@ namespace BuildExeHR.Repository
                 throw;
             }
         }
+
 
 
         public async Task<string> GetById(int id, int companyId, int branchId)

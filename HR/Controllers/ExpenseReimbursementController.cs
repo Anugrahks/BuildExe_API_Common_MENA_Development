@@ -108,7 +108,7 @@ namespace BuildExeHR.Controllers
 
 
         [HttpDelete("{Id}/{UserId}")]
-       [Authorize]
+        [Authorize]
         public async Task<IActionResult> Delete(int Id, int UserId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (!await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
@@ -116,14 +116,15 @@ namespace BuildExeHR.Controllers
 
             try
             {
-                await _expenseReimbursementRepository.Delete(Id, UserId);
-                return Ok();
+                var result = await _expenseReimbursementRepository.Delete(Id, UserId);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
             }
         }
+
 
         [HttpGet("{Id}/{CompanyId}/{BranchId}")]
         [Authorize]
