@@ -15,6 +15,8 @@ namespace BuildExeBasic.Models
             TableTypeReportFields = new List<TableTypeReportFieldsViewModel>();
             TableTypeReportFields2 = new List<TableTypeReportFieldsViewModel>();
             TableTypeReportFields3 = new List<TableTypeReportFieldsViewModel>();
+            TableTypeReportFields4 = new List<TableTypeReportFieldsViewModel>();
+
         }
         [JsonProperty("reportFields")]
         public List<KeyValuePair<string, string>> ReportFields { get; set; }
@@ -27,5 +29,9 @@ namespace BuildExeBasic.Models
 
         [JsonProperty("tableTypeReportFields3")]
         public List<TableTypeReportFieldsViewModel> TableTypeReportFields3 { get; set; }
+
+
+        [JsonProperty("tableTypeReportFields4")]
+        public List<TableTypeReportFieldsViewModel> TableTypeReportFields4 { get; set; }
     }
 }

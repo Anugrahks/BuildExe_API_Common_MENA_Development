@@ -81,7 +81,7 @@ namespace BuildExeServices.Controllers
         }
 
         [HttpPost("SNo")]
-       [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetSNo([FromBody] GetUniqueId getUniqueId, [FromHeader] string mdhash, [FromHeader] int User)
         {
            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))

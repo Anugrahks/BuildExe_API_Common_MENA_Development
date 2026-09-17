@@ -116,8 +116,8 @@ namespace BuildExeHR.Controllers
 
             try
             {
-                await _expenseReimbursementRepository.Delete(Id, UserId);
-                return Ok();
+                var result = await _expenseReimbursementRepository.Delete(Id, UserId);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -125,8 +125,9 @@ namespace BuildExeHR.Controllers
             }
         }
 
+
         [HttpGet("{Id}/{CompanyId}/{BranchId}")]
-       [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetById(int Id, int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (!await _mdHashValidator.ValidateMdHashAsync(mdhash, User))

@@ -256,8 +256,9 @@ namespace BuildExeHR.Repository
                 var Userid = new SqlParameter("@UserId", monthid);
                 var durationId = new SqlParameter("@durationId", "0");
                 var json = new SqlParameter("@json", jsontext);
+                var EmplId = new SqlParameter("@EmplId", "");
                 var Action = new SqlParameter("@Action", 5);
-                var _product = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ValidationsinPayroll @FromDate,@EmployeeId,@LeaveId,@UserId,@durationId, @json, @Action", date, EmployeeId, LeaveId, Userid, durationId,json, Action).ToListAsync();
+                var _product = await _dbContext.tbl_validation.FromSqlRaw("Stpro_ValidationsinPayroll @FromDate,@EmployeeId,@LeaveId,@UserId,@durationId, @json,@EmplId, @Action", date, EmployeeId, LeaveId, Userid, durationId,json,EmplId, Action).ToListAsync();
                 return _product;
             }
             catch (Exception ex)
