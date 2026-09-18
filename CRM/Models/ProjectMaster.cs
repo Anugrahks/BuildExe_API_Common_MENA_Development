@@ -70,7 +70,13 @@ namespace BuildExeServices.Models
         public bool? isproformainvoice { get; set; }
 
         public DateTime? PromiseDate { get; set; }
+
+        public decimal EnquiryVat { get; set; }
+
+
+
         //public DateTime PromiseDate { get; internal set; }
+
 
 
         //public string? OpeningType { get; set; }
