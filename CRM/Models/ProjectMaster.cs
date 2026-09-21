@@ -72,6 +72,7 @@ namespace BuildExeServices.Models
         public DateTime? PromiseDate { get; set; }
 
         public decimal EnquiryVat { get; set; }
+        public decimal QuotationAmt { get; set; }
 
 
 
