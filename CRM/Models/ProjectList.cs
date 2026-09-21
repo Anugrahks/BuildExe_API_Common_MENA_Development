@@ -46,6 +46,9 @@ namespace BuildExeServices.Models
         public bool IsWareHouse { get; set; }
         public int IsBlockFloorExists { get; set; }
 
+        public string LpoNo { get; set; }
+        
+
         //public string ClientName { get; set; }
     }
 }
