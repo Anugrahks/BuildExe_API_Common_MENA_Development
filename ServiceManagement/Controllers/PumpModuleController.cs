@@ -993,5 +993,32 @@ namespace BuildExeServiceManagement.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+
+        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}")]                        
+        [Authorize]
+        public async Task<IActionResult> GetEnquiryNo(string FullName,int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetEnquiryNo(FullName,CompanyId, BranchId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                { 
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
     }
