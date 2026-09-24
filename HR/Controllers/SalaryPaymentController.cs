@@ -408,5 +408,33 @@ namespace BuildExeHR.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpGet("SalaryPaymentApproved/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> SalaryPaymentApproved( int companyid,int BranchId,int UserId,int FinancialYearId,[FromHeader] string mdhash,[FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salaryPaymentRepository
+                        .SalaryPaymentApproved(companyid, BranchId, UserId, FinancialYearId);
+
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
     }
 }

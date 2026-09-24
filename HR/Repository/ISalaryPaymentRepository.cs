@@ -23,5 +23,8 @@ namespace BuildExeHR.Repository
         Task<string> GetEmployees(DepartmentEmployeeRequest request);
         Task<string> GetEmployeesDuration(DepartmentEmployeeRequest request);
         Task<string> GetEmployeesMonthly(DepartmentEmployeeRequest request);
+
+        Task<string> SalaryPaymentApproved(int companyid, int branchid, int UserId, int FinancialYearId);
+
     }
 }

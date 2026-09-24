@@ -117,14 +117,14 @@ namespace BuildExeServices.Repository
         {
             try
             {
-               
-                if (reciepts == null || !reciepts.Any())
+                var recieptsList = reciepts?.ToList();
+
+                if (recieptsList == null || !recieptsList.Any())
                 {
                     return Enumerable.Empty<Validation>();
                 }
 
-                
-                bool isServiceTransaction = reciepts.FirstOrDefault()?.IsService ?? false;
+                bool isServiceTransaction = recieptsList.FirstOrDefault()?.IsService ?? false;
                 string procedureName = isServiceTransaction ? "Stpro_Recieptsinvoice" : "Stpro_Reciepts";
 
                 var Id = new SqlParameter("@Id", "0");
@@ -133,13 +133,14 @@ namespace BuildExeServices.Repository
                     {
                         ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
                     }));
-
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var userId = new SqlParameter("@userId", "0");
                 var Action = new SqlParameter("@Action", Actions.Update);
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name,
+                new Exception($"DEBUG - Action value sent: {(int)Actions.Update}, ProcedureName: {procedureName}"));
 
-               
+
                 string sqlQuery = $"{procedureName} @Id,@item,@CompanyId,@BranchId,@userId,@Action";
 
                 return await _dbContext.tbl_validation
