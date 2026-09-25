@@ -54,6 +54,9 @@ namespace BuildExeServiceManagement.Models
         public int? UpdatedBy { get; set; }
         public string ServiceType { get; set; }
         public string JobNo { get; set; }
+
+        public int EnquiryNo { get; set; }
+
         public DateTime EnteredOnDate { get; set; }
         public string RefNo { get; set; }
         public string CustomerApprovalStatus { get; set; }
