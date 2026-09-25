@@ -783,13 +783,32 @@ namespace BuildExeServices.Repository
                 var LpoDate = new SqlParameter("@LpoDate", "1990-01-01");
                 var json = new SqlParameter("@json", "");
 
-                var _product = await _dbContext.tbl_ProjectMaster.FromSqlRaw("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, " +
-                     "@ProjectDescription, @Status, @StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, " +
-                     "@Address, @Post, @Pin, @PhoneNumber, @MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId," +
-                     "@UserId,@EnquiryId,@ScheduleType,@Action,@id,@IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@json", ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription,
-                     StartDate, EndDate, GST_No, ClientId, FirstName, LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea,
-                     RatePerArea, TotalAmount, PaymentModeId, CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, json).ToListAsync();
-
+                //var _product = await _dbContext.tbl_ProjectMaster.FromSqlRaw("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, " +
+                //     "@ProjectDescription, @Status, @StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, " +
+                //     "@Address, @Post, @Pin, @PhoneNumber, @MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId," +
+                //     "@UserId,@EnquiryId,@ScheduleType,@Action,@id,@IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@json", ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription,
+                //     StartDate, EndDate, GST_No, ClientId, FirstName, LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea,
+                //     RatePerArea, TotalAmount, PaymentModeId, CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, json).ToListAsync();
+                var _product = await _dbContext.tbl_ProjectMaster.FromSqlRaw(@"stpro_ProjectMaster 
+        @ProjectId = @ProjectId, @ProjectTypeId = @ProjectTypeId, @DepartmentId = @DepartmentId,
+        @ProjectName = @ProjectName, @ProjectDescription = @ProjectDescription, @Status = @Status,
+        @StatusDescription = @StatusDescription, @StartDate = @StartDate, @EndDate = @EndDate,
+        @GST_No = @GST_No, @ClientId = @ClientId, @FirstName = @FirstName, @LastName = @LastName,
+        @Sex = @Sex, @DateOfBirth = @DateOfBirth, @Address = @Address, @Post = @Post, @Pin = @Pin,
+        @PhoneNumber = @PhoneNumber, @MobileNumber = @MobileNumber, @EmailId = @EmailId,
+        @TotalArea = @TotalArea, @RatePerArea = @RatePerArea, @TotalAmount = @TotalAmount,
+        @PaymentModeId = @PaymentModeId, @CompanyId = @CompanyId, @BranchId = @BranchId,
+        @UserId = @UserId, @EnquiryId = @EnquiryId, @ScheduleType = @ScheduleType,
+        @Action = @Action, @id = @id output, @IsWareHouse = @IsWareHouse,
+        @UserName = @UserName, @Password = @Password, @ProjectArea = @ProjectArea,
+        @Latitude = @Latitude, @Longitude = @Longitude, @ClientUniqueName = @ClientUniqueName,
+        @ContactPerson = @ContactPerson, @LpoNo = @LpoNo, @LpoDate = @LpoDate, @json = @json",
+     ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription,
+     StartDate, EndDate, GST_No, ClientId, FirstName, LastName, Sex, DateOfBirth, Address, Post, Pin,
+     PhoneNumber, MobileNumber, EmailId, TotalArea, RatePerArea, TotalAmount, PaymentModeId, CompanyId,
+     BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea,
+     Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo, LpoDate, json
+ ).ToListAsync();
                 return _product;
             }
             catch (Exception ex)
