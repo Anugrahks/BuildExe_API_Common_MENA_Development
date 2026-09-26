@@ -996,15 +996,15 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
-        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}")]                        
+        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}/{Id}")]                        
         [Authorize]
-        public async Task<IActionResult> GetEnquiryNo(string FullName,int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetEnquiryNo(string FullName,int CompanyId, int BranchId,int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetEnquiryNo(FullName,CompanyId, BranchId);
+                    var val = await _salesOrderRepository.GetEnquiryNo(FullName,CompanyId, BranchId,Id);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
@@ -1021,11 +1021,12 @@ namespace BuildExeServiceManagement.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
         [HttpGet("GetEnquiryDetails/{CompanyId}/{BranchId}")]
         [Authorize]
         public async Task<IActionResult> GetEnquiryDetails(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {

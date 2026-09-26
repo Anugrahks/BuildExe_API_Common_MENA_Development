@@ -49,7 +49,7 @@ namespace BuildExeServiceManagement.Repository
         Task<string> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId);
         Task<string> GetJobAutoFetch(int CompanyId, int BranchId, int ServiceType);
 
-        Task<string> GetEnquiryNo(string FullName, int CompanyId, int BranchId);
+        Task<string> GetEnquiryNo(string FullName, int CompanyId, int BranchId,int Id);
 
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
