@@ -1752,7 +1752,7 @@ namespace BuildExeServiceManagement.Repository
         }
 
 
-        public async Task<string> GetEnquiryNo(string FullName,int CompanyId, int BranchId)      
+        public async Task<string> GetEnquiryNo(string FullName,int CompanyId, int BranchId,int Id)      
         {
             try
             {
@@ -1761,7 +1761,7 @@ namespace BuildExeServiceManagement.Repository
                 cmd.CommandText = "dbo.Stpro_ServiceQuotation";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.NVarChar) { Value = DBNull.Value });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.NVarChar) { Value = Id});
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.NVarChar) { Value = DBNull.Value });
