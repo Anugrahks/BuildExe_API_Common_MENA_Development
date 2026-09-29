@@ -20,7 +20,8 @@ namespace BuildExeServiceManagement.Models
         public string CustomerName { get; set; }
         public int CustomerId { get; set; }
         public int ClientId { get; set; }
-        public int EnquiryId { get; set; }
+        public int? EnquiryId { get; set; }
+       
         public DateTime? EntryDate { get; set; }
         public string StationLocation { get; set; }
         public string PumpRef { get; set; }
@@ -56,7 +57,7 @@ namespace BuildExeServiceManagement.Models
         public string ServiceType { get; set; }
         public string JobNo { get; set; }
 
-        public int EnquiryNo { get; set; }
+        public int? EnquiryNo { get; set; }
 
         public DateTime EnteredOnDate { get; set; }
         public string RefNo { get; set; }
