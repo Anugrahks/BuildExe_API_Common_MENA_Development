@@ -38,7 +38,9 @@ namespace BuildExeServiceManagement.Repository
         Task<string> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId);
         Task<string> GetClientPending(int CompanyId, int BranchId, int UserId, int FinancialYearId);
         Task<IEnumerable<Validation>> ClientApprovalUpdate(PumpModuleRequest mat);  
-        Task<string> GetPumpAutoFetch(int CompanyId, int BranchId); 
+        Task<string> GetPumpAutoFetch(int CompanyId, int BranchId);
+        Task<string> GetEnquiryDetails(int CompanyId, int BranchId);
+
         Task<string> GetJobAutoFetch(int CompanyId, int BranchId);
         Task<List<Dictionary<string, object>>> GetforApproveduser( int companyid, int branchId, int userId, int financialYearId);
         Task<List<Dictionary<string, object>>> workshopApproved(int companyid, int branchId, int userId, int financialYearId);
@@ -47,7 +49,7 @@ namespace BuildExeServiceManagement.Repository
         Task<string> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId);
         Task<string> GetJobAutoFetch(int CompanyId, int BranchId, int ServiceType);
 
-        Task<string> GetEnquiryNo(string FullName, int CompanyId, int BranchId);
+        Task<string> GetEnquiryNo(string FullName, int CompanyId, int BranchId,int Id);
 
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);

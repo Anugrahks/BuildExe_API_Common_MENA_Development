@@ -541,6 +541,7 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
+
         [HttpPut("ServiceQuotationUpdate")]     //added
         [Authorize]
         public async Task<IActionResult> UpdateQuotation([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
@@ -995,15 +996,15 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
-        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}")]                        
+        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}/{Id}")]                        
         [Authorize]
-        public async Task<IActionResult> GetEnquiryNo(string FullName,int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetEnquiryNo(string FullName,int CompanyId, int BranchId,int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetEnquiryNo(FullName,CompanyId, BranchId);
+                    var val = await _salesOrderRepository.GetEnquiryNo(FullName,CompanyId, BranchId,Id);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
@@ -1020,5 +1021,32 @@ namespace BuildExeServiceManagement.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpGet("GetEnquiryDetails/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetEnquiryDetails(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var val = await _salesOrderRepository.GetEnquiryDetails(CompanyId, BranchId);
+                    return new OkObjectResult(val);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
+            }
+            else
+            {
+                return Unauthorized("Invalid MdHash");
+            }
+        }
+
     }
     }
