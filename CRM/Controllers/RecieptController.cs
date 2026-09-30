@@ -187,5 +187,45 @@ namespace BuildExeServices.Controllers
                 return Unauthorized("Invalid MdHash");
             }
         }
+
+        [HttpPost("ProformaReceiptReport")]
+         [Authorize]
+        public async Task<IActionResult> GetProformaReceiptReport([FromBody] Reciept reciepts, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _recieptsRepository.GetProformaReceiptReport(reciepts);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new 
+                    { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
+
+        [HttpGet("getProformaInvoiceNumbers/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetProformaInvoiceNumbers(int CompanyId, int BranchId, [FromQuery] int? ProjectId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _recieptsRepository.GetProformaInvoiceNumbers(CompanyId, BranchId, ProjectId);
+                    return Content(result, "application/json");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
     }
 }
