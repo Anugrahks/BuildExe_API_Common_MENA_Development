@@ -195,7 +195,7 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("getApproval/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{Type}")]
-        [Authorize]
+       [Authorize]
         public async Task<IActionResult> getApproval(int CompanyId, int Branchid, int UserId, int FinancialYearId, int Type, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
@@ -227,7 +227,7 @@ namespace BuildExeServiceManagement.Controllers
         [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<PumpModuleRequest> mat, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -542,6 +542,7 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
+
         [HttpPut("ServiceQuotationUpdate")]     //added
         [Authorize]
         public async Task<IActionResult> UpdateQuotation([FromBody] PumpModuleRequest mat, [FromHeader] string mdhash, [FromHeader] int User)
@@ -680,7 +681,7 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("GetClientApproval/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
-        [Authorize]
+       [Authorize]
         public async Task<IActionResult> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
@@ -865,10 +866,10 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("siteServiceApproved/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
-       [Authorize]
+      [Authorize]
         public async Task<IActionResult> siteServiceApproved(int companyid, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-          if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+         if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -1022,15 +1023,15 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
-        [HttpGet("GetEnquiryDetails/{CompanyId}/{BranchId}")]
+        [HttpGet("GetEnquiryDetails/{CompanyId}/{BranchId}/{Id}")]
         [Authorize]
-        public async Task<IActionResult> GetEnquiryDetails(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetEnquiryDetails(int CompanyId, int BranchId, int Id ,[FromHeader] string mdhash, [FromHeader] int User)
         {
            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetEnquiryDetails(CompanyId, BranchId);
+                    var val = await _salesOrderRepository.GetEnquiryDetails(CompanyId, BranchId,Id);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
