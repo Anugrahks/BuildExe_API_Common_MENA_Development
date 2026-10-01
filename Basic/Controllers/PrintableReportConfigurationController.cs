@@ -798,6 +798,19 @@ namespace BuildExeBasic.Controllers
             }
         }
 
+        [HttpGet("Menu/{id}/{CompanyId}/{BranchId}/{RecordId}")]
+        [Authorize]
+
+        public async Task<IActionResult> RecordId(int id, int companyid, int branchid)
+        {
+            try
+            {
+                var templates = await _printableReportConfigurationRepository.RecordId(id, companyid, branchid);
+                return new OkObjectResult(templates);
+            }
+            catch (Exception)
+            { throw; }
+        }
 
     }
 }

@@ -58,5 +58,8 @@ namespace BuildExeBasic.Repository
 
         Task<string> StaticPrintablePDI(int BranchId, int ReportId, int RecordId);
 
+        Task<IEnumerable<PrintableReportConfigurationList>> RecordId(int MenuId, int CompanyId, int BranchId);
+
+
     }
 }
