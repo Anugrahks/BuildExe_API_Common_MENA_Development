@@ -797,19 +797,12 @@ namespace BuildExeBasic.Controllers
                 });
             }
         }
-
-        [HttpGet("Menu/{id}/{CompanyId}/{BranchId}/{RecordId}")]
+        [HttpGet("Menu/{id}/{companyId}/{branchId}/{recordId}")]
         [Authorize]
-
-        public async Task<IActionResult> RecordId(int id, int companyid, int branchid)
+        public async Task<IActionResult> RecordId(int id, int companyId, int branchId, int recordId)
         {
-            try
-            {
-                var templates = await _printableReportConfigurationRepository.RecordId(id, companyid, branchid);
-                return new OkObjectResult(templates);
-            }
-            catch (Exception)
-            { throw; }
+            var templates = await _printableReportConfigurationRepository.RecordId(id, companyId, branchId, recordId);
+            return new OkObjectResult(templates);
         }
 
     }

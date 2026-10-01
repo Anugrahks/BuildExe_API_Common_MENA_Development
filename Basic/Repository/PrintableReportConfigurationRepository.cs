@@ -826,14 +826,18 @@ namespace BuildExeBasic.Repository
             try
             {
                 var menuId = new SqlParameter("@MenuId", MenuId);
-                var companyid = new SqlParameter("@CompanyId", CompanyId);
-                var branchid = new SqlParameter("@BranchId", BranchId);
-                var recordid = new SqlParameter("@RecordId", RecordId);
+                var companyId = new SqlParameter("@CompanyId", CompanyId);
+                var branchId = new SqlParameter("@BranchId", BranchId);
                 var action = new SqlParameter("@Action", 3);
-                var pritableReportConfigurationListById = await _dbContext.tbl_PrintableReportConfigurationList.
-                    FromSqlRaw("stpro_PrintableConfigurationReportById @MenuId, @CompanyId, @BranchId,RecordId, @Action", menuId, companyid, branchid, action)
+                var recordId = new SqlParameter("@RecordId", RecordId);
+
+                var result = await _dbContext.tbl_PrintableReportConfigurationList
+                    .FromSqlRaw(
+                        "stpro_PrintableConfigurationReportById @MenuId, @CompanyId, @BranchId, @Action, @RecordId",
+                        menuId, companyId, branchId, action, recordId)
                     .ToListAsync();
-                return pritableReportConfigurationListById;
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -841,6 +845,5 @@ namespace BuildExeBasic.Repository
                 throw;
             }
         }
-
     }
 }
