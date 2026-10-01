@@ -27,5 +27,14 @@ namespace BuildExeServices.Repository
         Task<string> GetProformaReceiptReport(Reciept reciepts);
 
         Task<string> GetProformaInvoiceNumbers(int CompanyId, int BranchId, int? ProjectId);
+
+
+        Task<string> GetBillReceiptReport(Reciept reciepts);
+
+        Task<string> GetBillNumber(int CompanyId, int BranchId, int? ProjectId);
+
+
+        Task<string> GetJobNumber(int CompanyId, int BranchId, int? ProjectId);
+
     }
 }
