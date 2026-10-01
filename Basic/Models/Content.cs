@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+
 namespace BuildExeBasic.Models
 {
     public class Content
@@ -18,5 +19,8 @@ namespace BuildExeBasic.Models
         public Boolean Bold { get; set; }
         public int FontSize { get; set; }
         public int IsSelect { get; set; }
+
+        public int ReferenceId { get; set; }   // NEW (column already exists in tbl_Content)
+        public int RecordId { get; set; }      // NEW (column you added)
     }
 }
