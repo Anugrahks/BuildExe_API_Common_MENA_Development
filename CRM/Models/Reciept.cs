@@ -52,7 +52,7 @@ namespace BuildExeServices.Models
 
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-        public int? ClientId { get; set; }
+        public string? ClientName { get; set; }
         public string? InvoiceNumber { get; set; }
         public List<RecieptDetail> RecieptDetail { get; set; }
 
