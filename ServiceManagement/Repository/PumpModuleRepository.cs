@@ -1817,7 +1817,7 @@ namespace BuildExeServiceManagement.Repository
 
 
 
-        public async Task<string> GetEnquiryDetails(int CompanyId, int BranchId)
+        public async Task<string> GetEnquiryDetails(int CompanyId, int BranchId ,int Id)
         {
             try
             {
@@ -1828,7 +1828,7 @@ namespace BuildExeServiceManagement.Repository
 
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
-                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = Id });
                 cmd.Parameters.Add(new SqlParameter("@StockPointId", SqlDbType.Int) { Value = 0 });
                 //cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 4 });
