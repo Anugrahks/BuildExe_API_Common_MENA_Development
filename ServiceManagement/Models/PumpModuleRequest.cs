@@ -47,6 +47,12 @@ namespace BuildExeServiceManagement.Models
 
         public DateTime? WarrantyDate { get; set; }
 
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public string? Status { get; set; }     // Active / Completed / null = all
+        public string? SerialNo { get; set; }
+        public int? Type { get; set; }
+
 
         //Added(For Service Quotation)
         public DateTime? QuoteDate { get; set; }
@@ -74,6 +80,8 @@ namespace BuildExeServiceManagement.Models
         public int? ProjectId { get; set; }   
 
         public string? Subject { get; set; }
+
+
 
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }

@@ -49,6 +49,13 @@ namespace BuildExeServices.Models
         public bool? IsService { get; set; }
 
         public int? JobId { get; set; }
+
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public string? ClientName { get; set; }
+        public string? InvoiceNumber { get; set; }
+        public string? BillNumber { get; set; }   // new
+        public int? JobNumber { get; set; }
         public List<RecieptDetail> RecieptDetail { get; set; }
 
     }

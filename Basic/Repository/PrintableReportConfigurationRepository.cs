@@ -821,7 +821,29 @@ namespace BuildExeBasic.Repository
                 throw;
             }
         }
-        
+        public async Task<IEnumerable<PrintableReportConfigurationList>> RecordId(int MenuId, int CompanyId, int BranchId, int RecordId)
+        {
+            try
+            {
+                var menuId = new SqlParameter("@MenuId", MenuId);
+                var companyId = new SqlParameter("@CompanyId", CompanyId);
+                var branchId = new SqlParameter("@BranchId", BranchId);
+                var action = new SqlParameter("@Action", 3);
+                var recordId = new SqlParameter("@RecordId", RecordId);
 
+                var result = await _dbContext.tbl_PrintableReportConfigurationList
+                    .FromSqlRaw(
+                        "stpro_PrintableConfigurationReportById @MenuId, @CompanyId, @BranchId, @Action, @RecordId",
+                        menuId, companyId, branchId, action, recordId)
+                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
     }
 }
