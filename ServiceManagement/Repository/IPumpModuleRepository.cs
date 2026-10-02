@@ -53,5 +53,13 @@ namespace BuildExeServiceManagement.Repository
 
 
         //   Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
+
+        Task<string> GetPumpPDIReport(PumpModuleRequest request);
+        Task<string> GetPumpSiteServiceReport(PumpModuleRequest request);
+
+        Task<string> GetPumpWorkshopReport(PumpModuleRequest request);
+
+        Task<string> GetSerialNumbers(int CompanyId, int BranchId, int? EntryType, int? CustomerId);
+
     }
 }
