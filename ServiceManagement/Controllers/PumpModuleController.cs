@@ -55,10 +55,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpGet("getEdit/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{Type}")]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> Getedit(int CompanyId, int Branchid, int UserId, int FinancialYearId, int Type, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+          //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -74,10 +74,10 @@ namespace BuildExeServiceManagement.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
 
         }
 
@@ -1049,5 +1049,88 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
+        
+
+        [HttpPost("PumpPDIReport")]
+        [Authorize]
+        public async Task<IActionResult> GetPumpPDIReport([FromBody] PumpModuleRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetPumpPDIReport(request);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
+        [HttpPost("PumpSiteServiceReport")]
+        [Authorize]
+        public async Task<IActionResult> GetPumpSiteServiceReport([FromBody] PumpModuleRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetPumpSiteServiceReport(request);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
+        [HttpPost("PumpWorkshopReport")]
+        [Authorize]
+        public async Task<IActionResult> GetPumpWorkshopReport([FromBody] PumpModuleRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetPumpWorkshopReport(request);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
+
+        [HttpGet("GetSerialNumbers/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetSerialNumbers( int CompanyId, int BranchId,[FromQuery] int? EntryType, [FromQuery] int? CustomerId,[FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetSerialNumbers(CompanyId, BranchId, EntryType, CustomerId);
+                    return Content(result, "application/json");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
+
     }
-    }
+}
