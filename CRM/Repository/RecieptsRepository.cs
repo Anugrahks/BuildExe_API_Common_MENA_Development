@@ -129,17 +129,15 @@ namespace BuildExeServices.Repository
                 string procedureName = isServiceTransaction ? "Stpro_Recieptsinvoice" : "Stpro_Reciepts";
 
                 var Id = new SqlParameter("@Id", "0");
-                var item = new SqlParameter("@item", JsonConvert.SerializeObject(reciepts,
-                    new JsonSerializerSettings
-                    {
-                        ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-                    }));
+                var item = new SqlParameter("@item", SqlDbType.NVarChar, -1)
+                {
+                    Value = JsonConvert.SerializeObject(reciepts)
+                };
                 var CompanyId = new SqlParameter("@CompanyId", "0");
                 var BranchId = new SqlParameter("@BranchId", "0");
                 var userId = new SqlParameter("@userId", "0");
                 var Action = new SqlParameter("@Action", Actions.Update);
-                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name,
-                new Exception($"DEBUG - Action value sent: {(int)Actions.Update}, ProcedureName: {procedureName}"));
+               
 
 
                 string sqlQuery = $"{procedureName} @Id,@item,@CompanyId,@BranchId,@userId,@Action";
