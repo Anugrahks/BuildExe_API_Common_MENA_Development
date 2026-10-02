@@ -1132,5 +1132,24 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
+        [HttpGet("GetCustomerName/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetCustomerName(int CompanyId, int BranchId, [FromQuery] int? EntryType, [FromQuery] int? CustomerId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetCustomerName(CompanyId, BranchId, EntryType, CustomerId);
+                    return Content(result, "application/json");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
     }
 }

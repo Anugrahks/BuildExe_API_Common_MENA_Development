@@ -61,5 +61,8 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> GetSerialNumbers(int CompanyId, int BranchId, int? EntryType, int? CustomerId);
 
+        Task<string> GetCustomerName(int CompanyId, int BranchId, int? EntryType, int? CustomerId);
+
+
     }
 }
