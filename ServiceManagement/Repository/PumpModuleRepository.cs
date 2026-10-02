@@ -2084,6 +2084,46 @@ namespace BuildExeServiceManagement.Repository
             }
         }
 
+        public async Task<string> GetCustomerName(int CompanyId, int BranchId, int? EntryType, int? CustomerId)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
 
+                cmd.CommandText = "dbo.Stpro_PumpModule";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var json = JsonConvert.SerializeObject(new { CustomerId = CustomerId ?? 0 });
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = EntryType ?? 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = json });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 17 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var result = new List<Dictionary<string, object>>();
+
+                while (await reader.ReadAsync())
+                {
+                    var row = new Dictionary<string, object>();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                        row[reader.GetName(i)] = await reader.IsDBNullAsync(i) ? null : reader.GetValue(i);
+                    result.Add(row);
+                }
+
+                return JsonConvert.SerializeObject(result);
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
     }
 }
