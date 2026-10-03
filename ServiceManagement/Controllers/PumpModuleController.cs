@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using BuildExeServiceManagement.Library;
 using BuildExeServiceManagement.Models;
 using BuildExeServiceManagement.Repository;
-using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
-using BuildExeServiceManagement.Library;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Transactions;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BuildExeServiceManagement.Controllers
@@ -55,10 +56,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpGet("getEdit/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{Type}")]
-       // [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Getedit(int CompanyId, int Branchid, int UserId, int FinancialYearId, int Type, [FromHeader] string mdhash, [FromHeader] int User)
         {
-          //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -195,7 +196,7 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("getApproval/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{Type}")]
-       [Authorize]
+        [Authorize]
         public async Task<IActionResult> getApproval(int CompanyId, int Branchid, int UserId, int FinancialYearId, int Type, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
@@ -227,7 +228,7 @@ namespace BuildExeServiceManagement.Controllers
         [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<PumpModuleRequest> mat, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -571,10 +572,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpGet("getServiceQuotationListings/{CompanyId}/{BranchId}/{FinancialYearId}/{UserId}")]        //added
-        [Authorize]
+                                                                                                          // [Authorize]
         public async Task<IActionResult> GetServiceQuotationListings(int CompanyId, int BranchId, int FinancialYearId, int UserId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            //  if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -590,10 +591,10 @@ namespace BuildExeServiceManagement.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
         }
 
 
@@ -681,7 +682,7 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("GetClientApproval/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
-       [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetClientApproval(int CompanyId, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
@@ -866,10 +867,10 @@ namespace BuildExeServiceManagement.Controllers
 
 
         [HttpGet("siteServiceApproved/{companyid}/{BranchId}/{UserId}/{FinancialYearId}")]
-      [Authorize]
+        [Authorize]
         public async Task<IActionResult> siteServiceApproved(int companyid, int BranchId, int UserId, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-         if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -893,7 +894,7 @@ namespace BuildExeServiceManagement.Controllers
 
         [HttpGet("GetApprovalOrReject/{Companyid}/{BranchId}/{CustomerId}/{JobId}")]
         [Authorize]
-        public async Task<IActionResult> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId,[FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetApprovalOrReject(int Companyid, int BranchId, int CustomerId, int JobId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
@@ -946,7 +947,7 @@ namespace BuildExeServiceManagement.Controllers
 
         [HttpGet("getjob/{CustomerId}/{CompanyId}/{BranchId}")]                          //added
         [Authorize]
-        public async Task<IActionResult> Getjob(int CustomerId,int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Getjob(int CustomerId, int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
@@ -997,19 +998,19 @@ namespace BuildExeServiceManagement.Controllers
         }
 
 
-        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}/{Id}")]                        
+        [HttpGet("getEnquiryNo/{FullName}/{CompanyId}/{BranchId}/{Id}")]
         [Authorize]
-        public async Task<IActionResult> GetEnquiryNo(string FullName,int CompanyId, int BranchId,int Id, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetEnquiryNo(string FullName, int CompanyId, int BranchId, int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetEnquiryNo(FullName,CompanyId, BranchId,Id);
+                    var val = await _salesOrderRepository.GetEnquiryNo(FullName, CompanyId, BranchId, Id);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
-                { 
+                {
                     return StatusCode(500, new
                     {
                         message = $"An error occurred: {ex.Message}",
@@ -1025,13 +1026,13 @@ namespace BuildExeServiceManagement.Controllers
 
         [HttpGet("GetEnquiryDetails/{CompanyId}/{BranchId}/{Id}")]
         [Authorize]
-        public async Task<IActionResult> GetEnquiryDetails(int CompanyId, int BranchId, int Id ,[FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetEnquiryDetails(int CompanyId, int BranchId, int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
-                    var val = await _salesOrderRepository.GetEnquiryDetails(CompanyId, BranchId,Id);
+                    var val = await _salesOrderRepository.GetEnquiryDetails(CompanyId, BranchId, Id);
                     return new OkObjectResult(val);
                 }
                 catch (Exception ex)
@@ -1049,7 +1050,7 @@ namespace BuildExeServiceManagement.Controllers
             }
         }
 
-        
+
 
         [HttpPost("PumpPDIReport")]
         [Authorize]
@@ -1114,7 +1115,7 @@ namespace BuildExeServiceManagement.Controllers
 
         [HttpGet("GetSerialNumbers/{CompanyId}/{BranchId}")]
         [Authorize]
-        public async Task<IActionResult> GetSerialNumbers( int CompanyId, int BranchId,[FromQuery] int? EntryType, [FromQuery] int? CustomerId,[FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetSerialNumbers(int CompanyId, int BranchId, [FromQuery] int? EntryType, [FromQuery] int? CustomerId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
@@ -1136,7 +1137,7 @@ namespace BuildExeServiceManagement.Controllers
         [Authorize]
         public async Task<IActionResult> GetCustomerName(int CompanyId, int BranchId, [FromQuery] int? EntryType, [FromQuery] int? CustomerId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -1151,5 +1152,45 @@ namespace BuildExeServiceManagement.Controllers
             return Unauthorized("Invalid MdHash");
         }
 
+
+        [HttpPost("GetServiceQuotationReport")]
+       [Authorize]
+        public async Task<IActionResult> GetServiceQuotationReport([FromBody] PumpModuleRequest request, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetServiceQuotationReport(request);
+                    return new OkObjectResult(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+        }
+
+        [HttpGet("GetServiceQuotationCustomers/{CompanyId}/{BranchId}")]
+        [Authorize]
+        public async Task<IActionResult> GetServiceQuotationCustomers(int CompanyId, int BranchId, [FromHeader] string mdhash, [FromHeader] int User)
+        {
+           if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _salesOrderRepository.GetServiceQuotationCustomers(CompanyId, BranchId);
+                    return Content(result, "application/json");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
+                }
+            }
+            return Unauthorized("Invalid MdHash");
+
+        }
     }
 }
