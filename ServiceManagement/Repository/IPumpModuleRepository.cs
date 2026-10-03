@@ -63,6 +63,11 @@ namespace BuildExeServiceManagement.Repository
 
         Task<string> GetCustomerName(int CompanyId, int BranchId, int? EntryType, int? CustomerId);
 
+        Task<string> GetServiceQuotationReport(PumpModuleRequest request);
+
+        Task<string> GetServiceQuotationCustomers(int companyId, int branchId);
+
+
 
     }
 }

@@ -1,9 +1,11 @@
-﻿using BuildExeServiceManagement.DBContexts;
+﻿using Azure.Core;
+using BuildExeServiceManagement.DBContexts;
 using BuildExeServiceManagement.Models;
 using BuildExeServiceManagement.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -2125,5 +2128,82 @@ namespace BuildExeServiceManagement.Repository
                 throw;
             }
         }
+
+        public async Task<string> GetServiceQuotationReport(PumpModuleRequest request)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+
+                cmd.CommandText = "dbo.Stpro_ServiceQuotation";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = request.CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = request.BranchId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(request) });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = request.FinancialYearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 25 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    cmd.Connection.Open();
+
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                var sb = new StringBuilder();
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                    sb.Append(dataTable.Rows[i][0].ToString());
+
+                string result = sb.ToString();
+                return string.IsNullOrEmpty(result) ? "[]" : result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        public async Task<string> GetServiceQuotationCustomers(int CompanyId, int BranchId)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                
+                cmd.CommandText = "dbo.Stpro_ServiceQuotation";
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = BranchId });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Json", SqlDbType.NVarChar) { Value = "" });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 26 });
+                
+                                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+                
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+                var sb = new StringBuilder();
+                                for (int i = 0; i < dataTable.Rows.Count; i++)
+                    sb.Append(dataTable.Rows[i][0].ToString());
+                
+                string result = sb.ToString();
+                                return string.IsNullOrEmpty(result) ? "[]" : result;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
     }
 }
