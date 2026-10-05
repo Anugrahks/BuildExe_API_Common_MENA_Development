@@ -408,81 +408,59 @@ namespace BuildExeServices.Repository
             validations.Add(val);
             return validations;
         }
+
+        // Requires: using System.Data; using Microsoft.Data.SqlClient; using Newtonsoft.Json;
+
         public async Task<IEnumerable<Validation>> Updateproject(Project project)
         {
             List<Validation> validations = new List<Validation>();
             Validation val = new Validation();
 
-
             var dett = await GetClient(project.CompanyId, project.BranchId);
             string lastname = string.IsNullOrEmpty(project.LastName) ? "" : project.LastName;
             var det = dett.Where(x => x.FirstName == project.FirstName)
-                .Where(x => x.LastName == lastname).Where(c => c.ProjectId != project.id).ToList();
+                .Where(x => x.LastName == lastname)
+                .Where(c => c.ProjectId != project.id)
+                .ToList();
 
             if (det.Count() == 0)
             {
                 try
                 {
-                    //_dbContext.Entry(project).State = EntityState.Modified;
-                    //Save();
                     if (project.Password != null)
-                    {
                         project.Password = Encription.EncryptString(project.Password);
-                    }
-                    if (project.Password == null)
-                        project.Password = "";
-                    if (project.UserName == null)
-                        project.UserName = "";
-                    if (project.StatusDescription == null)
-                        project.StatusDescription = "";
-                    if (project.LastName == null)
-                        project.LastName = "";
-                    if (project.Sex == null)
-                        project.Sex = "M";
-                    if (project.Address == null)
-                        project.Address = "";
-                    if (project.Post == null)
-                        project.Post = "";
-                    if (project.GST_No == null)
-                        project.GST_No = "";
-                    if (project.Pin == null)
-                        project.Pin = "";
-                    if (project.PhoneNumber == null)
-                        project.PhoneNumber = "";
-                    if (project.MobileNumber == null)
-                        project.MobileNumber = "";
-                    if (project.EmailId == null)
-                        project.EmailId = "";
-                    if (project.TotalArea == null)
-                        project.TotalArea = 0;
-                    if (project.RatePerArea == null)
-                        project.RatePerArea = 0;
-                    if (project.TotalAmount == null)
-                        project.TotalAmount = 0;
-                    if (project.DateOfBirth == null)
-                        project.DateOfBirth = DateTime.Now;
-                    if (project.ProjectArea == null)
-                        project.ProjectArea = "";
-                    if (project.LpoNo == null)
-                        project.LpoNo = "";
-                    
-                    if (project.ClientUniqueName == null)
-                        project.ClientUniqueName = "";
-                    if (project.ContactPerson == null)
-                        project.ContactPerson = "";
-                    if (project.LpoDate == null)
-                        project.LpoDate = new DateTime(1990, 1, 1);
-                    if (project.PromiseDate == null)
-                        project.PromiseDate = new DateTime(1990, 1, 1);
 
+                    // ---- Null defaults ----
+                    project.Password ??= "";
+                    project.UserName ??= "";
+                    project.StatusDescription ??= "";
+                    project.LastName ??= "";
+                    project.Sex ??= "M";
+                    project.Address ??= "";
+                    project.Post ??= "";
+                    project.GST_No ??= "";
+                    project.Pin ??= "";
+                    project.PhoneNumber ??= "";
+                    project.MobileNumber ??= "";
+                    project.EmailId ??= "";
+                    project.TotalArea ??= 0;
+                    project.RatePerArea ??= 0;
+                    project.TotalAmount ??= 0;
+                    project.DateOfBirth ??= DateTime.Now;
+                    project.ProjectArea ??= "";
+                    project.LpoNo ??= "";
+                    project.ClientUniqueName ??= "";
+                    project.ContactPerson ??= "";
+                    project.LpoDate ??= new DateTime(1990, 1, 1);
+                    project.PromiseDate ??= new DateTime(1990, 1, 1);
+                    project.ProjectDescription ??= "";
 
+                    // ---- Parameters ----
                     var id = new SqlParameter("@id", project.id);
                     var ProjectId = new SqlParameter("@ProjectId", project.ProjectId);
                     var ProjectTypeId = new SqlParameter("@ProjectTypeId", project.ProjectTypeId);
                     var DepartmentId = new SqlParameter("@DepartmentId", project.DepartmentId);
                     var ProjectName = new SqlParameter("@ProjectName", project.ProjectName);
-                    if (project.ProjectDescription == null)
-                        project.ProjectDescription = "";
                     var ProjectDescription = new SqlParameter("@ProjectDescription", project.ProjectDescription);
                     var Status = new SqlParameter("@Status", project.Status);
                     var StatusDescription = new SqlParameter("@StatusDescription", project.StatusDescription);
@@ -521,14 +499,40 @@ namespace BuildExeServices.Repository
                     var LpoNo = new SqlParameter("@LpoNo", project.LpoNo);
                     var LpoDate = new SqlParameter("@LpoDate", project.LpoDate);
                     var PromiseDate = new SqlParameter("@PromiseDate", project.PromiseDate);
-                    var json= new SqlParameter("@json", JsonConvert.SerializeObject(project));
 
-                    await _dbContext.Database.ExecuteSqlRawAsync("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, @ProjectDescription, @Status, " +
-                        "@StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, @Address, @Post, @Pin, @PhoneNumber, " +
-                        "@MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action, @id, @IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@PromiseDate,@json",
-                        ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription, StartDate, EndDate, GST_No, ClientId, FirstName,
-                        LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea, RatePerArea, TotalAmount, PaymentModeId,
-                        CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, PromiseDate, json);
+                    // NEW: this was missing, which pushed @json into the decimal @QuotationAmt slot
+                    var QuotationAmt = new SqlParameter("@QuotationAmt", SqlDbType.Decimal)
+                    {
+                        Precision = 18,
+                        Scale = 2,
+                        Value = project.QuotationAmt
+                    };
+
+                    var json = new SqlParameter("@json", JsonConvert.SerializeObject(project));
+
+                    // NEW: named parameters (@x=@x) so order can never break the call again
+                    await _dbContext.Database.ExecuteSqlRawAsync(
+                        "EXEC stpro_ProjectMaster " +
+                        "@ProjectId=@ProjectId, @ProjectTypeId=@ProjectTypeId, @DepartmentId=@DepartmentId, " +
+                        "@ProjectName=@ProjectName, @ProjectDescription=@ProjectDescription, @Status=@Status, " +
+                        "@StatusDescription=@StatusDescription, @StartDate=@StartDate, @EndDate=@EndDate, " +
+                        "@GST_No=@GST_No, @ClientId=@ClientId, @FirstName=@FirstName, @LastName=@LastName, " +
+                        "@Sex=@Sex, @DateOfBirth=@DateOfBirth, @Address=@Address, @Post=@Post, @Pin=@Pin, " +
+                        "@PhoneNumber=@PhoneNumber, @MobileNumber=@MobileNumber, @EmailId=@EmailId, " +
+                        "@TotalArea=@TotalArea, @RatePerArea=@RatePerArea, @TotalAmount=@TotalAmount, " +
+                        "@PaymentModeId=@PaymentModeId, @CompanyId=@CompanyId, @BranchId=@BranchId, " +
+                        "@UserId=@UserId, @EnquiryId=@EnquiryId, @ScheduleType=@ScheduleType, @Action=@Action, " +
+                        "@id=@id, @IsWareHouse=@IsWareHouse, @UserName=@UserName, @Password=@Password, " +
+                        "@ProjectArea=@ProjectArea, @Latitude=@Latitude, @Longitude=@Longitude, " +
+                        "@ClientUniqueName=@ClientUniqueName, @ContactPerson=@ContactPerson, @LpoNo=@LpoNo, " +
+                        "@LpoDate=@LpoDate, @PromiseDate=@PromiseDate, @QuotationAmt=@QuotationAmt, @json=@json",
+                        ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status,
+                        StatusDescription, StartDate, EndDate, GST_No, ClientId, FirstName, LastName, Sex,
+                        DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea,
+                        RatePerArea, TotalAmount, PaymentModeId, CompanyId, BranchId, UserId, EnquiryId,
+                        ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude,
+                        Longitude, ClientUniqueName, ContactPerson, LpoNo, LpoDate, PromiseDate,
+                        QuotationAmt, json);
 
                     val.Id = project.id;
                     val.StatusCode = 1;
@@ -550,10 +554,156 @@ namespace BuildExeServices.Repository
                 val.Status = "FAILURE";
                 val.ErrorMessage = "Client name already exists";
             }
+
             validations.Add(val);
             return validations;
-
         }
+        //public async Task<IEnumerable<Validation>> Updateproject(Project project)
+        //{
+        //    List<Validation> validations = new List<Validation>();
+        //    Validation val = new Validation();
+
+
+        //    var dett = await GetClient(project.CompanyId, project.BranchId);
+        //    string lastname = string.IsNullOrEmpty(project.LastName) ? "" : project.LastName;
+        //    var det = dett.Where(x => x.FirstName == project.FirstName)
+        //        .Where(x => x.LastName == lastname).Where(c => c.ProjectId != project.id).ToList();
+
+        //    if (det.Count() == 0)
+        //    {
+        //        try
+        //        {
+        //            //_dbContext.Entry(project).State = EntityState.Modified;
+        //            //Save();
+        //            if (project.Password != null)
+        //            {
+        //                project.Password = Encription.EncryptString(project.Password);
+        //            }
+        //            if (project.Password == null)
+        //                project.Password = "";
+        //            if (project.UserName == null)
+        //                project.UserName = "";
+        //            if (project.StatusDescription == null)
+        //                project.StatusDescription = "";
+        //            if (project.LastName == null)
+        //                project.LastName = "";
+        //            if (project.Sex == null)
+        //                project.Sex = "M";
+        //            if (project.Address == null)
+        //                project.Address = "";
+        //            if (project.Post == null)
+        //                project.Post = "";
+        //            if (project.GST_No == null)
+        //                project.GST_No = "";
+        //            if (project.Pin == null)
+        //                project.Pin = "";
+        //            if (project.PhoneNumber == null)
+        //                project.PhoneNumber = "";
+        //            if (project.MobileNumber == null)
+        //                project.MobileNumber = "";
+        //            if (project.EmailId == null)
+        //                project.EmailId = "";
+        //            if (project.TotalArea == null)
+        //                project.TotalArea = 0;
+        //            if (project.RatePerArea == null)
+        //                project.RatePerArea = 0;
+        //            if (project.TotalAmount == null)
+        //                project.TotalAmount = 0;
+        //            if (project.DateOfBirth == null)
+        //                project.DateOfBirth = DateTime.Now;
+        //            if (project.ProjectArea == null)
+        //                project.ProjectArea = "";
+        //            if (project.LpoNo == null)
+        //                project.LpoNo = "";
+
+        //            if (project.ClientUniqueName == null)
+        //                project.ClientUniqueName = "";
+        //            if (project.ContactPerson == null)
+        //                project.ContactPerson = "";
+        //            if (project.LpoDate == null)
+        //                project.LpoDate = new DateTime(1990, 1, 1);
+        //            if (project.PromiseDate == null)
+        //                project.PromiseDate = new DateTime(1990, 1, 1);
+
+
+        //            var id = new SqlParameter("@id", project.id);
+        //            var ProjectId = new SqlParameter("@ProjectId", project.ProjectId);
+        //            var ProjectTypeId = new SqlParameter("@ProjectTypeId", project.ProjectTypeId);
+        //            var DepartmentId = new SqlParameter("@DepartmentId", project.DepartmentId);
+        //            var ProjectName = new SqlParameter("@ProjectName", project.ProjectName);
+        //            if (project.ProjectDescription == null)
+        //                project.ProjectDescription = "";
+        //            var ProjectDescription = new SqlParameter("@ProjectDescription", project.ProjectDescription);
+        //            var Status = new SqlParameter("@Status", project.Status);
+        //            var StatusDescription = new SqlParameter("@StatusDescription", project.StatusDescription);
+        //            var StartDate = new SqlParameter("@StartDate", project.StartDate);
+        //            var EndDate = new SqlParameter("@EndDate", project.EndDate);
+        //            var GST_No = new SqlParameter("@GST_No", project.GST_No);
+        //            var ClientId = new SqlParameter("@ClientId", project.ClientId);
+        //            var FirstName = new SqlParameter("@FirstName", project.FirstName);
+        //            var LastName = new SqlParameter("@LastName", project.LastName);
+        //            var Sex = new SqlParameter("@Sex", project.Sex);
+        //            var DateOfBirth = new SqlParameter("@DateOfBirth", project.DateOfBirth);
+        //            var Address = new SqlParameter("@Address", project.Address);
+        //            var Post = new SqlParameter("@Post", project.Post);
+        //            var Pin = new SqlParameter("@Pin", project.Pin);
+        //            var PhoneNumber = new SqlParameter("@PhoneNumber", project.PhoneNumber);
+        //            var MobileNumber = new SqlParameter("@MobileNumber", project.MobileNumber);
+        //            var EmailId = new SqlParameter("@EmailId", project.EmailId);
+        //            var TotalArea = new SqlParameter("@TotalArea", project.TotalArea);
+        //            var RatePerArea = new SqlParameter("@RatePerArea", project.RatePerArea);
+        //            var TotalAmount = new SqlParameter("@TotalAmount", project.TotalAmount);
+        //            var PaymentModeId = new SqlParameter("@PaymentModeId", project.PaymentModeId);
+        //            var CompanyId = new SqlParameter("@CompanyId", project.CompanyId);
+        //            var BranchId = new SqlParameter("@BranchId", project.BranchId);
+        //            var UserId = new SqlParameter("@UserId", project.UserId);
+        //            var EnquiryId = new SqlParameter("@EnquiryId", project.EnquiryId);
+        //            var ScheduleType = new SqlParameter("@ScheduleType", project.ScheduleType);
+        //            var IsWareHouse = new SqlParameter("@IsWareHouse", project.IsWareHouse);
+        //            var UserName = new SqlParameter("@UserName", project.UserName);
+        //            var PassWord = new SqlParameter("@Password", project.Password);
+        //            var Action = new SqlParameter("@Action", Actions.Update);
+        //            var ProjectArea = new SqlParameter("@ProjectArea", project.ProjectArea);
+        //            var Latitude = new SqlParameter("@Latitude", project.Latitude);
+        //            var Longitude = new SqlParameter("@Longitude", project.Longitude);
+        //            var ClientUniqueName = new SqlParameter("@ClientUniqueName", project.ClientUniqueName);
+        //            var ContactPerson = new SqlParameter("@ContactPerson", project.ContactPerson);
+        //            var LpoNo = new SqlParameter("@LpoNo", project.LpoNo);
+        //            var LpoDate = new SqlParameter("@LpoDate", project.LpoDate);
+        //            var PromiseDate = new SqlParameter("@PromiseDate", project.PromiseDate);
+        //            var json= new SqlParameter("@json", JsonConvert.SerializeObject(project));
+
+        //            await _dbContext.Database.ExecuteSqlRawAsync("stpro_ProjectMaster @ProjectId, @ProjectTypeId, @DepartmentId, @ProjectName, @ProjectDescription, @Status, " +
+        //                "@StatusDescription, @StartDate, @EndDate, @GST_No, @ClientId, @FirstName, @LastName, @Sex, @DateOfBirth, @Address, @Post, @Pin, @PhoneNumber, " +
+        //                "@MobileNumber, @EmailId, @TotalArea, @RatePerArea, @TotalAmount, @PaymentModeId, @CompanyId, @BranchId,@UserId,@EnquiryId,@ScheduleType,@Action, @id, @IsWareHouse,@UserName,@Password, @ProjectArea, @Latitude, @Longitude,@ClientUniqueName,@ContactPerson,@LpoNo,@LpoDate,@PromiseDate,@json",
+        //                ProjectId, ProjectTypeId, DepartmentId, ProjectName, ProjectDescription, Status, StatusDescription, StartDate, EndDate, GST_No, ClientId, FirstName,
+        //                LastName, Sex, DateOfBirth, Address, Post, Pin, PhoneNumber, MobileNumber, EmailId, TotalArea, RatePerArea, TotalAmount, PaymentModeId,
+        //                CompanyId, BranchId, UserId, EnquiryId, ScheduleType, Action, id, IsWareHouse, UserName, PassWord, ProjectArea, Latitude, Longitude, ClientUniqueName, ContactPerson, LpoNo,LpoDate, PromiseDate, json);
+
+        //            val.Id = project.id;
+        //            val.StatusCode = 1;
+        //            val.Status = "SUCCESS";
+        //            val.ErrorMessage = "";
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            val.Id = project.id;
+        //            val.StatusCode = 0;
+        //            val.Status = "FAILURE";
+        //            val.ErrorMessage = ex.Message;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        val.Id = project.id;
+        //        val.StatusCode = 0;
+        //        val.Status = "FAILURE";
+        //        val.ErrorMessage = "Client name already exists";
+        //    }
+        //    validations.Add(val);
+        //    return validations;
+
+        //}
 
         public async Task<string> Validate(int id, string FirstName, string LastName)
         {
