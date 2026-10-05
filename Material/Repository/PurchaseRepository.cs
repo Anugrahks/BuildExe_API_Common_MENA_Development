@@ -627,6 +627,7 @@ namespace BuildExeMaterialServices.Repository
                                     Currency = reader["Currency"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["Currency"]),
                                     ExchangeRate = reader["ExchangeRate"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["ExchangeRate"]),
                                     LAmount = reader["LAmount"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["LAmount"]),
+                                    PurchaseType = reader["PurchaseType"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PurchaseType"]),
 
                                     PurchaseDetail = new List<PurchaseDetail>(),
                                     OtherCharge = new List<PurchaseOtherCharge>(),
@@ -939,6 +940,8 @@ namespace BuildExeMaterialServices.Repository
                                     LAmount = reader["LAmount"] == DBNull.Value
     ? (decimal?)null
     : Convert.ToDecimal(reader["LAmount"]),
+                                  PurchaseType = reader["PurchaseType"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PurchaseType"]),
+
 
                                     PurchaseDetail = new List<PurchaseDetail>(),
                                     OtherCharge = new List<PurchaseOtherCharge>(),
