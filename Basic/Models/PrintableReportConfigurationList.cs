@@ -10,8 +10,8 @@
         public string WatermarkText { get; set; }
         public string PageSize { get; set; }
 
-        public int RecordId { get; set; }          // new
-        public string ContentValue { get; set; }   // new
-        public int ContentType { get; set; }       // new
+        //public int RecordId { get; set; }          // new
+        //public string ContentValue { get; set; }   // new
+        //public int ContentType { get; set; }       // new
     }
 }
