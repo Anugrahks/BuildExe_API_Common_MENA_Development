@@ -113,6 +113,8 @@ namespace BuildExeMaterialServices.Models
         public decimal? ExchangeRate { get; set; }
         public decimal? LAmount { get; set; }
 
+        public int? PurchaseType { get; set; }
+
         [JsonProperty("purchaseDetail")]
         public List<PurchaseDetail> PurchaseDetail { get; set; } = new List<PurchaseDetail>();
 
