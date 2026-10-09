@@ -1,11 +1,4 @@
-﻿using BuildExeHR.DBContexts;
-using BuildExeHR.Models;
-using BuildExeHR.Repository;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data;
@@ -13,6 +6,14 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using BuildExeHR.DBContexts;
+using BuildExeHR.Library;
+using BuildExeHR.Models;
+using BuildExeHR.Repository;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BuildExeHR.Repository
 {
@@ -537,5 +538,31 @@ namespace BuildExeHR.Repository
                 throw;
             }
         }
+
+
+        public async Task<string> SalaryPaymentApproved(int companyid, int branchid, int UserId, int FinancialYearId)
+        {
+            DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+            cmd.CommandText = "dbo.Stpro_SalaryPayment";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = FinancialYearId });
+            cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "" });
+            cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyid });
+            cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchid });
+            cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = UserId });
+            cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 18 });
+
+            if (cmd.Connection.State != ConnectionState.Open)
+                cmd.Connection.Open();
+
+            var reader = await cmd.ExecuteReaderAsync();
+            var dataTable = new DataTable();
+            dataTable.Load(reader);
+
+            return dataTable.Rows.Count > 0 ? dataTable.Rows[0][0].ToString() : "";
+        }
+
+
     }
 }

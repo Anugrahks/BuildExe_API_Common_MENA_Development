@@ -23,5 +23,18 @@ namespace BuildExeServices.Repository
         Task<string> getRecieptDetails(int Id); 
 
         Task<IEnumerable<RecieptsList>> getapprovedData(int companyId, int branchid, int UserId, int FinancialYearId, int financialYearId);
+
+        Task<string> GetProformaReceiptReport(Reciept reciepts);
+
+        Task<string> GetProformaInvoiceNumbers(int CompanyId, int BranchId, int? ProjectId);
+
+
+        Task<string> GetBillReceiptReport(Reciept reciepts);
+
+        Task<string> GetBillNumber(int CompanyId, int BranchId, int? ProjectId);
+
+
+        Task<string> GetJobNumber(int CompanyId, int BranchId, int? ProjectId);
+
     }
 }

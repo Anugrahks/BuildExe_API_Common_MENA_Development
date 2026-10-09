@@ -20,6 +20,8 @@ namespace BuildExeServiceManagement.Models
         public string CustomerName { get; set; }
         public int CustomerId { get; set; }
         public int ClientId { get; set; }
+        public int? EnquiryId { get; set; }
+       
         public DateTime? EntryDate { get; set; }
         public string StationLocation { get; set; }
         public string PumpRef { get; set; }
@@ -45,6 +47,12 @@ namespace BuildExeServiceManagement.Models
 
         public DateTime? WarrantyDate { get; set; }
 
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public string? Status { get; set; }     // Active / Completed / null = all
+        public string? SerialNo { get; set; }
+        public int? Type { get; set; }
+
 
         //Added(For Service Quotation)
         public DateTime? QuoteDate { get; set; }
@@ -54,6 +62,9 @@ namespace BuildExeServiceManagement.Models
         public int? UpdatedBy { get; set; }
         public string ServiceType { get; set; }
         public string JobNo { get; set; }
+
+        public int? EnquiryNo { get; set; }
+
         public DateTime EnteredOnDate { get; set; }
         public string RefNo { get; set; }
         public string CustomerApprovalStatus { get; set; }
@@ -69,6 +80,8 @@ namespace BuildExeServiceManagement.Models
         public int? ProjectId { get; set; }   
 
         public string? Subject { get; set; }
+
+
 
         // ---------- CHILD TABLES ----------
         public List<PumpDetailModel> PumpDetails { get; set; }

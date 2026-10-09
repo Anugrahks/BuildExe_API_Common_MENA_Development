@@ -15,6 +15,6 @@ namespace BuildExeHR.Repository
 
         Task<string> GetById(int id, int companyId, int branchId);
         Task<string> GetAll(int companyId, int branchId, int financialYearId);
-        Task Delete(int id, int userId);
+       Task<IEnumerable<Validation>> Delete(int id, int userId);
     }
 }

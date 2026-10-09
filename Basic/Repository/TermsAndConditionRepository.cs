@@ -18,32 +18,44 @@ namespace BuildExeBasic.Repository
         }
 
 
-        
+
         public async Task Post(TermsAndConditons termsAndConditons)
         {
             try
             {
-                var termsAndConditionEntity = await _dbContext.tbl_TermsAndConditionMaster.AddAsync(termsAndConditons);
+                // delete old rows for this record so re-saving doesn't duplicate
+                var old = _dbContext.tbl_Content.Where(x =>
+                    x.CompanyId == termsAndConditons.CompanyId &&
+                    x.BranchId == termsAndConditons.BranchId &&
+                    x.MenuId == termsAndConditons.MenuId &&
+                    x.RecordId == termsAndConditons.RecordId);
+                _dbContext.tbl_Content.RemoveRange(old);
+
+                foreach (var item in termsAndConditons.TermsAndCondtionDetails.Where(d => !d.IsDeleted))
+                {
+                    await _dbContext.tbl_Content.AddAsync(new Content
+                    {
+                        CompanyId = termsAndConditons.CompanyId,
+                        BranchId = termsAndConditons.BranchId,
+                        MenuId = termsAndConditons.MenuId,      // 10103
+                        RecordId = termsAndConditons.RecordId,    // 3
+                        ReferenceId = termsAndConditons.ReferenceId,
+                        Value = item.Content,                  // "<p>hiii</p>"
+                        Type = item.Order,
+                        IsSelect = item.IsActive
+                    });
+                }
+
                 await _dbContext.SaveChangesAsync();
-
-                //foreach (var item in termsAndConditons.TermsAndCondtionDetails)
-                //{
-                //    item.TermsAndConditonMasterId = termsAndConditionEntity.Entity.Id;
-                //    await _dbContext.tbl_TermsAndConditionDetails.AddAsync(item);
-                //}
-
-                //await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
                 throw;
             }
-
-
         }
 
-        
+
         public async Task<TermsAndConditons> GetTermsAndConditonsById(int Id)
         {
             var result = await _dbContext.tbl_TermsAndConditionMaster
