@@ -2145,6 +2145,7 @@ namespace BuildExeServiceManagement.Repository
                 cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = request.FinancialYearId });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = 0 });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 25 });
+                cmd.Parameters.Add(new SqlParameter("@CustomerId", SqlDbType.Int) { Value = request.CustomerId > 0 ? (object)request.CustomerId : DBNull.Value   });
 
                 if (cmd.Connection.State != ConnectionState.Open)
                     cmd.Connection.Open();
