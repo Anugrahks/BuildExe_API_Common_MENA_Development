@@ -82,6 +82,8 @@ namespace BuildExeHR.Models
         public decimal? GrossSalary { get; set; }
         public decimal NetSalary { get; set; }
 
+        public decimal NetPayable { get; set; }
+
         public decimal? OtHours { get; set; }
 
 
