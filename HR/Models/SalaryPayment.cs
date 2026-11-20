@@ -62,6 +62,8 @@ namespace BuildExeHR.Models
         public decimal? LoanAmount { get; set; }
         public decimal? RoundOff { get; set; }
         public int IsOpening { get; set; }
+
+        public decimal? Expenses { get; set; }
     }
 
     public class DepartmentEmployeeRequest
