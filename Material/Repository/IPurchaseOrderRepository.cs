@@ -38,5 +38,8 @@ namespace BuildExeMaterialServices.Repository
 
         Task<string> GetPONo(int CompanyId, int Branchid);
 
+        Task<IEnumerable<PurchaseOrderList>> PurchaseOrderApproval(int companyId, int branchId, int userId, int financialYearId);
+
+
     }
 }

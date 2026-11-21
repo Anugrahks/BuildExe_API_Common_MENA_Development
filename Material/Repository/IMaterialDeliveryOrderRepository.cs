@@ -27,5 +27,8 @@ namespace BuildExeMaterialServices.Repository
 
         Task<string> GetDeliveryOrderNumbers(int CompanyId, int Branchid, int UserId, int FinancialYearId, int? ProjectId);
 
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
+
     }
 }
