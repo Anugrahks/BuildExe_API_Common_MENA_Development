@@ -15,5 +15,8 @@ namespace BuildExeMaterialServices.Repository
         Task<string> Getedit(int CompanyId, int Branchid, int UserId, int FinancialYearId);
         Task<string> GetById(int Id);
         Task<string> GetDeliveryOrderReport(MaterialSearch materialSearch);
+
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
     }
 }

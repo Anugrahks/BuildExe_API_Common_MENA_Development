@@ -24,6 +24,9 @@ namespace BuildExeMaterialServices.Repository
         Task<string> GetforReport(MaterialSearch materialSearch);
         Task<string> GetMaterialDetails( int CompanyId, int BranchId, int ProjectId, int DivisionId, int MaterialTypeId, int MaterialId, int id);
 
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
+
 
     }
 }

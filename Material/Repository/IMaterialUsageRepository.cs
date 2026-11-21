@@ -21,5 +21,8 @@ namespace BuildExeMaterialServices.Repository
         Task<IEnumerable<Validation>> Getvalidation(int ProjectId, DateTime UsageDate, int FinancialYearId);
 
         Task<string> GetMaterial(int isService, int customerId, int jobId, int projectId, DateTime usageDate);
+
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
     }
 }

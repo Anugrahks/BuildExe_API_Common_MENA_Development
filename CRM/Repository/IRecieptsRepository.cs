@@ -36,5 +36,8 @@ namespace BuildExeServices.Repository
 
         Task<string> GetJobNumber(int CompanyId, int BranchId, int? ProjectId);
 
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
+
     }
 }

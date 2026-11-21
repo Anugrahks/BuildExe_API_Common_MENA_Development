@@ -761,6 +761,40 @@ int FloorId, int SupplierId, int OrderCategoryId, int WorkNameId, DateTime Purch
             }
 
         }
+
+        public async Task<IEnumerable<PurchaseOrderList>> PurchaseOrderApproval(int companyId, int branchId, int userId, int financialYearId)
+        {
+            try
+            {
+                DbCommand cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_PurchaseorderForApproval";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = financialYearId });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "{}" });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = companyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = branchId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 16 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                {
+                    await cmd.Connection.OpenAsync();
+                }
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var dataTable = new DataTable();
+                dataTable.Load(reader);
+
+                var json = JsonConvert.SerializeObject(dataTable);
+                var result = JsonConvert.DeserializeObject<List<PurchaseOrderList>>(json);
+                return result ?? new List<PurchaseOrderList>();
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
     }
 }
 

@@ -587,5 +587,36 @@ namespace BuildExeMaterialServices.Repository
                    ((input.StartsWith("{") && input.EndsWith("}")) ||
                     (input.StartsWith("[") && input.EndsWith("]")));
         }
+
+        public async Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_MaterialDeliveryOrder";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "{}" });
+                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = FinancialYearId });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 16 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                var dt = new DataTable();
+                dt.Load(reader);
+                return JsonConvert.SerializeObject(dt);
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
     }
 }
