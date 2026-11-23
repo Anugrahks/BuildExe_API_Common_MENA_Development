@@ -18,6 +18,8 @@ namespace BuildExeMaterialServices.Repository
         Task<IEnumerable<Purchase>> Get(int CompanyId, int Branchid);
         Task<IEnumerable<Validation>> Delete(int id,int UserID);
         Task<IEnumerable<PurchaseList>> Getforapproval(int companyId, int branchid, int UserID,int menuid, int FinancialYearId, int IsAsset);
+
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
         Task<IEnumerable<PurchaseList>> GetforEdit(int companyId, int branchid, int menuid);
         Task<IEnumerable<PurchaseList>> GetforEdit(int companyId, int branchid, int userId, int menuid, int FinancialYearId, int IsAsset);
         Task<IEnumerable<PurchaseList>> Getforview(MaterialSearch materialSearch);
