@@ -1419,7 +1419,10 @@ namespace BuildExeMaterialServices.Repository
                 using var reader = await cmd.ExecuteReaderAsync();
                 var dt = new DataTable();
                 dt.Load(reader);
-                return JsonConvert.SerializeObject(dt);
+                return JsonConvert.SerializeObject(dt, new JsonSerializerSettings
+               {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                                    });
             }
             catch (Exception ex)
             {
