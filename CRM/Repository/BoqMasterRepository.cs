@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BuildExeServices.DBContexts;
+﻿using BuildExeServices.DBContexts;
 using BuildExeServices.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Data;
-
-using System.Data.SqlClient;
 using System.Data.Common;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BuildExeServices.Repository
 {
@@ -339,6 +339,40 @@ namespace BuildExeServices.Repository
 
                 await _dbContext.Database.ExecuteSqlRawAsync("Stpro_BoqMaster @Id,@item,@CompanyId,@BranchId,@userId,@Action", Id, item, CompanyId, BranchId, userId, Action);
               
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorLog(this.GetType().Name, MethodBase.GetCurrentMethod().Name, ex);
+                throw;
+            }
+        }
+
+        public async Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId)
+        {
+            try
+            {
+                using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.Stpro_ProjectSpecification";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = FinancialYearId }); // financial year, not 0
+                cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar, -1) { Value = "{}" });
+                cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
+                cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
+                cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 28 });
+
+                if (cmd.Connection.State != ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                
+                var sb = new StringBuilder();
+                        while (await reader.ReadAsync())
+                    sb.Append(reader.GetString(0));
+                
+                var json = sb.ToString();
+                        return string.IsNullOrWhiteSpace(json) ? "[]" : json;
             }
             catch (Exception ex)
             {

@@ -601,7 +601,7 @@ namespace BuildExeServices.Repository
             }
         }
 
-        public async Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId)
+        public async Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId, int menuid)
         {
             try
             {
@@ -609,12 +609,13 @@ namespace BuildExeServices.Repository
                 cmd.CommandText = "dbo.Stpro_RecieptsForApproval";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = 0 });
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = FinancialYearId });
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
                 cmd.Parameters.Add(new SqlParameter("@json", SqlDbType.NVarChar) { Value = "{}" });
-                cmd.Parameters.Add(new SqlParameter("@FinancialYearId", SqlDbType.Int) { Value = FinancialYearId });
+              
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
+                cmd.Parameters.Add(new SqlParameter("@menuid", SqlDbType.Int) { Value = menuid });
                 cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 16 });
 
                 if (cmd.Connection.State != ConnectionState.Open)
@@ -623,7 +624,10 @@ namespace BuildExeServices.Repository
                 using var reader = await cmd.ExecuteReaderAsync();
                 var dt = new DataTable();
                 dt.Load(reader);
-                return JsonConvert.SerializeObject(dt);
+                return JsonConvert.SerializeObject(dt, new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                                    });
             }
             catch (Exception ex)
             {
