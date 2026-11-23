@@ -1403,7 +1403,7 @@ namespace BuildExeMaterialServices.Repository
             try
             {
                 using var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
-                cmd.CommandText = "dbo.Stpro_PurchaseMasterForApproval";
+                cmd.CommandText = "dbo.Stpro_PurchaseMaster";
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = FinancialYearId }); // financial year, not 0
