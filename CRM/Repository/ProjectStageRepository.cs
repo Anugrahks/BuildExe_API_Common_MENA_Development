@@ -65,11 +65,26 @@ namespace BuildExeServices.Repository
                 throw;
             }
         }
-        public async Task<IEnumerable<ProjectStage>> GetforStatusUpdate(int ProjectId,int UnitId, int DivisionId)
+        public async Task<IEnumerable<ProjectStage>> GetforStatusUpdate(int ProjectId, int UnitId, int DivisionId)
         {
             try
             {
-                return await _dbContext.tbl_ProjectWorkStage.Where(x => x.ProjectId == ProjectId).Where(x => x.OwnProjectDetailsiId == UnitId).Where(x=>x.DivisionId == DivisionId).OrderBy(x => x.OrderId).ToListAsync();
+                var clientUniqueName = await _dbContext.tbl_ClientMaster
+                    .Where(c => c.ProjectId == ProjectId)
+                    .Select(c => c.ClientUniqueName)
+                    .FirstOrDefaultAsync();
+
+                var stages = await _dbContext.tbl_ProjectWorkStage
+                    .Where(x => x.ProjectId == ProjectId)
+                    .Where(x => x.OwnProjectDetailsiId == UnitId)
+                    .Where(x => x.DivisionId == DivisionId)
+                    .OrderBy(x => x.OrderId)
+                    .ToListAsync();
+
+                foreach (var s in stages)
+                    s.ClientUniqueName = clientUniqueName ?? "";
+
+                return stages;
             }
             catch (Exception ex)
             {
