@@ -89,5 +89,7 @@ namespace BuildExeServices.Models
         public int IsService { get; set; }
         public string? InvoiceNo { get; set; }
 
+        public string DeliveryOrderNo { get; set; }
+
     }
 }
