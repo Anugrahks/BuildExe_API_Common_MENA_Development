@@ -28,5 +28,8 @@ namespace BuildExeServices.Repository
         Task<string> GetBillDetailsBasedOnProject(int projectId, int unitId, int blockId, int floorId, int id);
         Task<IEnumerable<Validation>> GetByProjectId(int ProjectId);
         Task<string> GetbyInvoicedItem(int companyId, int branchid,int projectId,int divisionid, int UserId, int FinancialYearId,int Id);
+
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
     }
 }

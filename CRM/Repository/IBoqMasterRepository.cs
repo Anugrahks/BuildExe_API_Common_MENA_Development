@@ -21,5 +21,8 @@ namespace BuildExeServices.Repository
         Task<IEnumerable<Validation>> GetValidation(int Projectid, int UnitId, int Blockid, int FloorId, int WorkNameid,int Id);
         Task<string> GetFor_MasApproval(int ProjectId);
         Task Update_MAsStatus(BillSearch billSearch);
+
+        Task<string> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
     }
 }

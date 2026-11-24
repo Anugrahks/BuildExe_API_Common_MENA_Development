@@ -33,10 +33,10 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var purchase =await _purchaseRepository.GetforEdit (CompanyId, Branchid, Menuid);
-            return new OkObjectResult(purchase);
-            }
+                {
+                    var purchase = await _purchaseRepository.GetforEdit(CompanyId, Branchid, Menuid);
+                    return new OkObjectResult(purchase);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -53,15 +53,15 @@ namespace BuildExeMaterialServices.Controllers
         }
         [HttpGet("GetUser/{CompanyId}/{Branchid}/{UserId}/{Menuid}/{FinancialYearId}")]
         [Authorize]
-        public async Task<IActionResult> Get(int CompanyId, int Branchid,int UserId, int Menuid, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Get(int CompanyId, int Branchid, int UserId, int Menuid, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var purchase = await _purchaseRepository.GetforEdit(CompanyId, Branchid, UserId, Menuid, FinancialYearId,0);
-                return new OkObjectResult(purchase);
-            }
+                {
+                    var purchase = await _purchaseRepository.GetforEdit(CompanyId, Branchid, UserId, Menuid, FinancialYearId, 0);
+                    return new OkObjectResult(purchase);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -79,7 +79,7 @@ namespace BuildExeMaterialServices.Controllers
 
         [HttpGet("GetUser/{CompanyId}/{Branchid}/{UserId}/{Menuid}/{FinancialYearId}/{IsAsset}")]
         [Authorize]
-        public async Task<IActionResult> Get(int CompanyId, int Branchid, int UserId, int Menuid, int FinancialYearId,int IsAsset, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Get(int CompanyId, int Branchid, int UserId, int Menuid, int FinancialYearId, int IsAsset, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
@@ -105,15 +105,15 @@ namespace BuildExeMaterialServices.Controllers
 
         [HttpGet("{CompanyId}/{Branchid}/{UserID}/{Menuid}/{FinancialYearId}")]
         [Authorize]
-        public async Task<IActionResult> GetByUser(int CompanyId, int Branchid,int UserID,int Menuid, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetByUser(int CompanyId, int Branchid, int UserID, int Menuid, int FinancialYearId, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var purchase =await _purchaseRepository.Getforapproval(CompanyId, Branchid, UserID, Menuid, FinancialYearId,0);
-            return new OkObjectResult(purchase);
-            }
+                {
+                    var purchase = await _purchaseRepository.Getforapproval(CompanyId, Branchid, UserID, Menuid, FinancialYearId, 0);
+                    return new OkObjectResult(purchase);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -131,7 +131,7 @@ namespace BuildExeMaterialServices.Controllers
 
         [HttpGet("GetApproval/{CompanyId}/{Branchid}/{UserID}/{Menuid}/{FinancialYearId}/{IsAsset}")]
         [Authorize]
-        public async Task<IActionResult> GetByUser(int CompanyId, int Branchid, int UserID, int Menuid, int FinancialYearId,int IsAsset, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> GetByUser(int CompanyId, int Branchid, int UserID, int Menuid, int FinancialYearId, int IsAsset, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
@@ -164,11 +164,11 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                var purchase =await _purchaseRepository.GetDetailsbyid(id);
+                {
+                    var purchase = await _purchaseRepository.GetDetailsbyid(id);
 
-            return new OkObjectResult(purchase);
-            }
+                    return new OkObjectResult(purchase);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -191,14 +191,14 @@ namespace BuildExeMaterialServices.Controllers
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                if (materialSearch != null)
-            {
-                var product =await _purchaseRepository.GetforReport (materialSearch);
-                return new OkObjectResult(product);
-            }
-            return new NoContentResult();
-            }
+                {
+                    if (materialSearch != null)
+                    {
+                        var product = await _purchaseRepository.GetforReport(materialSearch);
+                        return new OkObjectResult(product);
+                    }
+                    return new NoContentResult();
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -215,19 +215,45 @@ namespace BuildExeMaterialServices.Controllers
         }
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Put ([FromBody] MaterialSearch materialSearch, [FromHeader] string mdhash, [FromHeader] int User)
+        public async Task<IActionResult> Put([FromBody] MaterialSearch materialSearch, [FromHeader] string mdhash, [FromHeader] int User)
         {
             if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
-            {
-                if (materialSearch != null)
-            {
-                var product = await _purchaseRepository.Getjson(materialSearch);
-                return new OkObjectResult(product);
+                {
+                    if (materialSearch != null)
+                    {
+                        var product = await _purchaseRepository.Getjson(materialSearch);
+                        return new OkObjectResult(product);
+                    }
+                    return new NoContentResult();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = $"An error occurred: {ex.Message}",
+                        statusCode = 0
+                    });
+                }
             }
-            return new NoContentResult();
+            else
+            {
+                return Unauthorized("Invalid MdHash");
             }
+        }
+        [HttpGet("getApproved/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
+        [Authorize]
+        public async Task<IActionResult> GetApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId,
+        [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+            {
+                try
+                {
+                    var result = await _purchaseRepository.GetApproved(CompanyId, Branchid, UserId, FinancialYearId);
+                    return new OkObjectResult(result);
+                }
                 catch (Exception ex)
                 {
                     return StatusCode(500, new
@@ -244,3 +270,5 @@ namespace BuildExeMaterialServices.Controllers
         }
     }
 }
+    
+
