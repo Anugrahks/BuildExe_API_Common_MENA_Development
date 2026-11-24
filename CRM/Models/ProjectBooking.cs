@@ -125,5 +125,7 @@ namespace BuildExeServices.Models
         public int? SlNo { get; set; }
         public string? Block { get; set; }
         public string? Floor { get; set; }
+
+        public string? ClientUniqueName { get; set; }
     }
 }
