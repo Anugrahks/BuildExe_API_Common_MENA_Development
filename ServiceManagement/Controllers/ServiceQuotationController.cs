@@ -27,10 +27,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> Post([FromBody] IEnumerable<ServiceQuotation> dat, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           // if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -46,10 +46,10 @@ namespace BuildExeServiceManagement.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
         }
 
         [HttpPut]
@@ -105,10 +105,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpGet("GetData/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{CusId}")]
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId,int CusId, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           // if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -124,10 +124,10 @@ namespace BuildExeServiceManagement.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
 
         }
         [HttpGet("{id}")]
@@ -157,10 +157,10 @@ namespace BuildExeServiceManagement.Controllers
         }
 
         [HttpGet("GetData/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}/{CustomerId}/{JobId}/{Id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetData(int CompanyId, int Branchid, int UserId, int FinancialYearId, int CustomerId, int JobId, int Id, [FromHeader] string mdhash, [FromHeader] int User)
         {
-            if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
+           // if (await _mdHashValidator.ValidateMdHashAsync(mdhash, User))
             {
                 try
                 {
@@ -176,10 +176,10 @@ namespace BuildExeServiceManagement.Controllers
                     });
                 }
             }
-            else
-            {
-                return Unauthorized("Invalid MdHash");
-            }
+            //else
+            //{
+            //    return Unauthorized("Invalid MdHash");
+            //}
 
         }
 
@@ -231,6 +231,22 @@ namespace BuildExeServiceManagement.Controllers
             else
             {
                 return Unauthorized("Invalid MdHash");
+            }
+        }
+
+
+        [HttpGet("getServiceApproved/{CompanyId}/{BranchId}/{UserId}/{FinancialYearId}")]
+        public async Task<IActionResult> GetServiceApproved(int CompanyId, int BranchId, int UserId, int FinancialYearId,
+    [FromHeader] string mdhash, [FromHeader] int User)
+        {
+            try
+            {
+                var result = await _serviceQuotationRepository.GetServiceApproved(CompanyId, BranchId, UserId, FinancialYearId);
+                return new OkObjectResult(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}", statusCode = 0 });
             }
         }
 

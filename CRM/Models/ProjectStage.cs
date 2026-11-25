@@ -65,6 +65,9 @@ namespace BuildExeServices.Models
 
         public string InvoiceNo { get; set; }
 
+        [NotMapped]
+        public string? ClientUniqueName { get; set; }
+
 
     }
 }

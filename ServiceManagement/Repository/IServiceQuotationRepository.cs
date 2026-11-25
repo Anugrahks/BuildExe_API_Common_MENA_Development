@@ -22,6 +22,8 @@ namespace BuildExeServiceManagement.Repository
         
         Task<object> GetbyID(int Idworkorder);
 
+        Task<string> GetServiceApproved(int CompanyId, int Branchid, int UserId, int FinancialYearId);
+
 
     }
 }

@@ -11,7 +11,7 @@ namespace BuildExeServiceManagement.Models
     {
         // ---------- MASTER ----------
         public int Id { get; set; }                 // For update
-        public int InvoiceNo { get; set; }
+        public string InvoiceNo { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime BillDate { get; set; }
         public string RefNo { get; set; }
