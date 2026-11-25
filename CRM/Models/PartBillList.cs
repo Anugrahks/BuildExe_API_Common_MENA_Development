@@ -90,5 +90,7 @@ namespace BuildExeServices.Models
         public string? InvoiceNo { get; set; }
 
         public string? DoNumber { get; set; }
+
+
     }
 }
