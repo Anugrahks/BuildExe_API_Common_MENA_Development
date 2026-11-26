@@ -76,6 +76,7 @@ namespace BuildExeMaterialServices.Models
         public int? CustomerId { get; set; }
         public string? ClientUniqueName { get; set; }
 
-        public int? IsService { get; set; } 
+        public int? IsService { get; set; }
+        public string? QuotationNo { get; set; }
     }
 }
