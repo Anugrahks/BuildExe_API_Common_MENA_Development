@@ -71,21 +71,47 @@ namespace BuildExeServices.Repository
         {
             try
             {
-                var data = await (from a in _dbContext.tbl_WorkName
+                var works = await _dbContext.tbl_WorkName
+                    .Where(x => x.CompanyId == Companyid && x.BranchId == Branchid)
+                    .OrderByDescending(x => x.Id)
+                    .ToListAsync();
 
-                                  select new
-                                  {
-                                      id = a.Id,                                     
-                                      workShortName = a.WorkShortName,
-                                      description = a.Description,
-                                      companyId = a.CompanyId,
-                                      branchId = a.BranchId,
-                                      userId = a.UserId,
-                                      specId = a.SpecId
+                // name -> MaterialID, read straight from tbl_MaterialMaster
+                var lookup = new Dictionary<string, object>();
+                var cmd = _dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = @"select MaterialName, MaterialID
+                            from tbl_MaterialMaster
+                            where CompanyId = @c and BranchId = @b
+                            order by Id";
+                cmd.Parameters.Add(new SqlParameter("@c", Companyid));
+                cmd.Parameters.Add(new SqlParameter("@b", Branchid));
 
-                                  }).Where(x => x.companyId == Companyid).Where(x => x.branchId == Branchid).OrderByDescending(x => x.id).ToListAsync();
-                string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
-                return jsonString;
+                if (cmd.Connection.State != System.Data.ConnectionState.Open)
+                    await cmd.Connection.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var name = reader.IsDBNull(0) ? "" : reader.GetString(0).Trim().ToLower();
+                        if (!lookup.ContainsKey(name))
+                            lookup[name] = reader.IsDBNull(1) ? null : reader.GetValue(1);
+                    }
+                }//new
+
+                var data = works.Select(a => new
+                {
+                    id = a.Id,
+                    workShortName = a.WorkShortName,
+                    description = a.Description,
+                    companyId = a.CompanyId,
+                    branchId = a.BranchId,
+                    userId = a.UserId,
+                    specId = a.SpecId,
+                    materialID = lookup.TryGetValue((a.WorkShortName ?? "").Trim().ToLower(), out var mid) ? mid : null
+                }).ToList();
+
+                return System.Text.Json.JsonSerializer.Serialize(data);
             }
             catch (Exception ex)
             {
