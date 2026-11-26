@@ -1411,7 +1411,7 @@ namespace BuildExeMaterialServices.Repository
                 cmd.Parameters.Add(new SqlParameter("@CompanyId", SqlDbType.Int) { Value = CompanyId });
                 cmd.Parameters.Add(new SqlParameter("@BranchId", SqlDbType.Int) { Value = Branchid });
                 cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = UserId });
-                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 16 });
+                cmd.Parameters.Add(new SqlParameter("@Action", SqlDbType.Int) { Value = 8});
 
                 if (cmd.Connection.State != ConnectionState.Open)
                     await cmd.Connection.OpenAsync();
