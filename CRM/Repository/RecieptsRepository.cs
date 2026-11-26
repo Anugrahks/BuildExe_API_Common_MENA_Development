@@ -66,12 +66,8 @@ namespace BuildExeServices.Repository
                 bool isServiceTransaction = reciepts.FirstOrDefault()?.IsService ?? false;
                 string procedureName = isServiceTransaction ? "Stpro_Recieptsinvoice" : "Stpro_Reciepts";
 
-                var serialized = isServiceTransaction
-                    ? JsonConvert.SerializeObject(reciepts, new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    })
-                    : JsonConvert.SerializeObject(reciepts);
+                
+                var serialized = JsonConvert.SerializeObject(reciepts);
 
                 var Id = new SqlParameter("@Id", "0");
                 var json = new SqlParameter("@json", serialized);
