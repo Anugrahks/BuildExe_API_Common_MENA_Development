@@ -93,6 +93,8 @@ namespace BuildExeServices.Models
 
         public decimal? vatAmount { get; set; }
         public decimal? vatPer { get; set; }
+
+        public string? MaterialId { get; set; }
         public List<ProjSpecification> ProjSpecification { get; set; }
 
     }
@@ -219,6 +221,7 @@ namespace BuildExeServices.Models
         public decimal? ExWorksTotalAED { get; set; }
         public decimal? DiscountedPriceAED { get; set; }
         public decimal? DiscountedPriceUSD { get; set; }
+        public string? MaterialId { get; set; }
         public List<ProjSpecificationDetails> ProjSpecificationDetails { get; set; }
 
         public List<ProjSpecificationDimensionDetails> ProjSpecificationDimensionDetails { get; set; }
