@@ -74,6 +74,8 @@ namespace BuildExeServices.Models
         public decimal EnquiryVat { get; set; }
         public decimal QuotationAmt { get; set; }
 
+        public decimal VatPer { get; set; }
+
 
 
         //public DateTime PromiseDate { get; internal set; }
